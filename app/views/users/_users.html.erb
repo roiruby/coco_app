@@ -1,0 +1,15 @@
+<% if users.any? %>
+    <% users.each do |user| %>
+
+      <%= user.name %>
+      <%= user.catchphrase %>
+      <%= user.hobby %>
+      <%= user.introduce %>
+
+    <% end %>
+  
+  <div class="pagination justify-content-end pagination-sm">
+    <%= paginate @users %>
+  </div>
+
+<% end %>
