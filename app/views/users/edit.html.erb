@@ -1,2 +1,146 @@
-<h1>Users#edit</h1>
-<p>Find me in app/views/users/edit.html.erb</p>
+<div class="d-none d-lg-block">
+  <div class="container w-50">
+
+  
+
+    <div class="text-center mt-3">
+      <h1>プロフィール編集</h1>
+    </div>
+
+
+    
+    <%= form_with(model: @user, local: true) do |f| %>
+    
+        <div class="text-center mt-3">
+      <div class="circle-image150">
+        <% if @user.image? %>
+          <%= image_tag @user.image.thmb300.url, id: :img_prev %>
+          <p class="mt-2"><%= f.check_box :remove_image %>画像を削除する</p>
+        <% else %>
+          <%= image_tag "default.jpg", id: :img_prev %>
+        <% end %>
+      </div>
+        
+      <div class="xsmall mt-3 ml-5">
+        <%= f.file_field :image, id: :user_img %>
+      </div>
+    </div>
+
+
+    <!--画像即時にプレビューjavascript-->
+    <script type="text/javascript">
+    $(function() {
+     function readURL(input) {
+       if (input.files && input.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+           $('#img_prev').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(input.files[0]);
+       }
+     }
+     $("#user_img").change(function(){
+       readURL(this);
+     });
+    });
+    </script>
+
+    
+
+
+
+      <div class="form-group">
+        <%= f.label :name, 'ユーザー名' %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :catchphrase, 'キャッチフレーズ' %>
+        <%= f.text_field :catchphrase, placeholder: 'あなたの特徴・肩書き・得意なことなど', class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :introduce, '自己紹介' %>
+        <%= f.text_area :introduce, :maxlength => "3000", :size => "80x5",  class: 'form-control'  %>
+      </div>
+
+      <%= f.submit '更新する', class: 'btn btn-primary btn-block' %>
+    <% end %>
+    
+  
+  </div>
+</div>
+  
+
+  
+<div class="d-lg-none">
+  <div class="container">
+    
+    
+        <div class="text-center mt-3">
+      <h2>プロフィール編集</h2>
+    </div>
+
+
+    
+    <%= form_with(model: @user, local: true) do |f| %>
+    
+        <div class="text-center mt-3">
+      <div class="circle-image150">
+        <% if @user.image? %>
+          <%= image_tag @user.image.thmb300.url, id: :img_prev %>
+          <p class="mt-2"><%= f.check_box :remove_image %>画像を削除する</p>
+        <% else %>
+          <%= image_tag "default.jpg", id: :img_prev %>
+        <% end %>
+      </div>
+        
+      <div class="xsmall mt-3 ml-5">
+        <%= f.file_field :image, id: :user_img %>
+      </div>
+    </div>
+
+
+    <!--画像即時にプレビューjavascript-->
+    <script type="text/javascript">
+    $(function() {
+     function readURL(input) {
+       if (input.files && input.files[0]) {
+         var reader = new FileReader();
+         reader.onload = function (e) {
+           $('#img_prev').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(input.files[0]);
+       }
+     }
+     $("#user_img").change(function(){
+       readURL(this);
+     });
+    });
+    </script>
+
+    
+
+
+
+      <div class="form-group">
+        <%= f.label :name, 'ユーザー名' %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :catchphrase, 'キャッチフレーズ' %>
+        <%= f.text_field :catchphrase, placeholder: 'あなたの特徴・肩書き・得意なことなど', class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :introduce, '自己紹介' %>
+        <%= f.text_area :introduce, :maxlength => "255", :size => "80x5",  class: 'form-control'  %>
+      </div>
+
+      <%= f.submit '更新する', class: 'btn btn-primary btn-block' %>
+    <% end %>
+    
+  
+  </div>
+</div>

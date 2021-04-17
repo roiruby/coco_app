@@ -1,4 +1,18 @@
 <div class="container-fluid">
-  <%= @user.name %>
-  <%= @user.email %>
+  <div>
+    <%= @user.name %>
+  </div>
+  <div>
+    <%= @user.email %>
+  </div>
+  <div>
+    <%= @user.catchphrase %>
+  </div>
+  <div>
+    <%= @user.introduce %>
+  </div>
+  <div>
+    <%= link_to image_tag(@user.image.thmb300.to_s), user_path(@user) %>
+  </div>
+  
 </div>

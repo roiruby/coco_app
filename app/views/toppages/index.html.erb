@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
   <p class="top_index mt-3 h4 bold"><%= image_tag "icon_new.png" %>新着の行きたい！</p>
-  
+  <%= render 'posts/posts', posts: @posts %>
   <hr>
   
   <p class="top_index mt-3 h4 bold"><%= image_tag "icon_new.png" %>【PR】ピックアップ店舗</p>
@@ -15,36 +15,6 @@
 
 <% if logged_in? %>
   <p>ログイン完了ユーザ: <%= current_user.name %></p>
-<% else %>
-  <div class="center jumbotron">
-    <div class="text-center">
-      <h1>Welcome to the Microposts</h1>
-      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
-    </div>
-  </div>
 <% end %>
 
 
-<% if logged_in? %>
-  <div class="row">
-    <aside class="col-sm-4">
-      <%= form_with(model: @post, local: true) do |f| %>
-        <div class="form-group">
-          <%= f.text_area :title, class: 'form-control' %>
-          <%= f.text_area :content, class: 'form-control', rows: 5 %>
-        </div>
-        <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
-      <% end %>
-    </aside>
-    <div class="col-sm-8">
-      <%= render 'posts/posts', posts: @posts %>
-    </div>
-  </div>
-<% else %>
-  <div class="center jumbotron">
-    <div class="text-center">
-      <h1>Welcome to the Microposts</h1>
-      <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
-    </div>
-  </div>
-<% end %>

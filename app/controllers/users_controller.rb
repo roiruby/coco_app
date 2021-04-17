@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index]
+  before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile]
   
   def index
     @users = User.order(id: :desc).page(params[:page]).per(25)
@@ -26,9 +27,18 @@ class UsersController < ApplicationController
   end
   
   def edit
+    @user = User.find(params[:id])
   end
 
   def update
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      redirect_to root_path
+    else
+      flash.now[:danger] = '更新されませんでした'
+      render :edit
+    end
   end
 
   def destroy
@@ -37,6 +47,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :catchphrase, :introduce, :image, :remove_image, :user_id)
   end
 end

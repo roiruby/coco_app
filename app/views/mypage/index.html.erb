@@ -1,0 +1,13 @@
+マイページ
+<%= @user.name %>
+
+<div class="mypage-ul">
+    <ul>
+      <li><%= link_to 'マイページ', mypage_path %></li>
+      <li><%= link_to 'マイプロフィール', user_path(@user) %></li>
+
+      
+
+      
+    </ul>
+</div>
