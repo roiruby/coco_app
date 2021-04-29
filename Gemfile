@@ -55,3 +55,10 @@ gem 'kaminari'
 
 gem 'carrierwave'
 gem 'rmagick'
+
+gem 'enum_help'
+
+gem 'seed-fu'
+
+gem 'jquery-rails'
+gem 'cocoon'

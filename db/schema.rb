@@ -10,17 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_17_092158) do
+ActiveRecord::Schema.define(version: 2021_04_26_023546) do
+
+  create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "destinations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.integer "post_id"
+    t.string "area"
+    t.string "link"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "content"
-    t.string "member"
-    t.string "payment"
-    t.string "budget"
+    t.integer "member", default: 0, null: false
+    t.integer "payment", default: 0, null: false
+    t.integer "budget", default: 0, null: false
+    t.integer "sex", default: 0, null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
+    t.bigint "category_id"
+    t.datetime "event_schedule"
+    t.datetime "dead_line"
+    t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -34,7 +56,11 @@ ActiveRecord::Schema.define(version: 2021_04_17_092158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+    t.integer "sex", default: 0, null: false
+    t.integer "age", default: 0, null: false
+    t.integer "address", default: 0, null: false
   end
 
+  add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end

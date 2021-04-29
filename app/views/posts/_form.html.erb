@@ -1,15 +1,15 @@
 <%= form_with(model: @post, local: true) do |f| %>
 
-  <div class="plan-submit-row sticky-top">
-    <div class="container plan-submit">
+  <div class="post-submit-row sticky-top">
+    <div class="container post-submit">
 
-      <div class="pt-1">
-        <h4>プラン作成</h4>
+      <div class="pt-1 bold">
+        イベント作成
       </div>
 
         <div class="web-flex">
 
-          <div>
+          <div class="">
             <%= f.submit '投稿する', class: 'btn btn-primary btn-sm' %>
           </div>
         </div>
@@ -23,32 +23,111 @@
 
   <div class="form-group mt-3">
     <span class="required">*</span>
-    <%= f.label :title, 'スケジュールタイトル' %>
-    <%= f.text_field :title, placeholder: 'スケジュールのタイトルを入力 （55文字以内）', class: 'form-control border-warning' %>
+    <%= f.label :title, 'イベントタイトル' %>
+    <%= f.text_field :title, placeholder: 'イベントのタイトルを入力 （55文字以内）', class: 'form-control border-primary' %>
   </div>
   
-  <div class="row row-0">  
-
-
-    <div class="form-group col-lg-9 col-sm-8">
-      <%= f.label :content, 'スケジュールの説明' %>
-      <%= f.text_area :content, :size => "80x5", placeholder: 'スケジュールのサブタイトルや説明を入力 （7000文字以内）', class: 'form-control border-warning'  %>
+  <div class="post-image">
+    <% if @post.image? %>
+      <%= image_tag @post.image.url, id: :img_prev %>
+      <p><%= f.check_box :remove_image %>画像を削除する</p>
+    <% else %>
+      <%= image_tag "default_post.jpg", id: :img_prev %>
+    <% end %>
+      <p class="xsmall"><%= f.file_field :image, id: :post_img %></p>
+  </div>
+  
+  <p class="xsmall">※5MB以下の JPG・PNG・GIFファイルを選択してください</p>
+  <p class="xsmall web-mt-8">※第三者の著作権、プライバシー権その他の権利を侵害しないよう留意してください</p>
+  
+  <!--画像即時にプレビューjavascript-->
+    <script type="text/javascript">
+    $(function() {
+     function readURL(input) {
+     if (input.files && input.files[0]) {
+     var reader = new FileReader();
+     reader.onload = function (e) {
+       $('#img_prev').attr('src', e.target.result);
+     }
+     reader.readAsDataURL(input.files[0]);
+     }
+     }
+     $("#post_img").change(function(){
+     readURL(this);
+     });
+    });
+    </script>
+    
+    <div class="form-group">
+      <span class="required">*</span>
+      <%= f.label 'イベントの日時' %>
+      <div>
+      <%= f.datetime_field :event_schedule, class: 'form-control-sm border-primary' %>
+      </div>
     </div>
     
-  </div>
-
-
-  <div class="form-row">
+    <div class="form-group">
+      <span class="required">*</span>
+      <%= f.label 'カテゴリー' %>
+      <%= f.collection_select :category_id, Category.all, :id, :name, {include_blank: 'カテゴリーを選択', include_hidden: false}, class: 'form-control border-primary' %>
+    </div>
     
-
-
-    
-  </div>
-
-
-
     <hr>
     
+    <div id="destinations">
+    <%= f.fields_for :destinations do |d| %>
+      <%= render 'destination_fields', f: d %>
+    <% end %>
+    </div>
+
+    <div class="links btn  btn-sm btn-info mb-3">
+      <%= link_to_add_association '+ 目的地を追加',f, :destinations, id: 'add-destination' %>
+    </div>
+
+
+    <div class="form-group">
+      <span class="required">*</span>
+      <%= f.label :content, 'イベントの詳細' %>
+      <%= f.text_area :content, :size => "80x5", placeholder: 'イベントの説明や詳細を入力 （7000文字以内）', class: 'form-control border-primary'  %>
+    </div>
+    
+    
+    <div class="flex-between">
+    
+      <div class="form-group">
+        <div><span class="required">*</span><%= f.label :member, '募集人数' %></div>
+        <%= f.select :member, Post.members.keys.map { |k| [t("enums.post.member.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+      
+      <div class="form-group">
+        <div><%= f.label :payment, '支払い' %></div>
+        <%= f.select :payment, Post.payments.keys.map { |k| [t("enums.post.payment.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+      
+      <div class="form-group">
+        <div><%= f.label :sex, '募集性別' %></div>
+        <%= f.select :sex, Post.sexes.keys.map { |k| [t("enums.post.sex.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+      
+      <div class="form-group">
+        <div><%= f.label :budget, '予想予算' %></div>
+        <%= f.select :budget, Post.budgets.keys.map { |k| [t("enums.post.budget.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+    
+    </div>
+    
+    <div class="form-group">
+      <span class="required">*</span>
+      <%= f.label '募集締め切り期日' %>
+      <div>
+      <%= f.datetime_field :dead_line, class: 'form-control-sm border-primary' %>
+      </div>
+    </div>
+    
+    <hr>
+    
+    
+
 
 
   <% end %>

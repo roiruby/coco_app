@@ -1,9 +1,24 @@
 class Post < ApplicationRecord
   belongs_to :user
   
+  has_many :destinations, dependent: :destroy, inverse_of: :post
+  accepts_nested_attributes_for :destinations, reject_if: :all_blank, allow_destroy: true
+  
   validates :title, presence: true, length: { maximum: 155 }
   validates :content, presence: true, length: { maximum: 7777 }
-  validates :member, length: { maximum: 55 }
-  validates :budget, length: { maximum: 55 }
+  validates :event_schedule, presence: true
+  validates :category, presence: true
+  validates :dead_line, presence: true
+
+  
+  mount_uploader :image, ImageUploader
+  
+  belongs_to :category, optional: true
+  
+  enum member: { default: 0, one: 1, two_three: 2, four_six: 3, seven_nine: 4, ten_over: 5},_suffix: true
+  enum sex: { default: 0, female: 1, male: 2},_suffix: true
+  enum payment: { default:0, dutch_treat: 1, my_treat: 2},_suffix: true
+  enum budget: { default: 0, zero_onet: 1, onet_threet: 2, threet_fivet: 3, fivet_eightt: 4, eightt_tent: 5, tent_fifteent: 6, fifteent_twentyt: 7,
+                twentyt_thrtyt: 8, thrtyt_fiftyt: 9, fiftyt_onehundredt: 10, onehundredt_over: 11},_suffix: true
   
 end

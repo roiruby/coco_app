@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile]
   
   def index
-    @users = User.order(id: :desc).page(params[:page]).per(25)
+    @users = User.order(id: :desc).page(params[:page]).per(30)
   end
 
   def show
@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      redirect_to root_path
+      redirect_to @user
     else
       flash.now[:danger] = '更新されませんでした'
       render :edit
@@ -47,6 +47,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :catchphrase, :introduce, :image, :remove_image, :user_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :catchphrase, :introduce, :hobby, :sex, :age, :address, :image, :remove_image, :user_id)
   end
+  
+  def correct_user
+      @user = User.find(params[:id])
+  end
+  
 end

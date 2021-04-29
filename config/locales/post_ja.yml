@@ -1,0 +1,35 @@
+ja:
+  enums:
+    post:
+      member:
+        default: '募集人数を選択'
+        one: "1名"
+        two_three: "2～3名"
+        four_six: "4～6名"
+        seven_nine: "7～9名"
+        ten_over: "10名以上"
+        
+      payment:
+        default: '支払いを選択'
+        dutch_treat: "割り勘"
+        my_treat: "支払い不要"
+        
+      sex:
+        default: "誰でも参加OK"
+        female: "女性限定"
+        male: "男性限定"
+        
+      budget:
+        default: '予想予算を選択'
+        zero_onet: "0～1,000円"
+        onet_threet: "1,000円～3,000円"
+        threet_fivet: "3,000円～5,000円"
+        fivet_eightt: "5,000円～8,000円"
+        eightt_tent: "8,000円～10,000円"
+        tent_fifteent: "10,000円～15,000円"
+        fifteent_twentyt: "15,000円～20,000円"
+        twentyt_thrtyt: "20,000円～30,000円"
+        thrtyt_fiftyt: "30,000円～50,000円"
+        fiftyt_onehundredt: "50,000円～100,000円"
+        onehundredt_over: "100,000円以上"
+        

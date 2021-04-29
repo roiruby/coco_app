@@ -1,2 +1,141 @@
-<h1>Posts#show</h1>
-<p>Find me in app/views/posts/show.html.erb</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="web_container mt-4 offset-sm-1 col-sm-7">
+      
+      <div class="gray">
+        <i class="far fa-clock"></i><%= @post.updated_at.strftime('%Y/%m/%d') %>
+      </div>
+      
+      <div class="mt-1 bb1">
+        <h1><%= @post.title %></h1>
+      </div>
+      
+      <div class="ps-image mt-2">
+        <% if @post.image? %>
+          <%= image_tag @post.image.thumb.url %>
+        <% end %>
+      </div>
+      
+      <div class="d_container mt-3">
+        <div class="text-center">
+          イベント詳細
+        </div>
+        
+        <% if @post.event_schedule.present? %>
+          <% date = @post.event_schedule.to_s(:date) %>
+          <% weekday = %w[日 月 火 水 木 金 土] %>
+            <div class="bold">
+              🕐：<%= @post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.event_schedule.to_s(:time) %>
+            </div>
+        <% end %>
+        
+        <% @destinations.each do |destination| %>
+        <div class="row">
+          <div class="bold ml-3">
+            <%= destination.name %>
+          </div>
+          
+          <div class="ml-3 xsmall tag1 bold">
+            <%= destination.area %>
+          </div>
+        </div>
+        
+        <div class="destination_detail mb-2">
+        <% if destination.address.present? %>
+          <div class="small">
+            <i class="fas fa-map-marker-alt"></i> <%= destination.address %>
+          </div>
+        <% end %>
+          
+        <% if destination.link.present? %>
+          <div class="small">
+            <i class="fas fa-link"></i>
+            <%= text_url_to_link(h(destination.link)).html_safe %>
+          </div>
+        <% end %>
+        
+        </div>
+        
+          
+        <% end %>
+        
+        <div class="row">
+          <div class="btn1 small bold ml-3">
+            <% if @post.member != "default" %>
+              <%= @post.member_i18n %>募集
+            <% end %>
+          </div>
+          
+          <div class="btn1 small bold ml-1">
+          <% if @post.payment != "default" %>
+            <%= @post.payment_i18n %>
+          <% end %>
+          </div>
+          <div class="btn1 small bold ml-1">
+            <%= @post.sex_i18n %>
+          </div>
+          
+        </div>
+
+
+      </div>
+      
+      <div class="mt-3 ml-3">
+        <%= simple_format(@post.content) %>
+      </div>
+      
+      <div class="text-center">
+        
+        <div class="btn3">
+          エントリーする
+        </div>
+      </div>
+      
+      
+      <div class="mt-3">
+        <div class="flex-center mb-3">
+        <% if @post.dead_line.present? %>
+          <% date = @post.dead_line.to_s(:date) %>
+          <% weekday = %w[日 月 火 水 木 金 土] %>
+          
+            <div class="">
+            <i class="far fa-clock"></i>
+
+            <% d1 = Date.today %>
+            <% d2 = Date.parse(@post.dead_line.to_s) %>
+            <% if d2 - d1 == 1 %>
+            もうすぐ募集締め切り！
+            <% elsif d2 - d1 < 1 %>
+            募集は終了しています。
+            <% else %>
+            残り<%= (d2 - d1).to_i %>日
+            <% end %>
+            </div>
+            
+            <div class="xsmall ml-3 mt-1 gray">
+              <%= @post.dead_line.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.dead_line.to_s(:time) %>まで
+            </div>
+        <% end %>
+        </div>
+      </div>
+      
+      <div class="bb2 mb-3">
+        
+      </div>
+      
+    </div>
+    
+    <div class="container_right col-sm-3 mt-4">
+      <% if logged_in? %>
+        <% if current_user == @post.user || current_user.admin? %>
+          <div class="plan_edit text-center">
+          <%= link_to "プランを編集", edit_post_path, data: {"turbolinks" => false}, class: 'btn btn-primary btn-sm' %>
+          <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    
+    
+  </div>
+</div>

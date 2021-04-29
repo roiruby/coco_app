@@ -1,13 +1,46 @@
-マイページ
-<%= @user.name %>
-
-<div class="mypage-ul">
-    <ul>
-      <li><%= link_to 'マイページ', mypage_path %></li>
-      <li><%= link_to 'マイプロフィール', user_path(@user) %></li>
-
+<div class="container-fluid">
+  
+  <div class="row mt-4">
       
-
+      <div class="col-lg-3 col-sm-4 text-center">
+        <div class="circle-image150">
+          <%= image_tag @user.image.thmb300.url %>
+        </div>
+        <div class="mt-2 bold">
+          <%= @user.name %>
+        </div>
+        <div class="mt-3 bold">
+          <%= link_to 'プロフィール編集', edit_user_path(current_user) %>
+        </div>
+        
+        <Hr Width="75%">
+          
+        <div class="mypage-ul text-left pl-5 bold">
+          <ul>
+            <li><%= link_to 'マイページ', mypage_path %></li>
+            <li><%= link_to 'マイプロフィール', user_path(@user) %></li>
+            <li><%= link_to '下書き編集', "/" %></li>
+            <li><%= link_to 'お気に入り', "/" %></li>
+            <li><%= link_to 'お知らせ', "/" %></li>
+            <li><%= link_to "フォロー/フォロワー", "/" %></li>
+            <li><%= link_to "アカウント情報変更", "/" %></li>
+            
+          </ul>
+        </div>
+        
+      </div>
+        
       
-    </ul>
+      <div class="col-lg-6 col-sm-8">
+        <div class="bb"><h4><span class="bold">投稿したスケジュール一覧 　</span><span class="small bold"><%= @count_posts %> 件</span></h4></div>
+
+
+        
+      </div>
+      
+      <div class="col-lg-3 d-none d-lg-block">
+      </div>
+
+
+  </div>
 </div>

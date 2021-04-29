@@ -3,43 +3,59 @@ class PostsController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
   
   def index
+    @posts = Post.all.reverse_order.page(params[:page]).per(20)
   end
 
   def show
+    @post = Post.find(params[:id])
+    @destinations = @post.destinations
+    @user = @post.user
   end
   
   def new
     @post = current_user.posts.build
+    @destination = @post.destinations.build
+    # @post.destinations.build
   end
   
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      flash[:success] = 'スケジュールを投稿しました！'
+      flash[:success] = 'イベントを投稿しました！'
       redirect_to root_url
     else
       @posts = current_user.posts.order(id: :desc).page(params[:page])
-      flash.now[:danger] = 'スケジュールの投稿に失敗しました。'
-      render 'toppages/index'
+      flash.now[:danger] = 'イベントの投稿に失敗しました。必須項目の入力漏れや文字数制限、アップロード画像が5MB以下になっているかご確認ください。'
+      render :new
     end
   end
 
   def destroy
     @post.destroy
-    flash[:success] = 'スケジュールを削除しました。'
-    redirect_back(fallback_location: root_path)
+    flash[:success] = 'イベントを削除しました。'
+    redirect_to mypage_path
   end
 
   def edit
+    @post = Post.find(params[:id])
   end
 
   def update
+    @post = Post.find(params[:id])
+
+    if @post.update(post_params)
+      redirect_to post_path
+    else
+      flash.now[:danger] = 'イベントの更新に失敗しました。必須項目の入力漏れや文字数制限、アップロード画像が5MB以下になっているかご確認ください。'
+      render :edit
+    end
   end
   
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :member, :payment, :budget)
+    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :dead_line, 
+    destinations_attributes: [:id, :name, :_destroy, :link, :area, :address])
   end
   
   def correct_user

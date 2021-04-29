@@ -50,6 +50,7 @@
 
 
       <div class="form-group">
+        <span class="required">*</span>
         <%= f.label :name, 'ユーザー名' %>
         <%= f.text_field :name, class: 'form-control' %>
       </div>
@@ -62,6 +63,36 @@
       <div class="form-group">
         <%= f.label :introduce, '自己紹介' %>
         <%= f.text_area :introduce, :maxlength => "3000", :size => "80x5",  class: 'form-control'  %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :hobby, '趣味・好きなこと' %>
+        <%= f.text_field :hobby, placeholder: 'あなたの趣味や好きなことなど', class: 'form-control' %>
+      </div>
+      
+      
+      <div class="row">
+        <div class="col-4">
+          <div class="form-group">
+            <div><span class="required">*</span><%= f.label :sex, '性別' %></div>
+            <%= f.select :sex, User.sexes.keys.map { |k| [t("enums.user.sex.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div class="form-group">
+            <div><%= f.label :age, '年代' %></div>
+            <%= f.select :age, User.ages.keys.map { |k| [t("enums.user.age.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+          </div>
+        </div>
+        
+        <div class="col-4">
+          <div class="form-group">
+            <div><%= f.label :address, '拠点' %></div>
+            <%= f.select :address, User.addresses.keys.map { |k| [t("enums.user.address.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+          </div>
+        </div>
+        
       </div>
 
       <%= f.submit '更新する', class: 'btn btn-primary btn-block' %>
@@ -137,6 +168,13 @@
         <%= f.label :introduce, '自己紹介' %>
         <%= f.text_area :introduce, :maxlength => "255", :size => "80x5",  class: 'form-control'  %>
       </div>
+      
+      <div class="form-group">
+        <%= f.label :hobby, '趣味・好きなこと' %>
+        <%= f.text_field :hobby, placeholder: 'あなたの趣味や好きなことなど', class: 'form-control' %>
+      </div>
+      
+      
 
       <%= f.submit '更新する', class: 'btn btn-primary btn-block' %>
     <% end %>

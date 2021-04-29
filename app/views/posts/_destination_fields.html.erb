@@ -1,0 +1,34 @@
+<div class="nested-fields">
+      
+  <div class="form-group">
+    <span class="required">*</span>
+    <%= f.label :name, '目的地' %>
+    <%= f.text_field :name, placeholder: '店名・スポット名を入力　(50文字以内)', class: 'form-control border-primary' %>
+  </div>
+  
+  <div class="form-group">
+    <!--<%= f.label :area, 'エリア' %>-->
+    <%= f.text_field :area, placeholder: '最寄り駅・エリアを入力　(30文字以内)', class: 'form-control border-primary' %>
+  </div>
+  
+  <div class="form-group">
+    <!--<%= f.label :address, '住所' %>-->
+    <%= f.text_field :address, placeholder: '目的地の住所を入力　(250文字以内)', class: 'form-control border-primary' %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.url_field :link, placeholder: 'リンク(URL)', class: 'form-control border-primary' %>
+  </div>
+  
+
+
+
+  
+  <div class="text-right">
+    <div class="schedule_links mt-3 btn  btn-sm btn-danger">
+      <%= link_to_remove_association "× 目的地を削除", f %>
+    </div>
+  </div>
+  <hr>
+  
+</div>

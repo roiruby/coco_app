@@ -7,7 +7,58 @@
         </div>
         <div>
           <p><%= post.title %></p>
+          <%= link_to image_tag(post.image.thumb.to_s), post_path(post) %>
+          <!--<%= image_tag post.image.thmb300.url %>-->
           <p><%= post.content %></p>
+
+          
+          <% if post.category.present? %>
+          <%= post.category.name %>
+          <% end %>
+          
+
+          <% if post.member != "default" %>
+          <%= post.member_i18n %>
+          <% end %>
+          <% if post.payment != "default" %>
+          <%= post.payment_i18n %>
+          <% end %>
+          <% if post.sex != "default" %>
+          <%= post.sex_i18n %>
+          <% end %>
+          <% if post.budget != "default" %>
+          <%= post.budget_i18n %>
+          <% end %>
+
+          <% if post.event_schedule.present? %>
+            <% date = post.event_schedule.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+              <div class="">
+              イベントの日時
+              </div>
+              <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+          <% end %>
+          
+          <% if post.dead_line.present? %>
+            <% date = post.dead_line.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+              <div class="">
+              募集締め切り期日
+              </div>
+              <%= post.dead_line.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.dead_line.to_s(:time) %>
+
+              <% d1 = Date.today %>
+              <% d2 = Date.parse(post.dead_line.to_s) %>
+              <% if d2 - d1 == 1 %>
+              もうすぐ募集締め切り！
+              <% elsif d2 - d1 < 1 %>
+              募集は終了しています。
+              <% else %>
+              募集締切りまであと<%= (d2 - d1).to_i %>日
+              <% end %>
+              
+          <% end %>
+          
         </div>
         <div>
           <% if current_user == post.user %>
