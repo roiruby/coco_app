@@ -85,6 +85,24 @@ h2 {
 .row-0{ margin-left:0px;  margin-right:0px}
 .row-0 >div{ padding-right:0px;  padding-left:0px}
 
+.follow-btn {
+  font-size: 11px;
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: #FFF;
+  background: orange;
+  border: solid 1px orange;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.follow-btn:active {
+  /*押したとき*/
+  border: solid 1px #CCFFFF;
+}
+
 /*---------------------------------------------------------------toppage-----*/
 .top-postimage img {
   width: 100%;

@@ -5,6 +5,17 @@
       <div class="circle-image150">
         <%= image_tag @user.image.thmb300.url %>
       </div>
+      
+      <% if logged_in? %>
+        <div class="mt-4">
+          <%= render 'relationships/follow_button', user: @user %>
+        </div>
+      <% else %>
+          <%= link_to "フォローする", login_path, class: "follow-btn mt-4" %>
+      <% end %>
+      
+      <!--<p class="small mt-2">フォロー：<%= @count_followings %>人　フォロワー：<%= @count_followers %>人</p>-->
+      
     </div>
     
     <div class="col-lg-9">

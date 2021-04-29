@@ -1,0 +1,25 @@
+
+  <div class="circle-image150">
+    <%= image_tag @user.image.thmb300.url %>
+  </div>
+  <div class="mt-2 bold">
+    <%= @user.name %>
+  </div>
+  <div class="mt-3 bold">
+    <%= link_to 'プロフィール編集', edit_user_path(current_user) %>
+  </div>
+  
+  <Hr Width="75%">
+    
+  <div class="mypage-ul text-left pl-5 bold">
+    <ul>
+      <li><%= link_to 'マイページ', mypage_path %></li>
+      <li><%= link_to 'マイプロフィール', user_path(@user) %></li>
+      <li><%= link_to '下書き編集', "/" %></li>
+      <li><%= link_to 'お気に入り', "/" %></li>
+      <li><%= link_to 'お知らせ', "/" %></li>
+      <li><%= link_to "フォロー/フォロワー", followings_user_path(@user) %></li>
+      <li><%= link_to "アカウント情報変更", "/" %></li>
+    </ul>
+  </div>
+  

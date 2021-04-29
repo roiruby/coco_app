@@ -14,22 +14,19 @@ Rails.application.routes.draw do
   get 'spots/:id', to: 'spots#show', as: :spot
   
   get 'signup', to: 'users#new'
-  resources :users, only: [:index, :show, :create, :edit, :update, :destroy]
+  resources :users, only: [:index, :show, :create, :edit, :update, :destroy] do
+    
+    member do
+      get :followings
+      get :followers
+      get :likes
+    end
+  end
   
   resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new]
   
-  resources :destinations, only: [:create] do
-    
-    collection do
-      get '/:id/city' => 'plans#city', as: "city"
-      get 'confirm'
-    end
-  end
+  resources :destinations, only: [:create]
+  resources :relationships, only: [:create, :destroy]
   
-  resources :prefectures, only: [] do
-    resources :cities, only: :index do
-      resources :spots, only: :index
-    end
-  end
-  
+
 end

@@ -8,6 +8,11 @@ class User < ApplicationRecord
   
   has_many :posts
   
+  has_many :relationships, dependent: :destroy
+  has_many :followings, through: :relationships, source: :follow, dependent: :destroy
+  has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
+  has_many :followers, through: :reverses_of_relationship, source: :user, dependent: :destroy
+  
   mount_uploader :image, ImageUploader
   
   enum sex: { default: 0, female: 1, male: 2, unanswered: 3},_suffix: true
@@ -21,4 +26,20 @@ class User < ApplicationRecord
                   yamaguchi: 35, tokushima: 36, kagawa: 37, ehime: 38, kochi: 39, fukuoka: 40, saga: 41, nagasaki: 42, kumamoto: 43, oita: 44, miyazaki: 45,
                   kagoshima: 46, okinawa: 47},_suffix: true
 
+
+  def follow(other_user)
+    unless self == other_user
+      self.relationships.find_or_create_by(follow_id: other_user.id)
+    end
+  end
+
+  def unfollow(other_user)
+    relationship = self.relationships.find_by(follow_id: other_user.id)
+    relationship.destroy if relationship
+  end
+
+  def following?(other_user)
+    self.followings.include?(other_user)
+  end
+  
 end
