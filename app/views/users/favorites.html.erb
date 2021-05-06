@@ -1,0 +1,61 @@
+<div class="container-fluid">
+
+  <div class="row mt-3">
+    
+    <div class="col-lg-3 col-sm-4 text-center">
+      <%= render 'mypage/mypage_left' %>
+    </div>
+    
+    <div class="col-lg-6 col-sm-8">
+      
+      <div class="row border-b mb-3 bb">
+        <div class="col-lg-8 col-sm-7 pt-2 pl-0">
+          <span class="h3 bold h3-tb">お気に入りのプラン 　</span><span class="bold"><%= @count_favposts %> プラン</span>
+        </div>
+      </div>
+        
+
+      <div class="mypage-center top-postimage mt-3">
+      <% @favposts.each do |post| %>
+      <div class="row row-0">
+        <div class="top-postimage col-sm-4 mt-2">
+          <%= link_to image_tag(post.image.thmb300.to_s), post_path(post), data: {"turbolinks" => false} %>
+        </div>
+        <div class="col-sm-8 pl-2 mt-2 bold">
+          <%= link_to post.title.truncate(46), post_path(post), data: {"turbolinks" => false} %>
+          <div class="small mt-1"><%= post.content.truncate(62) %></div>
+          
+          <div class="tag xsmall bold mt-2">
+            <%= link_to post.category.name, category_path(post.category.id) %>
+          </div>
+          
+    
+          <div class="mt-2 small web-gray right">
+            <i class="far fa-clock"></i><%= post.updated_at.strftime('%Y/%m/%d') %>
+            <span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+
+          </div>
+        </div>
+      </div>  
+      <% end %>
+      </div>
+      
+      <div class="pagination justify-content-end pagination-sm">
+        <%= paginate @favposts %>
+      </div>
+    </div>
+    
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="mypage_right">
+
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+
+
+

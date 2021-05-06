@@ -62,3 +62,7 @@ gem 'seed-fu'
 
 gem 'jquery-rails'
 gem 'cocoon'
+
+gem 'acts-as-taggable-on'
+gem 'jquery-ui-rails'
+gem 'gon'

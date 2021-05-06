@@ -1,0 +1,24 @@
+<% if logged_in? %>
+  <% if current_user.favpost?(@post) %>
+    <%= form_for(current_user.favorites.find_by(post_id: post.id), html: { method: :delete }) do |f| %>
+      <div>
+        <%= hidden_field_tag :post_id, @post.id %>
+        <%= button_tag :type => "submit", :class =>"btn likeiconed icon" do %>
+        <i class="fab fa-gratipay fa-2x", title="お気に入り中"></i>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.favorites.build) do |f| %>
+      <div>
+        <%= hidden_field_tag :post_id, @post.id %>
+        <%= button_tag :type => "submit", :class =>"btn likeicon icon" do %>
+        <i class="fab fa-gratipay fa-2x", title="お気に入りに追加"></i>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+  
+<% else %>
+  <%= link_to login_path do %><i class="fab fa-gratipay fa-2x likeicon mt-1", title="お気に入りに追加""></i><% end %>
+<% end %>

@@ -44,6 +44,22 @@ class UsersController < ApplicationController
   def destroy
   end
   
+  def account_edit
+    @user = User.find(params[:id])
+  end
+
+  def account_update
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      flash[:success] = 'アカウント情報を更新しました'
+      redirect_to account_edit_path
+    else
+      flash.now[:danger] = '入力に誤りがあります、もう一度入力してください'
+      render :account_edit
+    end
+  end
+  
   def followings
     @user = User.find(params[:id])
     @followings = @user.followings.page(params[:page]).per(20)
@@ -53,6 +69,12 @@ class UsersController < ApplicationController
   def followers
     @user = User.find(params[:id])
     @followers = @user.followers.page(params[:page]).per(20)
+    counts(@user)
+  end
+  
+  def favorites
+    @user = User.find(params[:id])
+    @favposts = @user.favposts.page(params[:page]).per(20).reverse_order
     counts(@user)
   end
 

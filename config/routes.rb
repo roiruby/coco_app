@@ -9,9 +9,11 @@ Rails.application.routes.draw do
   
   get 'categories/:id', to: 'categories#show', as: :category
   
-  get 'prefectures/:id', to: 'prefectures#show', as: :prefecture
-  get 'cities/:id', to: 'cities#show', as: :city
-  get 'spots/:id', to: 'spots#show', as: :spot
+  get 'users/:id/account_edit', to: 'users#account_edit',  as: :account_edit
+  patch 'users/:id/account_edit', to: 'users#account_update'
+  
+  get 'keywords', to: 'keywords#index', as: :keyword
+
   
   get 'signup', to: 'users#new'
   resources :users, only: [:index, :show, :create, :edit, :update, :destroy] do
@@ -19,7 +21,7 @@ Rails.application.routes.draw do
     member do
       get :followings
       get :followers
-      get :likes
+      get :favorites
     end
   end
   
@@ -27,6 +29,9 @@ Rails.application.routes.draw do
   
   resources :destinations, only: [:create]
   resources :relationships, only: [:create, :destroy]
+  resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
+  resources :favorites, only: [:create, :destroy]
   
 
 end

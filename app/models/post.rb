@@ -1,6 +1,8 @@
 class Post < ApplicationRecord
   belongs_to :user
   
+  acts_as_taggable
+  
   has_many :destinations, dependent: :destroy, inverse_of: :post
   accepts_nested_attributes_for :destinations, reject_if: :all_blank, allow_destroy: true
   
@@ -14,6 +16,10 @@ class Post < ApplicationRecord
   mount_uploader :image, ImageUploader
   
   belongs_to :category, optional: true
+  
+  has_many :favorites, dependent: :destroy
+  has_many :users, through: :favorites, dependent: :destroy
+
   
   enum member: { default: 0, one: 1, two_three: 2, four_six: 3, seven_nine: 4, ten_over: 5},_suffix: true
   enum sex: { default: 0, female: 1, male: 2},_suffix: true

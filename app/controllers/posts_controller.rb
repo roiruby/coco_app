@@ -1,9 +1,11 @@
 class PostsController < ApplicationController
   before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :set_post_tags_to_gon, only: [:edit]
+  before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
   
   def index
-    @posts = Post.all.reverse_order.page(params[:page]).per(20)
+    @posts = Post.all.reverse_order.page(params[:page]).per(20).includes(:tags)
   end
 
   def show
@@ -54,7 +56,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :dead_line, 
+    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :tag_list, :dead_line, 
     destinations_attributes: [:id, :name, :_destroy, :link, :area, :address])
   end
   
@@ -63,6 +65,15 @@ class PostsController < ApplicationController
     unless @post
       redirect_to root_url
     end
+  end
+  
+  def set_post_tags_to_gon
+    @post = Post.find_by(id: params[:id]) #
+    gon.post_tags = @post.tag_list
+  end
+  
+  def set_available_tags_to_gon
+    gon.available_tags = Post.tags_on(:tags).pluck(:name)
   end
 
 end

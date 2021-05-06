@@ -16,10 +16,11 @@
       <li><%= link_to 'マイページ', mypage_path %></li>
       <li><%= link_to 'マイプロフィール', user_path(@user) %></li>
       <li><%= link_to '下書き編集', "/" %></li>
-      <li><%= link_to 'お気に入り', "/" %></li>
+      <li><%= link_to 'タイムライン', "/" %></li>
+      <li><%= link_to 'お気に入り', favorites_user_path(@user) %></li>
       <li><%= link_to 'お知らせ', "/" %></li>
       <li><%= link_to "フォロー/フォロワー", followings_user_path(@user) %></li>
-      <li><%= link_to "アカウント情報変更", "/" %></li>
+      <li><%= link_to "アカウント情報変更", account_edit_path(current_user) %></li>
     </ul>
   </div>
   

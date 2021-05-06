@@ -11,6 +11,9 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_tree .
+ *= require jquery-ui
+ *= require jquery.tagit
+ *= require tagit.ui-zendesk
  *= require_self
  */
 
@@ -32,6 +35,12 @@ a {color:black; text-decoration:none }
 a:hover {
     text-decoration: none;
     color: coral;
+}
+.a a{
+color: hotpink;  
+}
+.a a:hover{
+color: pink;  
 }
 
 h1 {
@@ -101,6 +110,36 @@ h2 {
 .follow-btn:active {
   /*押したとき*/
   border: solid 1px #CCFFFF;
+}
+
+/*------------------------------------------------------------------navbar-----*/
+.nav-icon img {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.nav-image img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.btn-plan,
+.btn-plan.disabled, .btn-plan:disabled {
+  font-size: 14px;
+  background-color: darkturquoise;
+  border-color: darkturquoise;
+  border-radius: 12px;
+  height: 39px;
+  padding-top: 0px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+.btn-plan img {
+  width: 22px;
+  margin-right: 3px;
+  padding-bottom: 3px;
 }
 
 /*---------------------------------------------------------------toppage-----*/
@@ -192,6 +231,11 @@ h2 {
   justify-content: space-between;
 }
 
+.destination_links a {
+  color: white;
+  font-size: 13px;
+}
+
 /*----------------------------------------------------------postshow-----*/
 .ps-image img {
   width: 100%;
@@ -227,8 +271,8 @@ h2 {
   padding: 0.25em 0.5em;
   text-decoration: none;
   color: #FFF;
-  background: lightpink;
-  border: solid 1px blanchedalmond;
+  background: #FF9933;
+  border: solid 1px #FF9933;
   border-radius: 4px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
   text-shadow: 0 1px 0 rgba(0,0,0,0.2);
@@ -251,6 +295,8 @@ h2 {
   background-image: linear-gradient(-90deg, #FF006E, #FFD500);
   transition: .5s;
   background-size: 200%;
+  height: 130%;
+line-height: 130%;
 }
 .btn3:hover {
   background-position: right center;
@@ -259,3 +305,32 @@ h2 {
   display: flex;
   justify-content: center;
 }
+.introduce {
+  padding: 0.5em 1em;
+  border: solid 3px pink;
+  border-radius: 10px;
+}
+.introduce img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;  
+}
+.likeicon {
+  color: hotpink;
+}
+.likeicon:hover {
+  color: pink;
+}
+.likeiconed {
+  color: red;
+}
+.likeiconed:hover {
+  color: pink;
+}
+.end {
+  padding: 0.5em 1em;
+  border: solid 4px peachpuff;
+  border-radius: 10px;
+}
+
