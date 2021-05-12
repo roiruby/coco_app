@@ -19,6 +19,7 @@ class Post < ApplicationRecord
   
   has_many :favorites, dependent: :destroy
   has_many :users, through: :favorites, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   
   enum member: { default: 0, one: 1, two_three: 2, four_six: 3, seven_nine: 4, ten_over: 5},_suffix: true
@@ -26,5 +27,12 @@ class Post < ApplicationRecord
   enum payment: { default:0, dutch_treat: 1, my_treat: 2},_suffix: true
   enum budget: { default: 0, zero_onet: 1, onet_threet: 2, threet_fivet: 3, fivet_eightt: 4, eightt_tent: 5, tent_fifteent: 6, fifteent_twentyt: 7,
                 twentyt_thrtyt: 8, thrtyt_fiftyt: 9, fiftyt_onehundredt: 10, onehundredt_over: 11},_suffix: true
+                
+  enum status: { draft: 0, published: 1 }
+                
+  scope :get_by_post, ->(post) {includes([:destinations, :tags])
+  .where("posts.title like ? OR posts.content like ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR tags.name LIKE ?",
+  "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%").references([:destinations, :tags])}
+
   
 end

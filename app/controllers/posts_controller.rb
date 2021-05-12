@@ -5,13 +5,22 @@ class PostsController < ApplicationController
   before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
   
   def index
-    @posts = Post.all.reverse_order.page(params[:page]).per(20).includes(:tags)
+    @posts = Post.published.all.reverse_order.page(params[:page]).per(20).includes(:tags)
   end
 
   def show
     @post = Post.find(params[:id])
+    @posts = Post.published.order("updated_at DESC").limit(5).where.not(id: @post.id)
     @destinations = @post.destinations
     @user = @post.user
+    @comments = @post.comments.includes(:user).all.limit(4).order(created_at: :desc)
+    @comment = @post.comments.build
+    counts(@post)
+    
+    if @post.draft?
+      draftplan
+    end
+    
   end
   
   def new
@@ -23,7 +32,6 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      flash[:success] = 'イベントを投稿しました！'
       redirect_to root_url
     else
       @posts = current_user.posts.order(id: :desc).page(params[:page])
@@ -53,10 +61,45 @@ class PostsController < ApplicationController
     end
   end
   
+  def comment
+    @post = Post.find(params[:id])
+    @comments = @post.comments.includes(:user).all.order(created_at: :desc).page(params[:page]).per(20)
+    @comment = @post.comments.build
+    counts(@post)
+  end
+  
+  def confirm
+    @user = current_user
+    @posts = @user.posts.draft.order("updated_at DESC").page(params[:page]).per(20)
+    @count_draft = @user.posts.draft.count
+  end
+  
+  def draftplan
+    redirect_to root_path unless current_user == @user
+  end
+  
+  def search
+    @post = Post.published.order("updated_at DESC")
+    @search_word = params[:search]
+    
+    if params[:search] == ""
+      @posts = Post.published.order("updated_at DESC")
+    else
+      searches = params[:search].split(/[[:blank:]]+/).select(&:present?)
+      @posts = Post
+      searches.each do |search|
+      @posts = @posts.includes([:destinations, :category, :tags])
+      .where(['posts.title LIKE ? OR posts.content LIKE ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR categories.name LIKE ? OR tags.name LIKE ?',
+      "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%"]).references([:destinations, :category, :tags])
+      end
+    end
+    @posts = @posts.published.order(updated_at: "DESC").page(params[:page]).per(20)
+  end
+  
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :tag_list, :dead_line, 
+    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :tag_list, :status, :dead_line, 
     destinations_attributes: [:id, :name, :_destroy, :link, :area, :address])
   end
   

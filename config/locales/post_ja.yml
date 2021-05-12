@@ -33,3 +33,7 @@ ja:
         fiftyt_onehundredt: "50,000円～100,000円"
         onehundredt_over: "100,000円以上"
         
+      status:
+        draft: '下書き'
+        published: '公開'
+        

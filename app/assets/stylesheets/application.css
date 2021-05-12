@@ -141,6 +141,15 @@ h2 {
   margin-right: 3px;
   padding-bottom: 3px;
 }
+.btn-search,
+.btn-search.disabled, .btn-search:disabled {
+  font-size: 14px;
+  background-color: aqua;
+  border-color: aqua;
+  border-radius: 4px;
+  height: 38px;
+  padding-top: 7px;
+}
 
 /*---------------------------------------------------------------toppage-----*/
 .top-postimage img {
@@ -173,7 +182,47 @@ h2 {
 .tag1 a {
   color: white;
 }
-
+.categorytop img {
+  width: 100%;
+  height: 140px;
+  border-radius: 30px;
+}
+.categorytop:hover img{
+  opacity: 0.7;
+}
+.categorytop {
+  position: relative;
+}
+.categorytop::before{
+  border-radius: 30px;
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  content: ' ';
+}
+.categorytop p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  margin:0;
+  padding:0;
+  font-weight: bold;
+  color: white;
+  font-size: 130%;
+  white-space: nowrap
+  }
+  .category img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6%;
+  }
 /*------------------------------------------------------------------signup-----*/
 .bg-gray {
   border-radius: 10px;
@@ -333,4 +382,54 @@ line-height: 130%;
   border: solid 4px peachpuff;
   border-radius: 10px;
 }
-
+.lineicon {
+  color: #00B900;
+  font-size: 40px;
+}
+.twicon {
+  color: #00acee;
+  font-size: 40px;
+}
+.fbicon {
+  color: #3C5A99;
+  font-size: 40px;
+}
+.side-postimage img {
+  width: 100%;
+  height: 98px;
+  border-radius: 3%;
+  object-fit: cover; 
+}
+.side-postimage img:hover {
+	opacity: 0.6 ;
+}
+/*----------------------------------------------------------comment-----*/
+.comment img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.comme {
+  position: relative; 
+  padding: 10px 16px 0.5px;
+  border-radius: 12px;
+  background: #d7ebfe;
+  color: #5c98d4;
+}
+/*----------------------------------------------------------footer-----*/
+footer {
+  background-color: #300000;
+}
+footer a:hover{
+}
+.copy {
+  background-color: white;
+  color: gray;
+}
+.footer-menu {
+  color: white;
+}
+.footer-menu a {
+  color: white;
+}

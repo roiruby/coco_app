@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   patch 'users/:id/account_edit', to: 'users#account_update'
   
   get 'keywords', to: 'keywords#index', as: :keyword
+  
+  get 'posts/:id/comment', to: 'posts#comment',  as: :comment
+  
+  get 'search', to: 'posts#search', as: :search
 
   
   get 'signup', to: 'users#new'
@@ -25,7 +29,12 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new]
+  resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new] do
+    resources :comments, only: [:create, :destroy]
+    collection do
+      get 'confirm'
+    end       
+  end
   
   resources :destinations, only: [:create]
   resources :relationships, only: [:create, :destroy]

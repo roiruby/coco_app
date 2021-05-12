@@ -6,6 +6,18 @@
       <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">-->
       <!--  <span class="navbar-toggler-icon"></span>-->
       <!--</button>-->
+      
+      <div class="navbar-nav mr-auto form-group form-inline">
+        <%= form_with(url: search_path, method: :get, local: true) do |f| %>
+          <div class="input-group">
+            <%= f.text_field :search, value: params[:search], placeholder: "キーワードで検索", class: 'form-control' %>
+            <span class="input-group-btn">
+              <%= button_tag '<i class="fas fa-search"></i>'.html_safe, :type => "submit", :class =>"btn btn-search", :style => "color:white;" %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+      
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
         <% if logged_in? %>
         <span class="d-none d-lg-block">

@@ -16,6 +16,8 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favposts, through: :favorites, source: :post, dependent: :destroy
   
+  has_many :comments, dependent: :destroy
+  
   mount_uploader :image, ImageUploader
   
   enum sex: { default: 0, female: 1, male: 2, unanswered: 3},_suffix: true

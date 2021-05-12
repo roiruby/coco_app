@@ -10,7 +10,7 @@
       
         <div class="top-postimage col-sm-2">
         <% if post.image? %>
-          <%= link_to image_tag(post.image.thumb.to_s), post_path(post), data: {"turbolinks" => false} %>
+          <%= link_to image_tag(post.image.thmb300.to_s), post_path(post), data: {"turbolinks" => false} %>
         <% else %>
           <%= link_to post_path(post) do %>
           <%= image_tag "default_post.jpg" %>
@@ -22,7 +22,7 @@
 
           <% post.destinations.each do |destination| %>
             <% if destination.area.present? %>
-              <div class="tag1 xsmall bold mt-1 mr-1 ">
+              <div class="tag1 xsmall bold mt-1">
                 <%= destination.area %>
               </div>
             <% end %>
@@ -37,6 +37,63 @@
       <% end %>
     </div>
 
+  <hr>
+  
+  <p class="top_index mt-3 h4 bold"><%= image_tag "icon_tag.png" %>カテゴリから探す</p>
+  
+  <div class="row row-0">
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(1) do %>
+          <%= image_tag "dinner.jpg" %>
+          <p>ディナー</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(2) do %>
+          <%= image_tag "lunch.jpg" %>
+          <p>ランチ</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(3) do %>
+          <%= image_tag "game.jpg" %>
+          <p>遊び・ゲーム</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(4) do %>
+          <%= image_tag "sports.jpg" %>
+          <p>スポーツ</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(5) do %>
+          <%= image_tag "leisure.jpg" %>
+          <p>レジャー</p>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-sm-2">
+      <div class="categorytop ml-1 mr-1">
+        <%= link_to category_path(6) do %>
+          <%= image_tag "etc.jpg" %>
+          <p>その他</p>
+        <% end %>
+      </div>
+    </div>
+
+    
+  </div>
+  
   <hr>
   
   <p class="top_index mt-3 h4 bold"><%= image_tag "icon_new.png" %>【PR】ピックアップ店舗</p>

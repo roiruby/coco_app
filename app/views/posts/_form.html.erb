@@ -8,7 +8,9 @@
       </div>
 
         <div class="web-flex">
-
+          <div class="mr-2">
+            <%= f.select :status, Post.statuses.keys.map { |k| [t("enums.post.status.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+          </div>
           <div class="">
             <%= f.submit '投稿する', class: 'btn btn-primary btn-sm' %>
           </div>
@@ -58,11 +60,21 @@
     });
     </script>
     
-    <div class="form-group">
-      <span class="required">*</span>
-      <%= f.label 'イベントの日時' %>
-      <div>
-      <%= f.datetime_field :event_schedule, class: 'form-control-sm border-primary' %>
+    <div class="web-flex">
+      <div class="form-group">
+        <span class="required">*</span>
+        <%= f.label 'イベントの日時' %>
+        <div>
+        <%= f.datetime_field :event_schedule, class: 'form-control-sm border-primary' %>
+        </div>
+      </div>
+      
+      <div class="form-group ml-4">
+        <span class="required">*</span>
+        <%= f.label '募集締め切り期日' %>
+        <div>
+        <%= f.datetime_field :dead_line, class: 'form-control-sm border-primary' %>
+        </div>
       </div>
     </div>
     
@@ -122,14 +134,6 @@
         <%= f.select :budget, Post.budgets.keys.map { |k| [t("enums.post.budget.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
       </div>
     
-    </div>
-    
-    <div class="form-group">
-      <span class="required">*</span>
-      <%= f.label '募集締め切り期日' %>
-      <div>
-      <%= f.datetime_field :dead_line, class: 'form-control-sm border-primary' %>
-      </div>
     </div>
     
     
