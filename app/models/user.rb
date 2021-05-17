@@ -16,7 +16,12 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favposts, through: :favorites, source: :post, dependent: :destroy
   
+  has_many :entries, dependent: :destroy
+  has_many :entryposts, through: :entries, source: :post, dependent: :destroy
+  
   has_many :comments, dependent: :destroy
+  
+  has_many :members, dependent: :destroy
   
   mount_uploader :image, ImageUploader
   
@@ -58,6 +63,19 @@ class User < ApplicationRecord
 
   def  favpost?(post)
     self.favposts.include?(post)
+  end
+  
+  def offer(post)
+    entries.find_or_create_by(post_id: post.id)
+  end
+
+  def unoffer(post)
+    entry = entries.find_by(post_id: post.id)
+    entry.destroy if entry
+  end
+
+  def  entrypost?(post)
+    self.entryposts.include?(post)
   end
   
   def User.digest(string)

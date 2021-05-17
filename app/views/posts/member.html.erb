@@ -1,0 +1,214 @@
+<% if logged_in? %>
+    <div class="container-fluid">
+      <div class="row">
+        
+        <div class="col-md-3 mt-4">
+          <div class="">
+          
+            <div class="d_container">
+            <div class="text-center">
+              イベント詳細
+            </div>
+            
+            <% if @post.event_schedule.present? %>
+              <% date = @post.event_schedule.to_s(:date) %>
+              <% weekday = %w[日 月 火 水 木 金 土] %>
+              <!--<div class="bold">-->
+              <!--  開催日時-->
+              <!--</div>-->
+              <div class="bold medium">
+                <%= @post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.event_schedule.to_s(:time) %>
+              </div>
+            <% end %>
+            
+            <% @destinations.each do |destination| %>
+            <div class="row">
+              <div class="bold ml-3 medium">
+                ◆ <%= destination.name %>
+              </div>
+              
+              <% if destination.area.present? %>
+              <div class="ml-4 xsmall btn1 bold">
+                <%= destination.area %>
+              </div>
+              <% end %>
+            </div>
+            
+            <div class="destination_detail mb-2 ml-1">
+            <% if destination.address.present? %>
+              <div class="small">
+                <i class="fas fa-map-marker-alt"></i> <%= destination.address %>
+              </div>
+            <% end %>
+              
+            <% if destination.link.present? %>
+              <div class="small wrap-word">
+                <i class="fas fa-link"></i>
+                <%= text_url_to_link(h(destination.link)).html_safe %>
+              </div>
+            <% end %>
+            
+            </div>
+            
+              
+            <% end %>
+            
+            <div class="row">
+              <% if @post.payment != "default" %>
+              <div class="btn1 small bold ml-1">
+                <%= @post.payment_i18n %>
+              </div>
+              <% end %>
+              
+              <% if @post.budget != "default" %>
+              <div class="btn1 small bold ml-1">
+                <%= @post.budget_i18n %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+    
+          </div>
+        </div>
+        
+        <div class="col-md-6 mt-4">
+          <div class="bold h5">
+            【<%= link_to @post.title.truncate(39), post_path(@post) %>】のトークルーム
+          </div>
+          
+          <div class="mt-3 mb-5">
+          <% if logged_in? %>
+            <%= form_with(model: [@post, @comment], local: true) do |f| %>
+              <%= f.text_area :content, placeholder: 'コメントを入力 （1000文字以内）', class: "form-control", rows: 3 %>
+              <%= button_tag type: "submit", class: "btn btn-info float-right mt-1" do %>
+                <i class="far fa-comment"></i> コメントする
+              <% end %>
+            <% end %>
+          <% end %>
+          </div>
+          
+          <% @comments.each do |comment| %>
+            <div class="comment web-flex">
+              <div class="mt-2">
+                <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
+              </div>
+              
+              <div class="ml-2">
+                <div class="bold small">
+                  <%= link_to comment.user.name, user_path(comment.user) %>
+                </div>
+      
+                <div class="web-flex">
+                  
+                  <div class="comme bold medium">
+                    <%= simple_format(comment.content) %>
+                  </div>
+                  
+                   <% if logged_in? %>
+                  <% if comment.user_id == current_user.id or current_user == @post.user %>
+                  <div class="ml-2 d-flex align-items-end">
+                    <%= link_to post_member_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
+                    <i class="far fa-trash-alt"></i>
+                    <% end %>
+                  </div>
+                  <% end %>
+                  <% end %>
+                 
+                </div>
+      
+                <div class="xsmall ml-1">
+                  <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+                </div>
+                
+                
+              </div>
+              
+            </div>
+            <hr>
+          <% end %>
+          
+          <div class="pagination justify-content-end pagination-sm mt-4">
+            <%= paginate @comments %>
+          </div>
+          
+        </div>
+      
+      
+        <div class="col-md-3 mt-4">
+          <div class="bold">
+            参加メンバー
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-sm-3">
+              <div class="circle-image80">
+                <%= link_to image_tag(@post.user.image.thmb300.url), user_path(@post.user) %>
+              </div>
+            </div>
+              
+            <div class="col-sm-9">
+              <div class="mt-2 bold ml-1">
+                <%= link_to @post.user.name, user_path(@post.user) %>
+              </div>
+              
+              <div class="small bold gray ml-1"> 
+                <%= @post.user.catchphrase %>
+              </div>
+              
+              <div class="xsmall mt-1 gray">
+                <% unless @post.user.age == "default" and @post.user.address == "default" and  @post.user.sex == "default" %>【 <% end %>
+                <% if @post.user.age != "default" %><%= @post.user.age_i18n %><% end %>
+                <% if @post.user.age != "default" %>・<% end %>
+                <% if @post.user.sex != "default" %><%= @post.user.sex_i18n %><% end %>
+                <% if @post.user.age != "default" and @post.user.address != "default" and  @post.user.sex != "default" %>・<% end %>
+                <% if @post.user.address != "default" %><%= @post.user.address_i18n %><% end %>
+                <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.user.sex == "default" %> 】<% end %>
+              </div>
+            </div>
+    
+          </div>
+          <hr>
+          
+          <% @users.each do |user| %>
+          <div class="row mt-3">
+            <div class="col-sm-3 text-center">
+              <div class="circle-image80">
+                <%= link_to image_tag(user.user.image.thmb300.url), user_path(user.user) %>
+              </div>
+            </div>
+            
+            <div class="col-sm-9">
+              <div class="mt-2 bold ml-1">
+                <%= link_to user.user.name, user_path(user.user) %>
+              </div>
+              
+              <div class="small bold gray ml-1"> 
+                <%= user.user.catchphrase %>
+              </div>
+              
+              <div class="xsmall mt-1 gray">
+                <% unless user.user.age == "default" and user.user.address == "default" and  user.user.sex == "default" %>【 <% end %>
+                <% if user.user.age != "default" %><%= user.user.age_i18n %><% end %>
+                <% if user.user.age != "default" %>・<% end %>
+                <% if user.user.sex != "default" %><%= user.user.sex_i18n %><% end %>
+                <% if user.user.age != "default" and user.user.address != "default" and  user.user.sex != "default" %>・<% end %>
+                <% if user.user.address != "default" %><%= user.user.address_i18n %><% end %>
+                <% unless user.user.age == "default" and  user.user.address == "default" and  user.user.sex == "default" %> 】<% end %>
+              </div>
+            </div>
+            
+    
+          </div>  
+          <hr>
+          <% end %>
+    
+          
+    
+        </div>
+        
+        
+      </div>
+      
+    </div>
+    
+<% end %>

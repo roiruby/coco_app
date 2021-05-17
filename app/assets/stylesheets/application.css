@@ -231,9 +231,21 @@ h2 {
 }
 
 /*--------------------------------------------------------ユーザーー詳細-----*/
+.circle-image80 img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .circle-image150 img {
   width: 150px;
   height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.circle-image180 img {
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -342,14 +354,15 @@ h2 {
   padding: 8px 24px;
   border-radius: 4px;
   background-image: linear-gradient(-90deg, #FF006E, #FFD500);
-  transition: .5s;
+  transition: .4s;
   background-size: 200%;
   height: 130%;
-line-height: 130%;
+  line-height: 130%;
 }
 .btn3:hover {
   background-position: right center;
 }
+
 .flex-center {
   display: flex;
   justify-content: center;
@@ -402,6 +415,10 @@ line-height: 130%;
 }
 .side-postimage img:hover {
 	opacity: 0.6 ;
+}
+.wrap-word {
+  overflow-wrap: break-word;
+  line-height: 1.5;
 }
 /*----------------------------------------------------------comment-----*/
 .comment img {

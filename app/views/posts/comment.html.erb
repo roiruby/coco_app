@@ -25,20 +25,28 @@
           <div class="bold small">
             <%= link_to comment.user.name, user_path(comment.user) %>
           </div>
-
-          <div class="comme bold medium">
-            <%= simple_format(comment.content) %>
+          
+          <div class="web-flex">
+            
+            <div class="comme bold medium">
+              <%= simple_format(comment.content) %>
+            </div>
+            
+            <% if logged_in? %>
+            <% if comment.user_id == current_user.id or current_user == @post.user %>
+            <div class="ml-2 d-flex align-items-end">
+              <%= link_to post_comment_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
+              <i class="far fa-trash-alt"></i>
+              <% end %>
+            </div>
+            <% end %>
+            <% end %>
           </div>
 
           <div class="xsmall ml-1">
             <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
           </div>
           
-          <% if logged_in? %>
-          <% if comment.user_id == current_user.id or current_user == @post.user %>
-          <%= link_to "削除", post_comment_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
-          <% end %>
-          <% end %>
           
         </div>
         

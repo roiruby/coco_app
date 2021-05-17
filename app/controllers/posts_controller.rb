@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy, :entry, :member]
+  before_action :correct_user, only: [:edit, :update, :destroy, :entry]
   before_action :set_post_tags_to_gon, only: [:edit]
   before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
   
@@ -15,7 +15,7 @@ class PostsController < ApplicationController
     @user = @post.user
     @comments = @post.comments.includes(:user).all.limit(4).order(created_at: :desc)
     @comment = @post.comments.build
-    counts(@post)
+    comment_counts(@post)
     
     if @post.draft?
       draftplan
@@ -65,7 +65,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @comments = @post.comments.includes(:user).all.order(created_at: :desc).page(params[:page]).per(20)
     @comment = @post.comments.build
-    counts(@post)
+    comment_counts(@post)
   end
   
   def confirm
@@ -77,6 +77,42 @@ class PostsController < ApplicationController
   def draftplan
     redirect_to root_path unless current_user == @user
   end
+  
+  def entry
+    @post = Post.find(params[:id])
+    @users = @post.entries.includes(:user).page(params[:page]).per(20)
+  end
+  def member
+    @post = Post.find(params[:id])
+    @comments = @post.members.includes(:user).all.order(created_at: :desc).page(params[:page]).per(20)
+    @comment = @post.members.build
+    comment_counts(@post)
+    @users = @post.entries.approval.includes(:user)
+    @destinations = @post.destinations
+    
+    if @post.approval_users.count == 0
+      unless @post.user_id == current_user.id
+        redirect_to root_url
+        return
+      end
+    else
+      @approvaluser = @post.approval_users.where(id: current_user)
+      if @approvaluser.count == 1
+        @approvaluser.each do |user|
+          if user == current_user.id
+            redirect_to root_url
+            return
+          end
+        end
+      else
+        unless @post.user_id == current_user.id
+          redirect_to root_url
+          return
+        end
+      end
+    end
+  end
+
   
   def search
     @post = Post.published.order("updated_at DESC")

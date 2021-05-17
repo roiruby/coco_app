@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index]
-  before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile]
+  before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index, :entries, :favorites]
+  before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile, :entries, :favorites]
   
   def index
     @users = User.order(id: :desc).page(params[:page]).per(30)
@@ -77,6 +77,12 @@ class UsersController < ApplicationController
     @favposts = @user.favposts.page(params[:page]).per(20).reverse_order
     counts(@user)
   end
+  
+  def entries
+    @user = User.find(params[:id])
+    @entryposts = @user.entryposts.page(params[:page]).per(20).reverse_order
+    counts(@user)
+  end
 
   private
 
@@ -86,6 +92,7 @@ class UsersController < ApplicationController
   
   def correct_user
       @user = User.find(params[:id])
+      redirect_to(root_url) unless @user == current_user
   end
   
 end

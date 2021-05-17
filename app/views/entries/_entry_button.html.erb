@@ -1,0 +1,24 @@
+<% if logged_in? %>
+  <% if @post.user_id == current_user.id %>
+    <%= link_to "エントリー #{@post.entries.count}件", entry_page_path, class: "btn btn3" %>
+  <% else %>
+    <% if current_user.entrypost?(@post) %>
+      <%= form_for(current_user.entries.find_by(post_id: post.id), html: { method: :delete }) do |f| %>
+        <div>
+          <%= hidden_field_tag :post_id, @post.id %>
+          <%= f.submit 'エントリー済', class: 'btn btn3' %>
+        </div>
+      <% end %>
+    <% else %>
+      <%= form_for(current_user.entries.build) do |f| %>
+        <div>
+          <%= hidden_field_tag :post_id, @post.id %>
+          <%= f.submit 'エントリーする', class: 'btn btn3', data: { confirm: "エントリーしますか？（エントリー後、参加メンバー決定までは確定されません）" } %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  
+<% else %>
+  <%= link_to "エントリーする", login_path, class: "btn btn3" %>
+<% end %>

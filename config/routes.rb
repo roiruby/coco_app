@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   
   get 'posts/:id/comment', to: 'posts#comment',  as: :comment
   
+  get 'posts/:id/entry', to: 'posts#entry',  as: :entry_page
+  
+  get 'posts/:id/member', to: 'posts#member',  as: :member
+  
   get 'search', to: 'posts#search', as: :search
 
   
@@ -26,11 +30,13 @@ Rails.application.routes.draw do
       get :followings
       get :followers
       get :favorites
+      get :entries
     end
   end
   
   resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new] do
     resources :comments, only: [:create, :destroy]
+    resources :members, only: [:create, :destroy]
     collection do
       get 'confirm'
     end       
@@ -41,6 +47,9 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :favorites, only: [:create, :destroy]
+  resources :entries, only: [:create, :destroy] do
+    patch :toggle_status
+  end
   
 
 end

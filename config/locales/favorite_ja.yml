@@ -1,0 +1,7 @@
+ja:
+  enums:
+    entry:
+      entry_status:
+        unapproval: 'メンバー確定する'
+        approval: 'メンバー確定済み'
+        

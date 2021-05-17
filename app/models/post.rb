@@ -19,7 +19,15 @@ class Post < ApplicationRecord
   
   has_many :favorites, dependent: :destroy
   has_many :users, through: :favorites, dependent: :destroy
+  
   has_many :comments, dependent: :destroy
+  
+  has_many :entries, dependent: :destroy
+  has_many :users, through: :entries, dependent: :destroy
+  has_many :approval_post_users, -> {where(entry_status: 'approval')}, class_name: 'Entry'
+  has_many :approval_users, through: :approval_post_users, source: :user, dependent: :destroy
+  
+  has_many :members, dependent: :destroy
 
   
   enum member: { default: 0, one: 1, two_three: 2, four_six: 3, seven_nine: 4, ten_over: 5},_suffix: true
