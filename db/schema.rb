@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_083507) do
+ActiveRecord::Schema.define(version: 2021_05_18_081053) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -57,6 +57,15 @@ ActiveRecord::Schema.define(version: 2021_05_17_083507) do
     t.index ["post_id"], name: "index_favorites_on_post_id"
     t.index ["user_id", "post_id"], name: "index_favorites_on_user_id_and_post_id", unique: true
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "information", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_information_on_user_id"
   end
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -138,6 +147,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_083507) do
     t.integer "age", default: 0, null: false
     t.integer "address", default: 0, null: false
     t.string "remember_digest"
+    t.boolean "admin", default: false
   end
 
   add_foreign_key "comments", "posts"
@@ -146,6 +156,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_083507) do
   add_foreign_key "entries", "users"
   add_foreign_key "favorites", "posts"
   add_foreign_key "favorites", "users"
+  add_foreign_key "information", "users"
   add_foreign_key "members", "posts"
   add_foreign_key "members", "users"
   add_foreign_key "posts", "categories"

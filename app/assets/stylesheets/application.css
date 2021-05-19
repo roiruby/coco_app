@@ -182,6 +182,32 @@ h2 {
 .tag1 a {
   color: white;
 }
+.tag2 {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: white;
+  background: aqua;
+  border: solid 1px aqua;
+  border-radius: 4px;
+}
+.tag2 a {
+  color: white;
+}
+.tag3 {
+  position: relative;
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  text-decoration: none;
+  color: white;
+  background: dodgerblue;
+  border: solid 1px dodgerblue;
+  border-radius: 4px;
+}
+.tag2 a {
+  color: white;
+}
 .categorytop img {
   width: 100%;
   height: 140px;
@@ -265,6 +291,17 @@ h2 {
 /*--------------------------------------------------------マイページ-----*/
 .mypage-ul {
 	line-height: 2;
+}
+.news-title {
+  color: white;
+  background-color: lightpink;
+  padding: 10px 0;
+  margin: 0px 10px;
+  border-radius: 10px 10px 0px 0px;
+}
+.news-body {
+  padding: 10px 16px;
+  margin: 0px 10px;
 }
 
 /*----------------------------------------------------------イベント投稿-----*/
@@ -449,4 +486,11 @@ footer a:hover{
 }
 .footer-menu a {
   color: white;
+}
+/*--------------------------------------------------------------breadcrumbs-----*/
+.breadcrumbs, .breadcrumbs a {
+  color: gray;
+}
+.breadcrumbs a:hover {
+  color: pink;
 }

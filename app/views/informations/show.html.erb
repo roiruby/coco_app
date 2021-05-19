@@ -1,0 +1,38 @@
+<div class="container">
+  <% breadcrumb :news, @news %>
+    <%= render "layouts/breadcrumbs" %>
+
+  <div class="row mt-4">
+    
+    <div class="col-md-9">
+
+    <h2>
+      <div class="bb">
+      <%= @news.title %>
+      </div></h2>
+    
+    <div class="mt-3">
+      <%= simple_format(@news.content) %>
+    </div>
+
+
+    </div>
+    
+    <div class="col-md-3">
+        <div class="news-title text-center bold">
+          最近のお知らせ
+        </div>
+        <div class="">
+          <% @info.each do |news| %>
+            <div class="news-body table-bordered small">
+              <%= link_to news.title, information_path(news) %>
+              <div class="text-right xsmall">
+                <%= news.updated_at.strftime('%Y/%m/%d') %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+    </div>
+    
+  </div>
+</div>

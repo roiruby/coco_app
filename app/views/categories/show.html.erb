@@ -1,5 +1,6 @@
 <div class="container">
-
+  <% breadcrumb :category, @category %>
+    <%= render "layouts/breadcrumbs" %>
   <p class="h4 bold mt-4"><i class="fas fa-chess-queen mr-1"></i>【<%= @category.name %>】のイベント一覧　<span class="small"><%= @posts.count %>件</span></p>
 
   <div class="row row-0 mt-2">

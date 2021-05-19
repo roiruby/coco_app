@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <% breadcrumb :information %>
+    <%= render "layouts/breadcrumbs" %>
+  <div class="row mt-4">
+    
+    <div class="col-lg-3 col-sm-4 text-center">
+      <%= render 'mypage/mypage_left' %>
+    </div>
+    
+    <div class="col-lg-6 col-sm-8">
+      
+      <div class="bold bb h3">
+        お知らせ
+      </div>
+      
+      <div class="bold mt-4">
+          <% @news.each do |news| %>
+            <%= link_to news.title, information_path(news) %>
+            
+            <% if current_user.admin? && !(current_user == User) %>
+            <%= link_to "編集", edit_information_path(news), class: 'btn btn-info btn-sm ml-2' %>
+            <%= link_to "削除", information_path(news), method: :delete, data: { confirm: "本当に削除しますか?" }, class: 'btn btn-danger btn-sm' %>
+            <% end %>
+            
+            <div class="text-right small bold">
+            <i class="far fa-clock"></i><%= news.updated_at.strftime('%Y/%m/%d') %>
+            </div>
+            <hr>
+          <% end %>
+          
+          <div class="pagination justify-content-end pagination-sm">
+            <%= paginate @news %>
+          </div>
+      </div>
+          
+    
+    <div class="col-lg-3 d-none d-lg-block">
+      <div class="mypage_right">
+
+      </div>
+    </div>
+    
+  </div>
+</div>
+

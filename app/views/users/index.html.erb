@@ -1,5 +1,6 @@
 <div class="container-fluid">
-  
+  <% breadcrumb :users %>
+    <%= render "layouts/breadcrumbs" %>
   <p class="mt-4 top_index h4 bold">ユーザー一覧</p>
   
     <div class="row row-0">
@@ -8,8 +9,14 @@
         <div class="pr-1 pl-1">
           <%= link_to image_tag(user.image.thmb300.to_s), user_path(user) %>
         </div>
-        <p class="top-username mt-2 small"><%= link_to user.name, user_path(user) %></p>
+        <p class="top-username mt-2 bold"><%= link_to user.name, user_path(user) %></p>
         <p class="xxsmall web-mt-15 gray"><%= user.catchphrase %></p>
+        <% if current_user.admin? %>
+          <%= user.email %>
+            <%= link_to user_path(user.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
+            <i class="far fa-trash-alt"></i>
+            <% end %>
+        <% end %>
       </div>
     <% end %>
     

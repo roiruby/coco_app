@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index, :entries, :favorites]
   before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile, :entries, :favorites]
+  before_action :admin_user, only: [:destroy, :index]
+  before_action :devise_variant
   
   def index
     @users = User.order(id: :desc).page(params[:page]).per(30)
@@ -42,6 +44,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "ユーザー退会完了"
+    redirect_to users_path
   end
   
   def account_edit
@@ -81,6 +86,7 @@ class UsersController < ApplicationController
   def entries
     @user = User.find(params[:id])
     @entryposts = @user.entryposts.page(params[:page]).per(20).reverse_order
+    @users = @user.entries.includes(:post)
     counts(@user)
   end
 
@@ -92,7 +98,22 @@ class UsersController < ApplicationController
   
   def correct_user
       @user = User.find(params[:id])
+      unless current_user.admin?
       redirect_to(root_url) unless @user == current_user
+      end
+  end
+  
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
+  
+  def devise_variant
+      case request.user_agent
+      when /iPhone/
+        request.variant = :mobile
+      when /android/
+        request.variant = :android
+      end
   end
   
 end

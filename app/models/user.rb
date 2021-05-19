@@ -23,6 +23,8 @@ class User < ApplicationRecord
   
   has_many :members, dependent: :destroy
   
+  has_many :informations, dependent: :destroy
+  
   mount_uploader :image, ImageUploader
   
   enum sex: { default: 0, female: 1, male: 2, unanswered: 3},_suffix: true

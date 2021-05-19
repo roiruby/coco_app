@@ -19,9 +19,14 @@
       <li><%= link_to 'エントリー済み', entries_user_path(@user) %></li>
       <li><%= link_to 'タイムライン', "/" %></li>
       <li><%= link_to 'お気に入り', favorites_user_path(@user) %></li>
-      <li><%= link_to 'お知らせ', "/" %></li>
+      <li><%= link_to 'お知らせ', informations_path %></li>
       <li><%= link_to "フォロー/フォロワー", followings_user_path(@user) %></li>
       <li><%= link_to "アカウント情報変更", account_edit_path(current_user) %></li>
+      
+      <% if current_user.admin? && !(current_user == User) %>
+        <li><%= link_to "お知らせ投稿", new_information_path %></li>
+      <% end %>
+      
     </ul>
   </div>
   

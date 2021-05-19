@@ -1,4 +1,6 @@
 <div class="container">
+  <% breadcrumb :keywords, @tags %>
+    <%= render "layouts/breadcrumbs" %>
 
   <p class="h4 bold mt-4"><i class="fas fa-chess-queen mr-1"></i>【<%= @keywords %>】のイベント一覧　<span class="small"><%= @posts.count %>件</span></p>
 

@@ -1,5 +1,6 @@
 <div class="container-fluid">
-
+  <% breadcrumb :entries %>
+    <%= render "layouts/breadcrumbs" %>
   <div class="row mt-4">
     
     <div class="col-lg-3 col-sm-4 text-center">
@@ -16,8 +17,9 @@
         
 
       <div class="mypage-center top-postimage mt-3">
-      <% @entryposts.each do |post| %>
+      
       <div class="row row-0">
+      <% @entryposts.zip(@users) do |post, user| %>
         <div class="top-postimage col-sm-4 mt-2">
           <%= link_to image_tag(post.image.thmb300.to_s), post_path(post), data: {"turbolinks" => false} %>
         </div>
@@ -31,23 +33,37 @@
           
           <% post.destinations.each do |destination| %>
             <% if destination.area.present? %>
-              <div class="tag1 xsmall bold mt-1">
+              <div class="tag1 xsmall bold mt-2">
                 <%= destination.area %>
               </div>
             <% end %>
           <% end %>
           
-    
+          <% if user.entry_status == "approval" %>
+            <div class="tag2 xsmall bold mt-2">
+              <%= link_to "メンバー確定", member_path(post) %>
+            </div>
+          <% else %>
+            <div class="tag3 xsmall bold mt-2">
+              メンバー承認待ち
+            </div>
+          <% end %>
+          
           <div class="mt-2 small web-gray right">
             <i class="far fa-clock"></i><%= post.updated_at.strftime('%Y/%m/%d') %>
             <span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
-
           </div>
+          
+
+          
         </div>
-      </div>  
+        
+        
       <% end %>
       </div>
+      </div>
       
+
       <div class="pagination justify-content-end pagination-sm">
         <%= paginate @entryposts %>
       </div>

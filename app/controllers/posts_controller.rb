@@ -15,6 +15,7 @@ class PostsController < ApplicationController
     @user = @post.user
     @comments = @post.comments.includes(:user).all.limit(4).order(created_at: :desc)
     @comment = @post.comments.build
+    @users = @post.entries.approval.includes(:user)
     comment_counts(@post)
     
     if @post.draft?
@@ -91,7 +92,7 @@ class PostsController < ApplicationController
     @destinations = @post.destinations
     
     if @post.approval_users.count == 0
-      unless @post.user_id == current_user.id
+      unless @post.user_id == current_user.id || current_user.admin?
         redirect_to root_url
         return
       end
@@ -105,7 +106,7 @@ class PostsController < ApplicationController
           end
         end
       else
-        unless @post.user_id == current_user.id
+        unless @post.user_id == current_user.id || current_user.admin?
           redirect_to root_url
           return
         end
@@ -142,8 +143,14 @@ class PostsController < ApplicationController
   def correct_user
     @post = current_user.posts.find_by(id: params[:id])
     unless @post
+    unless current_user.admin? #
       redirect_to root_url
     end
+    end
+  end
+  
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
   end
   
   def set_post_tags_to_gon
