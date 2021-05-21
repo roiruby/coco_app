@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index, :entries, :favorites]
+  before_action :require_user_logged_in, only: [:edit, :update, :followings, :followers, :edit_profile, :update_profile, :index, :entries, :favorites, :report]
   before_action :correct_user,   only: [:edit, :update, :edit_profile, :update_profile, :entries, :favorites]
   before_action :admin_user, only: [:destroy, :index]
   before_action :devise_variant
@@ -88,6 +88,14 @@ class UsersController < ApplicationController
     @entryposts = @user.entryposts.page(params[:page]).per(20).reverse_order
     @users = @user.entries.includes(:post)
     counts(@user)
+  end
+  
+  def report
+    @user = User.find(params[:id])
+    @report = @user.user_reports.build
+  end
+  def user_reports
+    @report = UserReport.order("created_at DESC").page(params[:page]).per(50)
   end
 
   private

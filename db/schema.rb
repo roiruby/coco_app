@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_18_081053) do
+ActiveRecord::Schema.define(version: 2021_05_21_025140) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -78,6 +78,16 @@ ActiveRecord::Schema.define(version: 2021_05_18_081053) do
     t.index ["user_id"], name: "index_members_on_user_id"
   end
 
+  create_table "post_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "report", default: 0, null: false
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_reports_on_post_id"
+    t.index ["user_id"], name: "index_post_reports_on_user_id"
+  end
+
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -133,6 +143,16 @@ ActiveRecord::Schema.define(version: 2021_05_18_081053) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "user_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "repo_id"
+    t.integer "report", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["repo_id"], name: "index_user_reports_on_repo_id"
+    t.index ["user_id"], name: "index_user_reports_on_user_id"
+  end
+
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -159,9 +179,13 @@ ActiveRecord::Schema.define(version: 2021_05_18_081053) do
   add_foreign_key "information", "users"
   add_foreign_key "members", "posts"
   add_foreign_key "members", "users"
+  add_foreign_key "post_reports", "posts"
+  add_foreign_key "post_reports", "users"
   add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
   add_foreign_key "relationships", "users"
   add_foreign_key "relationships", "users", column: "follow_id"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "user_reports", "users"
+  add_foreign_key "user_reports", "users", column: "repo_id"
 end

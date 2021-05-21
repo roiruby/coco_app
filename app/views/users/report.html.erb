@@ -1,0 +1,24 @@
+<div class="container-middle mx-auto">
+  <% breadcrumb :user_report, @user %>
+    <%= render "layouts/breadcrumbs" %>
+    <div class="mt-4 text-center">
+    報告する理由を選択してください。
+  </div>
+  
+  <div class="bg-gray text-center mt-3">
+    <%= form_with(model: [@user, @report], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.select :report, UserReport.reports.keys.map { |k| [t("enums.user_report.report.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+        <%= hidden_field_tag :repo_id, @user.id %>
+        <%= hidden_field_tag :user_id, current_user.id %>
+      </div>
+    
+      <div class="gray xxsmall mt-4 mb-2">
+        通報すると当該ユーザーの情報を事務局に送信します。
+      </div>
+      <%= f.submit '同意して送信', class: 'btn btn-primary' %>
+    <% end %>
+    
+    
+  </div>
+</div>

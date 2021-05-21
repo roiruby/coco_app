@@ -68,3 +68,5 @@ gem 'jquery-ui-rails'
 gem 'gon'
 
 gem 'gretel'
+
+gem 'pry-byebug', group: :development

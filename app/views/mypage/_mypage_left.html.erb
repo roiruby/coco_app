@@ -25,6 +25,9 @@
       
       <% if current_user.admin? && !(current_user == User) %>
         <li><%= link_to "お知らせ投稿", new_information_path %></li>
+        <li><%= link_to "通報されたユーザー", user_reports_path %></li>
+        <li><%= link_to "通報された投稿", post_reports_path %></li>
+        
       <% end %>
       
     </ul>

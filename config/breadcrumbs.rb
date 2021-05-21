@@ -78,6 +78,16 @@ crumb :keywords do |tag|
   link "【#{params[:tag]}】のイベント一覧"
 end
 
+crumb :user_report do |user|
+  link "不適切なユーザーの報告", user_report_path(user)
+  parent :user, user
+end
+
+crumb :post_report do |post|
+  link "不適切な投稿の報告", post_report_path(post)
+  parent :post, post
+end
+
 # crumb :projects do
 #   link "Projects", projects_path
 # end

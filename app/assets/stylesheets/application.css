@@ -249,6 +249,9 @@ h2 {
   object-fit: cover;
   border-radius: 6%;
   }
+  .report {
+    background-color: gray;
+  }
 /*------------------------------------------------------------------signup-----*/
 .bg-gray {
   border-radius: 10px;

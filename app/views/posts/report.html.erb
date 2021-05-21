@@ -1,0 +1,21 @@
+<div class="container-middle mx-auto">
+  <% breadcrumb :post_report, @post %>
+    <%= render "layouts/breadcrumbs" %>
+  <div class="mt-4 text-center">
+    報告する理由を選択してください。
+  </div>
+  
+  <div class="bg-gray text-center mt-3">
+    <%= form_with(model: [@post, @report], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.select :report, PostReport.reports.keys.map { |k| [t("enums.post_report.report.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+    
+      <div class="gray xxsmall mt-4 mb-2">
+        通報すると当該イベント投稿の情報を事務局に送信します。
+      </div>
+      <%= f.submit '同意して送信', class: 'btn btn-primary' %>
+    <% end %>
+    
+  </div>
+</div>

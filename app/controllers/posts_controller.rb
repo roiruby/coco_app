@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
-  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy, :entry, :member]
+  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy, :entry, :member, :report]
   before_action :correct_user, only: [:edit, :update, :destroy, :entry]
+  before_action :admin_user, only: [:post_reports]
   before_action :set_post_tags_to_gon, only: [:edit]
   before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
   
@@ -132,6 +133,15 @@ class PostsController < ApplicationController
     end
     @posts = @posts.published.order(updated_at: "DESC").page(params[:page]).per(20)
   end
+  
+  def report
+    @post = Post.find(params[:id])
+    @report = @post.post_reports.build
+  end
+  def post_reports
+    @report = PostReport.order("created_at DESC").page(params[:page]).per(50)
+  end
+  
   
   private
 

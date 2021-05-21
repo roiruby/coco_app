@@ -1,0 +1,20 @@
+<div class="container-middle mx-auto">
+
+  <div class="mt-4 bold h4">
+    通報された投稿
+  </div>
+  
+  <% @report.each do |report| %>
+  <div class="mt-1">
+  <i class="far fa-clock"></i><%= report.created_at.strftime('%Y/%m/%d %H:%M') %>
+    【<%= link_to report.post.title, post_path(report.post.id) %>】┃
+    通報理由：<%= report.report_i18n %>┃
+    通報したユーザー：<%= link_to report.user.name, user_path(report.user.id) %>
+  </div>
+  <% end %>
+  
+
+
+    
+
+</div>

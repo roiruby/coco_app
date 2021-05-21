@@ -230,6 +230,15 @@
       <% end %>
       
       <div class="bb2 mb-3"></div>
+      
+      <% unless @post.user == current_user %>
+      <div class="gray mt-3 xxsmall text-right">
+        <%= link_to post_report_path do %>
+          <span class="gray"><i class="fas fa-exclamation-circle"></i></span>
+           不適切な投稿の報告
+        <% end %>
+      </div>
+      <% end %>
         
     </div>
     

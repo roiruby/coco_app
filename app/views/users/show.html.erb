@@ -43,7 +43,7 @@
       <div class="mt-2 text-muted medium">
         <%= simple_format(@user.introduce) %>
       </div>
-
+      
       <% if @user.hobby.present? %>
       <div class="mt-2 icon"><%= image_tag "icon_kirakira.png" %>趣味・好きなこと</div>
       <div class="text-muted medium">
@@ -51,13 +51,18 @@
       </div>
       <% end %>
       
-      <!--<% if @user.sex.present? %>-->
-      <!--<div class="mt-2 bold icon"><%= image_tag "icon_kirakira.png" %>性別</div>-->
-      <!--<div class="mt-2 bold">☆性別</div>-->
-      <!--<div class="text-muted medium">-->
-      <!--  【 <%= @user.sex_i18n %> 】-->
-      <!--</div>-->
-      <!--<% end %>-->
+      <% unless @user == current_user %>
+      <div class="gray mt-3 xxsmall text-right">
+        <%= link_to user_report_path do %>
+          <span class="gray"><i class="fas fa-exclamation-circle"></i></span>
+           不適切なユーザーの報告
+        <% end %>
+      </div>
+      <% end %>
+      
+      
+      
+
 
 
     </div>

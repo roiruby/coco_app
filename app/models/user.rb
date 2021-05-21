@@ -25,6 +25,12 @@ class User < ApplicationRecord
   
   has_many :informations, dependent: :destroy
   
+  has_many :post_reports, dependent: :destroy
+  has_many :user_reports, dependent: :destroy
+  has_many :repoings, through: :user_reports, source: :repo, dependent: :destroy
+  has_many :reverses_of_user_reports, class_name: 'UserReport', foreign_key: 'repo_id', dependent: :destroy
+
+  
   mount_uploader :image, ImageUploader
   
   enum sex: { default: 0, female: 1, male: 2, unanswered: 3},_suffix: true

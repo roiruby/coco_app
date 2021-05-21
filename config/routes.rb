@@ -21,10 +21,17 @@ Rails.application.routes.draw do
   get 'posts/:id/member', to: 'posts#member',  as: :member
   
   get 'search', to: 'posts#search', as: :search
+  
+  get 'users/:id/report', to: 'users#report',  as: :user_report
+  get 'posts/:id/report', to: 'posts#report',  as: :post_report
+  
+  get 'user_reports', to: 'users#user_reports',  as: :user_reports
+  get 'post_reports', to: 'posts#post_reports',  as: :post_reports
 
   
   get 'signup', to: 'users#new'
   resources :users, only: [:index, :show, :create, :edit, :update, :destroy] do
+    resources :user_reports, only: [:create]
     
     member do
       get :followings
@@ -36,6 +43,7 @@ Rails.application.routes.draw do
   
   resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new] do
     resources :comments, only: [:create, :destroy]
+    resources :post_reports, only: [:create]
     resources :members, only: [:create, :destroy]
     collection do
       get 'confirm'

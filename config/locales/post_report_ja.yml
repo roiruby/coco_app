@@ -1,0 +1,10 @@
+ja:
+  enums:
+    post_report:
+      report:
+        default: '理由を選択する'
+        spam: 'スパム/宣伝目的'
+        harassment: '性的いやがらせ'
+        annoying: '迷惑行為'
+        etc: 'その他'
+        
