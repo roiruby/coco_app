@@ -1,0 +1,55 @@
+  <div class="container">
+    <% breadcrumb :contact %>
+    <%= render "layouts/breadcrumbs" %>
+    <div class="mt-4 mb-5">
+      
+      <h1>Cocomeloに関するお問い合わせ</h1>
+      
+      <h2 class="mt-4 bb">お問い合わせフォーム</h2>
+      
+      <div class="small mb-3">
+      お問い合わせ内容に関しては可能な限り対応を行いますが、内容によっては対応できない場合がございます。ご了承ください。<br>
+      ドメイン指定受信設定や迷惑メール設定をしている場合、当社からメールが届かない場合がございます。<br>
+      「info@cocomelo.jp」からのメールを受信できるよう設定をお願いいたします。
+      </div>
+      
+      
+      <%= form_with(url: contact_confirm_path, model: @contact, local: true) do |f| %>
+      
+        <div class="mt-4 text-danger">
+          <% if @contact.errors.any? %>
+            <strong>・未入力の項目があります。</strong>
+          <% end %>
+        </div>
+    
+        <div class="mt-4">
+          
+          <div class="form-group">
+            <%= f.label 'お問い合わせの種類' %><span class="required">*</span>
+           <%= f.select :category, [['サービスについて', 'サービスについて'], ['投稿記事の内容について', '投稿記事の内容について'], ['権利侵害の申告', '権利侵害の申告'], ['広告掲載について', '広告掲載について'], ['その他', 'その他']], { selected: 'サービスについて' }, { class: "form-control" } %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label 'お名前' %><span class="required">*</span>
+            <%= f.text_field :name, class: 'form-control' %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label 'メールアドレス' %><span class="required">*</span>
+            <%= f.email_field :email, class: 'form-control' %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label 'お問い合わせ内容' %><span class="required">*</span>
+            <%= f.text_area :content, :size => "80x10", placeholder: '700文字以内', class: 'form-control' %>
+          </div>
+          
+          <div class="text-center mt-4">
+            <%= f.submit '入力内容を確認する', class: 'btn btn-info bold' %>
+          </div>
+        </div>
+      <% end %>
+  
+  
+    </div>
+  </div>

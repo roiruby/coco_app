@@ -1,0 +1,55 @@
+  <div class="container">
+    <% breadcrumb :contact %>
+    <%= render "layouts/breadcrumbs" %>
+    <div class="mt-4 mb-5">
+      
+      <h2>Cocomeloに関するお問い合わせ</h2>
+      
+      <h3 class="mt-4 bb">お問い合わせ内容の確認</h3>
+      
+      <%= form_with(url: contact_done_path, model: @contact, local: true) do |f| %>
+      
+        <div class="mt-4">
+          
+          <div class="form-group">
+            【<%= f.label 'お問い合わせの種類' %>】
+            <div>
+              <%= f.hidden_field :category %>
+              <%= @contact.category %>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            【<%= f.label 'お名前' %>】
+            <div>
+              <%= f.hidden_field :name %>
+              <%= @contact.name %>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            【<%= f.label 'メールアドレス' %>】
+            <div>
+              <%= f.hidden_field :email %>
+              <%= @contact.email %>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            【<%= f.label 'お問い合わせ内容' %>】
+            <div>
+              <%= f.hidden_field :content %>
+              <%= simple_format(@contact.content) %>
+              </div>
+          </div>
+          
+          <div class="text-center mt-4">
+            <%= f.submit '修正する', name: 'back', class: 'btn btn-warning bold' %>
+            <%= f.submit '送信する', class: 'btn btn-info bold' %>
+          </div>
+        </div>
+      <% end %>
+  
+  
+    </div>
+  </div>

@@ -97,6 +97,10 @@ crumb :cancel do |post|
   parent :post, post
 end
 
+crumb :contact do
+  link "お問い合わせ", contact_path
+end
+
 # crumb :projects do
 #   link "Projects", projects_path
 # end
