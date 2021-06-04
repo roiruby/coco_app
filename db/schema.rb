@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_025140) do
+ActiveRecord::Schema.define(version: 2021_06_01_085538) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_025140) do
     t.datetime "event_schedule"
     t.datetime "dead_line"
     t.integer "status", default: 0, null: false
+    t.integer "cancel"
     t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -168,6 +169,11 @@ ActiveRecord::Schema.define(version: 2021_05_21_025140) do
     t.integer "address", default: 0, null: false
     t.string "remember_digest"
     t.boolean "admin", default: false
+    t.string "activation_digest"
+    t.boolean "activated", default: false
+    t.datetime "activated_at"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
   end
 
   add_foreign_key "comments", "posts"

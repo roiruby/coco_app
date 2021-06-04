@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   
   def show
     @category = Category.find(params[:id])
-    @posts = @category.posts.order('id DESC').page(params[:page]).per(20)
+    @posts = @category.posts.order('id DESC').where(cancel: nil).page(params[:page]).per(20)
   end
   
   private

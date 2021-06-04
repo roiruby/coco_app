@@ -20,8 +20,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      flash[:success] = 'ユーザを登録しました。'
-      redirect_to @user
+      UserMailer.account_activation(@user).deliver_now
+      redirect_to register_path
     else
       flash.now[:danger] = 'ユーザの登録に失敗しました。'
       render :new
@@ -58,11 +58,18 @@ class UsersController < ApplicationController
 
     if @user.update(user_params)
       flash[:success] = 'アカウント情報を更新しました'
-      redirect_to account_edit_path
+      UserMailer.account_edit(@user).deliver_now
+      redirect_to mypage_path
     else
       flash.now[:danger] = '入力に誤りがあります、もう一度入力してください'
       render :account_edit
     end
+  end
+  
+  def posts
+    @user = current_user
+    @posts = @user.posts.published.order("updated_at DESC").page(params[:page]).per(20)
+    counts(@user)
   end
   
   def followings

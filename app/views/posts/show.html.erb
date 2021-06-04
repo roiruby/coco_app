@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <% breadcrumb :post, @post %>
     <%= render "layouts/breadcrumbs" %>
-  <div class="row">
+  <div class="row mb-5">
     <div class="web_container mt-4 offset-sm-1 col-sm-7">
       
       <div class="gray">
@@ -32,8 +32,8 @@
         <% if @post.event_schedule.present? %>
           <% date = @post.event_schedule.to_s(:date) %>
           <% weekday = %w[日 月 火 水 木 金 土] %>
-            <div class="bold">
-              開催日時：<%= @post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.event_schedule.to_s(:time) %>
+            <div class="bold ml-1">
+              <i class="far fa-calendar-alt"></i> <%= @post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.event_schedule.to_s(:time) %>
             </div>
         <% end %>
         
@@ -102,71 +102,86 @@
         <%= simple_format(@post.content) %>
       </div>
       
+      
+      <% if @post.cancel.present? %>
+        <div class="text-center mt-3 bold text-primary">
+          このイベントはキャンセルされました
+        </div>
+        <% if @post.cancel != "default" %>
+        <div class="text-center mt-1 mb-3">
+          【キャンセル理由：<%= @post.cancel_i18n %>】
+        </div>
+        <% end %>
+          
+      <% else %>
 
       <div class="flex-center">
+        
         <% dt1 = Time.zone.now %>
-            <% dt2 = Time.zone.parse(@post.dead_line.to_s) %>
-            <% diff = dt2 - dt1 %>
-            <% s = diff % 60 %>
-            <% m = ((diff - s) / 60) % 60 %>
-            <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
-            <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+        <% dt2 = Time.zone.parse(@post.dead_line.to_s) %>
+        <% diff = dt2 - dt1 %>
+        <% s = diff % 60 %>
+        <% m = ((diff - s) / 60) % 60 %>
+        <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+        <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
         
         <% if d.to_i < 0 or @post.draft? %>
           <div class="">
           </div>
         <% else %>
-        <%= render 'entries/entry_button', post: @post %>
+          <%= render 'entries/entry_button', post: @post %>
         
-        <div class="">
-          <%= render 'favorites/like_button', post: @post %>
-        </div>
+          <div class="">
+            <%= render 'favorites/like_button', post: @post %>
+          </div>
         
         <% end %>
       </div>
       
-            <div class="mt-1">
-        <div class="flex-center mb-3">
-        <% if @post.dead_line.present? %>
-          <% date = @post.dead_line.to_s(:date) %>
-          <% weekday = %w[日 月 火 水 木 金 土] %>
-          
+      <div class="mt-1">
+          <div class="flex-center mb-3">
+          <% if @post.dead_line.present? %>
+            <% date = @post.dead_line.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+            
             <div class="">
-
-            <% dt1 = Time.zone.now %>
-            <% dt2 = Time.zone.parse(@post.dead_line.to_s) %>
-            <% diff = dt2 - dt1 %>
-            <% s = diff % 60 %>
-            <% m = ((diff - s) / 60) % 60 %>
-            <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
-            <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
-            
-            <% if d.to_i == 0 and h.to_i > 0 %>
-            <i class="far fa-clock"></i>
-            残り<%= h.to_i %>時間
-            <% elsif d.to_i == 0 and h.to_i == 0 %>
-            <i class="far fa-clock"></i>
-            もうすぐ終了！
-            <% elsif d.to_i < 0 %>
-            <div class="end">
-            <i class="far fa-clock"></i>
-            募集は終了しています
+  
+              <% dt1 = Time.zone.now %>
+              <% dt2 = Time.zone.parse(@post.dead_line.to_s) %>
+              <% diff = dt2 - dt1 %>
+              <% s = diff % 60 %>
+              <% m = ((diff - s) / 60) % 60 %>
+              <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+              <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+              
+              <% if d.to_i == 0 and h.to_i > 0 %>
+              <i class="far fa-clock"></i>
+              残り<%= h.to_i %>時間
+              <% elsif d.to_i == 0 and h.to_i == 0 %>
+              <i class="far fa-clock"></i>
+              もうすぐ終了！
+              <% elsif d.to_i < 0 %>
+              <div class="end">
+              <i class="far fa-clock"></i>
+              募集は終了しています
+              </div>
+              <% else %>
+              <i class="far fa-clock"></i>
+              残り<%= d.to_i %>日
+              <% end %>
             </div>
-            <% else %>
-            <i class="far fa-clock"></i>
-            残り<%= d.to_i %>日
-            <% end %>
-            </div>
-            
+              
             <div class="xsmall ml-3 mt-1 gray">
               <% if d.to_i < 0 %>
               <% else %>
               <%= @post.dead_line.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= @post.dead_line.to_s(:time) %>まで
               <% end %>
             </div>
-        <% end %>
-        </div>
-        
+              
+      
+          <% end %>
+          </div>
+
         <% @users.each do |user| %>
           <% if user.user == current_user %>
           <div class="text-center bold mb-3">
@@ -181,9 +196,18 @@
           </div>
         <% end %>
         
+        <% if logged_in? %>
+        <% if current_user == @post.user || current_user.admin? %>
+          <div class="text-right small mb-1 link1">
+            <%= link_to "イベントをキャンセル", cancel_path, class: "" %>
+          </div>
+        <% end %>
+        <% end %>
+        
       </div>
+      <% end %>
       
-      <div class="bb2 mb-3"></div>
+      <div class="bb2 mb-3 mt-3"></div>
       
       <div class="bold">
         <i class="far fa-smile"></i> コメント<span class="small bold ml-2"><%= @count_comments %> 件</span>
@@ -246,10 +270,14 @@
       
       <% if logged_in? %>
         <% if current_user == @post.user || current_user.admin? %>
+          <% if @post.cancel.present? %>
+            <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
+          <% else %>  
           <div class="plan_edit text-center">
           <%= link_to "イベントを編集", edit_post_path, data: {"turbolinks" => false}, class: 'btn btn-primary btn-sm' %>
           <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
           </div>
+          <% end %>
         <% end %>
       <% end %>
       

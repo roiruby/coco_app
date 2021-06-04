@@ -14,6 +14,10 @@ crumb :mypage do
   link "マイページ", mypage_path
 end
 
+crumb :posts do
+  link "投稿したイベント", user_posts_path
+end
+
 crumb :information do
   link "お知らせ", informations_path
 end
@@ -85,6 +89,11 @@ end
 
 crumb :post_report do |post|
   link "不適切な投稿の報告", post_report_path(post)
+  parent :post, post
+end
+
+crumb :cancel do |post|
+  link "キャンセル申請", cancel_path(post)
   parent :post, post
 end
 

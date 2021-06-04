@@ -1,0 +1,22 @@
+<div class="container-middle mx-auto">
+  <% breadcrumb :cancel, @post %>
+    <%= render "layouts/breadcrumbs" %>
+  <div class="mt-4 text-center">
+    このイベントをキャンセルする理由を選択してください。
+  </div>
+  
+  <div class="bg-gray text-center mt-3 mb-5">
+    <%= form_with(model: [@post], local: true) do |f| %>
+      <div class="form-group">
+        <%= f.select :cancel, Post.cancels.keys.map { |k| [t("enums.post.cancel.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+      </div>
+    
+      <div class="gray xxsmall mt-4 mb-2">
+        キャンセルするとこのイベントの募集は終了になります。<br>
+        エントリーしたユーザーがいる場合には、コメントでキャンセルする旨を伝えましょう。
+      </div>
+      <%= f.submit 'キャンセルする', data: { confirm: "このイベントをキャンセルしてもいいですか？" }, class: 'btn btn-primary' %>
+    <% end %>
+    
+  </div>
+</div>

@@ -1,0 +1,28 @@
+  <div style="background-color:peachpuff; text-align:center; font-weight:bold; height:60px; font-size:130%; line-height:60px; ">
+    Pladuce
+  </div>
+  
+  <div style="text-align:center;">
+    <div>
+      <p><%= @user.name %> さん いつもSharingood (シェアリングッド)をご利用いただき、ありがとうございます!!</p>
+      <h3>アカウント情報(メールアドレスやパスワード)の変更が完了いたしました！</h3>
+    </div>
+
+  
+
+    <div style="position:relative; display:inline-block; padding:0.25em 0.5em; background: #03A9F4; border:solid 1px #0f9ada; border-radius:4px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.2); text-shadow: 0 1px 0 rgba(0,0,0,0.2); margin-top:30px; ">
+      <%= link_to "ログインする", login_url, :style=>"color:white; text-decoration:none; font-weight:bold;"  %>
+    </div>
+
+    <p style="font-size:11px; margin-top:50px;">
+    ※操作・手続きをした覚えがないがメールが届いた場合<br>
+    Sharingoodアカウントをあなた以外の第三者が使用した可能性があります。<br>
+    サポートで状況を確認・調査いたしますので、お手数ですが、下部の「お問い合わせ」よりその旨をご連絡ください。
+    </p>
+    <%= link_to "お問い合わせ", contact_url, :style=>"text-decoration:none;"  %>
+  </div>
+  
+  <div style="background-color:peachpuff; text-align:center; font-size:11px; height:80px; line-height:80px; margin-top:20px; ">
+    © sharingood. All rights reserved.
+  </div>

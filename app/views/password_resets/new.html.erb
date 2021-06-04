@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row mt-3">
+    
+    <div class="offset-md-3 col-md-6 mt-5">
+      <p class="bold h5 mb-1 ml-1">パスワード再設定</p>
+
+      <div class="bg-gray mb-5">
+      <%= form_with(url: password_resets_path, scope: :password_reset, local: true) do |f| %>
+      
+        <strong>Sharingoodに登録したメールアドレスを入力してください。</strong>
+
+        <div class="form-group mt-2">
+          <%= f.email_field :email, placeholder: "メールアドレスを入力", class: 'form-control' %>
+        </div>
+        
+        <div class="xsmall">
+          ※登録しているメールアドレス宛に再設定用のリンクをお送りします。
+        </div>
+        
+        <div class="text-center mt-4">
+          <%= f.submit '送信する', class: 'btn btn-info bold' %>
+        
+      <% end %>
+      
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <% breadcrumb :posts %>
+    <%= render "layouts/breadcrumbs" %>
+  <div class="row mt-4 mb-5">
+    
+    <div class="col-lg-3 col-sm-4 text-center">
+      <%= render 'mypage/mypage_left' %>
+    </div>
+
+        
+      
+    <div class="col-lg-6 col-sm-8">
+      <div class="bb"><h4><span class="bold">投稿したイベント 　</span><span class="small bold"><%= @count_posts %> 件</span></h4></div>
+      
+      <div class="mypage-center top-postimage mt-3">
+        <% @posts.each do |post| %>
+        <div class="row row-0">
+          
+          <div class="top-postimage col-sm-4">
+            <div class="poston">
+              <% if post.image? %>
+                <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
+                <p><span class="tag1 bold xsmall">
+                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  </span>
+  
+                  <% post.destinations.each do |destination| %>
+                    <% if destination.area.present? %>
+                    <span class="tag1 bold xsmall pl-1">
+                        <%= destination.area %>
+                    </span>
+                    <% end %>
+                  <% end %>
+                </p>
+              <% else %>
+                <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
+                <p><span class="tag1 bold xsmall">
+                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  </span>
+  
+                  <% post.destinations.each do |destination| %>
+                    <% if destination.area.present? %>
+                    <span class="tag1 bold xsmall pl-1">
+                        <%= destination.area %>
+                    </span>
+                    <% end %>
+                  <% end %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="col-sm-8 pl-2 bold">
+            
+            <%= link_to post.title.truncate(46), post_path(post), data: {"turbolinks" => false} %>
+            
+            <div class="small pr-1 pl-1 mt-1">
+                <% date = post.event_schedule.to_s(:date) %>
+                <% weekday = %w[日 月 火 水 木 金 土] %>
+                  <div class="bold">
+                    <i class="far fa-calendar-alt"></i> <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+                  </div>
+
+            </div>
+            
+            <% post.destinations.each do |destination| %>
+              <div class="bold small pr-1 pl-1 mt-1">
+                <i class="fas fa-map-marker-alt"></i> <%= destination.name %>
+              </div>
+            <% end %>
+            
+            <div class="row ml-1 mr-1 mt-1">
+              <div class="btn1 xsmall mt-1 bold mr-1">
+                <%= post.sex_i18n %>
+              </div>
+              
+              <% if post.member != "default" %>
+              <div class="btn1 xsmall mt-1 bold mr-1">
+                <%= post.member_i18n %>募集
+              </div>
+              <% end %>
+              
+              <% if post.payment != "default" %>
+              <div class="btn1 xsmall mt-1 bold mr-1">
+                <%= post.payment_i18n %>
+              </div>
+              <% end %>
+              
+              <% if post.budget != "default" %>
+              <div class="btn1 xsmall mt-1 bold mr-1">
+                <%= post.budget_i18n %>
+              </div>
+              <% end %>
+            </div>
+            
+            <% if post.cancel.present? %>
+              <div class="mt-2 gray xsmall xsmall-tb">
+                キャンセルされました
+              </div>
+            <% else %>
+            <div class="mt-2 gray xsmall xsmall-tb">
+              <% dt1 = Time.zone.now %>
+              <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
+              <% diff = dt2 - dt1 %>
+              <% s = diff % 60 %>
+              <% m = ((diff - s) / 60) % 60 %>
+              <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+              <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+              
+              <% if d.to_i == 0 and h.to_i > 0 %>
+                <i class="far fa-clock"></i>
+                残り<%= h.to_i %>時間<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+                <span class="ml-1"><i class="fas fa-user-circle mr-1"></i><%= post.entries.count %></span>
+              <% elsif d.to_i == 0 and h.to_i == 0 %>
+                <i class="far fa-clock"></i>
+                もうすぐ終了！<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+                <span class="ml-1"><i class="fas fa-user-circle mr-1"></i><%= post.entries.count %></span>
+              <% elsif d.to_i < 0 %>
+                <i class="far fa-clock"></i>
+                募集は終了しています<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+                <span class="ml-1"><i class="fas fa-user-circle mr-1"></i><%= post.entries.count %></span>
+              <% else %>
+                <i class="far fa-clock"></i>
+                残り<%= d.to_i %>日<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+                <span class="ml-1"><i class="fas fa-user-circle mr-1"></i><%= post.entries.count %></span>
+              <% end %>
+            </div>
+            <% end %>
+            
+          </div>
+          
+        </div>
+        <hr>
+        <% end %>
+      </div>
+      
+      <div class="pagination justify-content-end pagination-sm">
+        <%= paginate @posts %>
+      </div>
+      
+    </div>
+      
+    <div class="col-lg-3 d-none d-lg-block">
+    </div>
+
+
+  </div>
+</div>

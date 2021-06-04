@@ -1,0 +1,25 @@
+<div style="background-color:peachpuff; text-align:center; font-weight:bold; height:60px; font-size:130%; line-height:60px; ">
+  Sharingood
+</div>
+
+<div style="text-align:center;">
+  <div>
+    <h3>【Sharingood (シェアリングッド)】へのご登録ありがとうございます!!</h3>
+  </div>
+
+  <p>あともう少しで登録が完了します、下記のリンクをクリックして登録を完了してください！</p>
+
+
+  <div style="position:relative; display:inline-block; padding:0.25em 0.5em; background: #03A9F4; border:solid 1px #0f9ada; border-radius:4px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.2); text-shadow: 0 1px 0 rgba(0,0,0,0.2); ">
+    <%= link_to "登録を完了する", edit_account_activation_url(@user.activation_token, email: @user.email), :style=>"color:white; text-decoration:none; font-weight:bold;"  %>
+  </div>
+
+  <p style="font-size:11px; margin-top:20px;">
+  ※本メールにお心当たりのない方は、大変お手数ではございますが、メールを破棄してくださいますようお願い申し上げます。
+  </p>
+</div>
+
+<div style="background-color:peachpuff; text-align:center; font-size:11px; height:80px; line-height:80px; margin-top:20px; ">
+  © sharingood. All rights reserved.
+</div>

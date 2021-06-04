@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+  get 'register', to: 'sessions#register'
+  get 'reset', to: 'password_resets#reset'
   
   get 'mypage', to: 'mypage#index', as: :mypage
   
@@ -27,6 +29,19 @@ Rails.application.routes.draw do
   
   get 'user_reports', to: 'users#user_reports',  as: :user_reports
   get 'post_reports', to: 'posts#post_reports',  as: :post_reports
+  
+  get 'users/:id/evaluation', to: 'users#evaluation',  as: :evaluation
+  
+  get 'users/:id/posts', to: 'users#posts',  as: :user_posts
+  
+  get 'posts/new_arrival', to: 'posts#new_arrival',  as: :new_arrival
+  get 'posts/deadline_approaching', to: 'posts#deadline_approaching',  as: :deadline_approaching
+  
+  get 'posts/:id/cancel', to: 'posts#cancel',  as: :cancel
+  
+  get  'contact' =>'contacts#index'
+  post 'contact/confirm' => 'contacts#confirm'
+  post 'contact/done' => 'contacts#done'
 
   
   get 'signup', to: 'users#new'
@@ -59,6 +74,7 @@ Rails.application.routes.draw do
   resources :entries, only: [:create, :destroy] do
     patch :toggle_status
   end
-  
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
 end

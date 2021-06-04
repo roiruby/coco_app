@@ -2,7 +2,7 @@
     <div class="container-fluid">
       <% breadcrumb :member, @post %>
         <%= render "layouts/breadcrumbs" %>
-      <div class="row">
+      <div class="row mb-5">
         
         <div class="col-md-3 mt-4">
           <div class="">
@@ -197,7 +197,32 @@
                 <% if user.user.address != "default" %><%= user.user.address_i18n %><% end %>
                 <% unless user.user.age == "default" and  user.user.address == "default" and  user.user.sex == "default" %> 】<% end %>
               </div>
+              
+              
+              <!--<div class="text-center">-->
+              <!--  <span class="tag1 mt-2">-->
+              <!--    <%= link_to "評価する", evaluation_path(user.user.id) %>-->
+              <!--  </span>-->
+              <!--</div>-->
+              
             </div>
+            
+            <% if user.user != current_user %>
+            <div class="mt-3 ml-3 small">
+            <%= form_with(model: user, local: true) do |form| %>
+              <%= form.radio_button :gender, :male %>
+              <%= form.label :gender, "良い", {value: :male, style: "display: inline-block;"} %>
+              <%= form.radio_button :gender, :female %>
+              <%= form.label :gender, "普通", {value: :female, style: "display: inline-block;"} %>
+              <%= form.radio_button :gender, :other %>
+              <%= form.label :gender, "残念", {value: :other, style: "display: inline-block;"} %>
+              
+              <span class="ml-3">
+              <%= form.submit '評価する', class: 'btn btn-primary btn-sm' %>
+              </span>
+            <% end %>
+            </div>
+            <% end %>
             
     
           </div>  

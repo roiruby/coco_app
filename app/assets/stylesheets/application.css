@@ -42,6 +42,12 @@ color: hotpink;
 .a a:hover{
 color: pink;  
 }
+.link1 a{
+  color: coral;
+}
+.link1 a:hover{
+  color: aqua;
+}
 
 h1 {
   font-size: 170%;
@@ -150,8 +156,13 @@ h2 {
   height: 38px;
   padding-top: 7px;
 }
-
+.logo img{
+  width: 170px;
+}
 /*---------------------------------------------------------------toppage-----*/
+.top-postimage {
+
+}
 .top-postimage img {
   width: 100%;
   height: 130px;
@@ -251,6 +262,26 @@ h2 {
   }
   .report {
     background-color: gray;
+  }
+  .poston {
+    position: relative;
+  }
+  .poston p{
+    position: absolute;
+    top: 4px;
+    left: 7px;
+  }
+  .poston2 {
+    position: absolute;
+    top: 4px;
+    left: 7px;
+  }
+  .match {
+    background-color: oldlace;
+    margin-bottom: 0px;
+  }
+  .match img {
+    width: 60%;
   }
 /*------------------------------------------------------------------signup-----*/
 .bg-gray {
@@ -490,6 +521,9 @@ footer a:hover{
 .footer-menu a {
   color: white;
 }
+.social-icon{
+}
+
 /*--------------------------------------------------------------breadcrumbs-----*/
 .breadcrumbs, .breadcrumbs a {
   color: gray;

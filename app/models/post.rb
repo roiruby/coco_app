@@ -39,6 +39,8 @@ class Post < ApplicationRecord
                 twentyt_thrtyt: 8, thrtyt_fiftyt: 9, fiftyt_onehundredt: 10, onehundredt_over: 11},_suffix: true
                 
   enum status: { draft: 0, published: 1 }
+  
+  enum cancel: { default: 0, member: 1, schedule: 2, reservation: 3, entry_user: 4, other: 5,},_suffix: true
                 
   scope :get_by_post, ->(post) {includes([:destinations, :tags])
   .where("posts.title like ? OR posts.content like ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR tags.name LIKE ?",

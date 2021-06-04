@@ -4,9 +4,8 @@ class MypageController < ApplicationController
   before_action :devise_variant
   
   def index
-    @user = current_user
-    @posts = @user.posts.order("time DESC").page(params[:page]).per(20)
-    counts(@user)
+    @posts = current_user.feed_posts.order(id: :desc).page(params[:page]).per(20)
+    @followings = @user.followings.page(params[:page]).per(20)
   end
   
   private

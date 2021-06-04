@@ -1,12 +1,9 @@
-<header class="">
+<header>
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container-fluid">
       
-      <a class="navbar-brand" href="/">Sharingood</a>
-      <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">-->
-      <!--  <span class="navbar-toggler-icon"></span>-->
-      <!--</button>-->
-      
+      <a class="navbar-brand logo" href="/"><%= image_tag "logo.svg" %></a>
+
       <div class="navbar-nav mr-auto form-group form-inline">
         <%= form_with(url: search_path, method: :get, local: true) do |f| %>
           <div class="input-group">

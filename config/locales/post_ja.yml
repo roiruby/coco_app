@@ -37,4 +37,11 @@ ja:
         draft: '下書き'
         published: '公開'
         
+      cancel:
+        default: '理由を選択する'
+        member: "募集人数に到達しなかった為"
+        schedule: "スケジュールの都合がつかなくなった為"
+        reservation: "目的地の予約が取れなかった為"
+        entry_user: "エントリーユーザーと連絡が取れなくなった為"
+        other: "その他"
         

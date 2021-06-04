@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  attr_accessor :remember_token, :activation_token, :reset_token
+  before_save :downcase_email
+  before_create :create_activation_digest
+  
   before_save { self.email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
@@ -48,6 +52,7 @@ class User < ApplicationRecord
   def follow(other_user)
     unless self == other_user
       self.relationships.find_or_create_by(follow_id: other_user.id)
+      Relationship.send_follow_email(other_user, self)
     end
   end
 
@@ -84,6 +89,10 @@ class User < ApplicationRecord
 
   def  entrypost?(post)
     self.entryposts.include?(post)
+  end
+  
+  def feed_posts
+    Post.published.where(user_id: self.following_ids + [self.id])
   end
   
   def User.digest(string)

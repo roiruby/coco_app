@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
-  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy, :entry, :member, :report]
-  before_action :correct_user, only: [:edit, :update, :destroy, :entry]
+  before_action :require_user_logged_in, only: [:create, :edit, :update, :destroy, :entry, :member, :report, :cancel]
+  before_action :correct_user, only: [:edit, :update, :destroy, :entry, :cancel]
   before_action :admin_user, only: [:post_reports]
   before_action :set_post_tags_to_gon, only: [:edit]
   before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
@@ -117,11 +117,11 @@ class PostsController < ApplicationController
 
   
   def search
-    @post = Post.published.order("updated_at DESC")
+    @post = Post.published.order("updated_at DESC").where(cancel: nil)
     @search_word = params[:search]
     
     if params[:search] == ""
-      @posts = Post.published.order("updated_at DESC")
+      @posts = Post.published.order("updated_at DESC").where(cancel: nil)
     else
       searches = params[:search].split(/[[:blank:]]+/).select(&:present?)
       @posts = Post
@@ -131,22 +131,33 @@ class PostsController < ApplicationController
       "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%"]).references([:destinations, :category, :tags])
       end
     end
-    @posts = @posts.published.order(updated_at: "DESC").page(params[:page]).per(20)
+    @posts = @posts.published.order(updated_at: "DESC").where(cancel: nil).page(params[:page]).per(20)
   end
   
   def report
     @post = Post.find(params[:id])
-    @report = @post.post_reports.build
+    @report = @post.posts.build
   end
   def post_reports
     @report = PostReport.order("created_at DESC").page(params[:page]).per(50)
+  end
+  
+  def new_arrival
+    @posts = Post.published.order(updated_at: "DESC").where(cancel: nil).page(params[:page]).per(20)
+  end
+  def deadline_approaching
+    @posts = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).includes(:destinations).page(params[:page]).per(20)
+  end
+  
+  def cancel
+    @post = Post.find(params[:id])
   end
   
   
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :tag_list, :status, :dead_line, 
+    params.require(:post).permit(:title, :content, :member, :payment, :budget, :sex, :image, :remove_image, :category_id, :event_schedule, :tag_list, :status, :cancel, :dead_line, 
     destinations_attributes: [:id, :name, :_destroy, :link, :area, :address])
   end
   

@@ -1,38 +1,118 @@
   <div class="container">
     
     <% if @search_word.present? %>
-      <p class="h4 bold mt-4"><i class="fas fa-search mr-2"></i>【<%= @search_word %>】のプラン　<span class="small"><%= @posts.count %>件</span></p>
-    <% else %>
-      <p class="h4 bold mt-4"><i class="fas fa-search mr-2"></i>すべてのイベント　<span class="small"><%= @post.count %>件</span></p>
-    <% end %>
+    <p class="h4 bold mt-4"><i class="fas fa-search mr-2"></i>【<%= @search_word %>】のイベント　<span class="small"><%= @posts.count %>件</span></p>
+  <% else %>
+    <p class="h4 bold mt-4"><i class="fas fa-search mr-2"></i>イベント一覧</p>
+  <% end %>
     
-    <div class="row row-0 mt-2">
-      <% @posts.each do |post| %>
-      <div class="col-sm-3 mt-3">
-        <div class="category pr-1 pl-1">
-          <%= link_to image_tag(post.image.thmb300.to_s), post_path(post), data: {"turbolinks" => false} %>
+  <div class="row row-0 mt-3">
+    <% @posts.each do |post| %>
+      <div class="top-postimage col-sm-3 mt-1">
+        <div class="poston category">
+          <% if post.image? %>
+            <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
+            <p><span class="tag1 bold xsmall">
+              <%= link_to post.category.name, category_path(post.category.id) %>
+              </span>
+
+              <% post.destinations.each do |destination| %>
+                <% if destination.area.present? %>
+                <span class="tag1 bold xsmall pl-1">
+                    <%= destination.area %>
+                </span>
+                <% end %>
+              <% end %>
+            </p>
+          <% else %>
+            <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
+            <p><span class="tag1 bold xsmall">
+              <%= link_to post.category.name, category_path(post.category.id) %>
+              </span>
+
+              <% post.destinations.each do |destination| %>
+                <% if destination.area.present? %>
+                <span class="tag1 bold xsmall pl-1">
+                    <%= destination.area %>
+                </span>
+                <% end %>
+              <% end %>
+            </p>
+          <% end %>
         </div>
+      
+        <p class="bold small mt-2 mb-0 pr-1 pl-1"><%= link_to post.title.truncate(39), post_path(post), data: {"turbolinks" => false} %></p>
         
-        <p class="small bold mt-2 mb-0 pr-1 pl-1"><%= link_to post.title.truncate(42), post_path(post), data: {"turbolinks" => false} %></p>
-        
-        <div class="tag1 xsmall bold mt-2">
-          <%= link_to post.category.name, category_path(post.category.id) %>
+        <div class="small pr-1 pl-1 mt-1">
+          <% if post.event_schedule.present? %>
+            <% date = post.event_schedule.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+              <div class="bold">
+                <i class="far fa-calendar-alt"></i> <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+              </div>
+          <% end %>
         </div>
         
         <% post.destinations.each do |destination| %>
-          <% if destination.area.present? %>
-            <div class="tag1 xsmall bold mt-1">
-              <%= destination.area %>
-            </div>
-          <% end %>
+          <div class="bold small pr-1 pl-1 mt-1">
+            <i class="fas fa-map-marker-alt"></i> <%= destination.name %>
+          </div>
         <% end %>
         
-        <div class="top-user mt-2 web-gray xsmall">
-            <i class="far fa-clock"></i><%= post.updated_at.strftime('%Y/%m/%d') %>
+        <div class="row ml-1 mr-1 mt-2">
+          <div class="btn1 xsmall mt-1 bold mr-1">
+            <%= post.sex_i18n %>
+          </div>
+          
+          <% if post.member != "default" %>
+          <div class="btn1 xsmall mt-1 bold mr-1">
+            <%= post.member_i18n %>募集
+          </div>
+          <% end %>
+          
+          <% if post.payment != "default" %>
+          <div class="btn1 xsmall mt-1 bold mr-1">
+            <%= post.payment_i18n %>
+          </div>
+          <% end %>
+          
+          <% if post.budget != "default" %>
+          <div class="btn1 xsmall mt-1 bold mr-1">
+            <%= post.budget_i18n %>
+          </div>
+          <% end %>
         </div>
+        
+        
+        <div class="mt-2 gray xsmall xsmall-tb">
+          <% dt1 = Time.zone.now %>
+          <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
+          <% diff = dt2 - dt1 %>
+          <% s = diff % 60 %>
+          <% m = ((diff - s) / 60) % 60 %>
+          <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+          <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+          
+          <% if d.to_i == 0 and h.to_i > 0 %>
+            <i class="far fa-clock"></i>
+            残り<%= h.to_i %>時間
+          <% elsif d.to_i == 0 and h.to_i == 0 %>
+            <i class="far fa-clock"></i>
+            もうすぐ終了！
+          <% elsif d.to_i < 0 %>
+            <i class="far fa-clock"></i>
+            募集は終了しています
+          <% else %>
+            <i class="far fa-clock"></i>
+            残り<%= d.to_i %>日
+          <% end %>
+
+        </div>
+
       </div>
-      <% end %>
-    </div>
+      
+    <% end %>
+  </div>
   
     <div class="pagination justify-content-end pagination-sm mt-3">
       <%= paginate @posts %>
