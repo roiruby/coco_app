@@ -92,8 +92,8 @@ class UsersController < ApplicationController
   
   def entries
     @user = User.find(params[:id])
-    @entryposts = @user.entryposts.page(params[:page]).per(20).reverse_order
-    @users = @user.entries.includes(:post)
+    @entryposts = @user.entryposts.order('(entries.id) DESC').page(params[:page]).per(20)
+    @users = @user.entries.includes(:post).order(created_at: "DESC")
     counts(@user)
   end
   

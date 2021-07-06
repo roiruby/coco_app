@@ -126,15 +126,49 @@
             </div>
             <% end %>
             
+            
+            <div class="web-flex">
+            
             <% if user.entry_status == "approval" %>
               <div class="tag2 xsmall bold mt-2 ml-1">
                 <%= link_to "メンバー確定", member_path(post) %>
               </div>
             <% else %>
-              <div class="tag3 xsmall bold mt-2 ml-1">
-                メンバー承認待ち
+              <% if d.to_i < 0 %>
+                <div class="tag3 xsmall bold mt-2 ml-1">
+                  イベント終了
+                </div>
+              <% else %>
+                <% if post.cancel.present? %>
+                <% else %>
+                <div class="tag3 xsmall bold mt-2 ml-1">
+                  メンバー承認待ち
+                </div>
+                <% end %>
+              <% end %>
+            <% end %>
+            
+            <% dt1 = Time.zone.now %>
+            <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
+            <% diff = dt2 - dt1 %>
+            <% s = diff % 60 %>
+            <% m = ((diff - s) / 60) % 60 %>
+            <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+            <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+            
+            <% if d.to_i < 0 and user.entry_status == "unapproval" %>
+              <div>
+                <% if current_user.entrypost?(post) %>
+                  <%= form_for(current_user.entries.find_by(post_id: post.id), data: { confirm: "削除してもいいですか？" }, html: { method: :delete }) do |f| %>
+                      <%= hidden_field_tag :post_id, post.id %>
+                      <%= button_tag :type => "submit", :class =>"btn" do %>
+                      <i class="far fa-trash-alt d-flex align-items-end"></i>
+                      <% end %>
+                  <% end %>
+                <% end %>
               </div>
             <% end %>
+            </div>
             
           </div>
           

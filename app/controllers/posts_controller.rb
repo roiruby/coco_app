@@ -11,12 +11,13 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @posts = Post.published.order("updated_at DESC").limit(5).where.not(id: @post.id)
+    @posts = Post.published.order("updated_at DESC").limit(5).where.not(id: @post.id).where(cancel: nil)
     @destinations = @post.destinations
     @user = @post.user
     @comments = @post.comments.includes(:user).all.limit(4).order(created_at: :desc)
     @comment = @post.comments.build
     @users = @post.entries.approval.includes(:user)
+    @entry_users = @post.entries.includes(:user)
     comment_counts(@post)
     
     if @post.draft?
@@ -34,6 +35,9 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
+      if @post.status == "published"
+        @post.create_notification_post!(current_user, @post.id)
+      end
       redirect_to root_url
     else
       @posts = current_user.posts.order(id: :desc).page(params[:page])
@@ -56,6 +60,16 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
+      if @post.cancel.present?
+        CancelMailer.cancel_notification(current_user, @post).deliver_now
+        CancelMailer.send_cancel_notification(current_user, @post).deliver_now
+        @post.create_notification_cancel!(current_user, @post)
+      end
+      
+      if @post.status == "published"
+        @post.create_notification_post!(current_user, @post)
+      end
+      
       redirect_to post_path
     else
       flash.now[:danger] = 'イベントの更新に失敗しました。必須項目の入力漏れや文字数制限、アップロード画像が5MB以下になっているかご確認ください。'

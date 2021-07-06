@@ -42,6 +42,14 @@ Rails.application.routes.draw do
   get  'contact' =>'contacts#index'
   post 'contact/confirm' => 'contacts#confirm'
   post 'contact/done' => 'contacts#done'
+  
+  get 'tos', to: 'toppages#tos', as: :tos
+  get 'privacy', to: 'toppages#privacy', as: :privacy
+  get 'faq', to: 'toppages#faq', as: :faq
+  
+  get  'quit' =>'quits#new'
+  post  'quit' =>'quits#create'
+  get  'quits' =>'quits#index'
 
   
   get 'signup', to: 'users#new'

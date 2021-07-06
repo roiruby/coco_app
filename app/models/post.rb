@@ -30,6 +30,8 @@ class Post < ApplicationRecord
   has_many :members, dependent: :destroy
   
   has_many :post_reports, dependent: :destroy
+  
+  has_many :notifications, dependent: :destroy
 
   
   enum member: { default: 0, one: 1, two_three: 2, four_six: 3, seven_nine: 4, ten_over: 5},_suffix: true
@@ -42,9 +44,105 @@ class Post < ApplicationRecord
   
   enum cancel: { default: 0, member: 1, schedule: 2, reservation: 3, entry_user: 4, other: 5,},_suffix: true
                 
-  scope :get_by_post, ->(post) {includes([:destinations, :tags])
-  .where("posts.title like ? OR posts.content like ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR tags.name LIKE ?",
-  "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%").references([:destinations, :tags])}
+  # scope :get_by_post, ->(post) {includes([:destinations, :tags])
+  # .where("posts.title like ? OR posts.content like ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR tags.name LIKE ?",
+  # "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%").references([:destinations, :tags])}
+  
+  def create_notification_like!(current_user)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and post_id = ? and action = ? ", current_user.id, user_id, id, 'like'])
+
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        post_id: id,
+        visited_id: user_id,
+        action: 'like'
+      )
+
+      if notification.visitor_id == notification.visited_id
+        notification.checked = true
+      end
+      notification.save if notification.valid?
+    end
+  end
+  
+  def create_notification_comment!(current_user, comment_id)
+    temp_ids = Comment.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
+    temp_ids.each do |temp_id|
+      save_notification_comment!(current_user, comment_id, temp_id['user_id'])
+    end
+    save_notification_comment!(current_user, comment_id, user_id) if temp_ids.blank?
+  end
+
+  def save_notification_comment!(current_user, comment_id, visited_id)
+    notification = current_user.active_notifications.new(
+      post_id: id,
+      comment_id: comment_id,
+      visited_id: visited_id,
+      action: 'comment'
+    )
+
+    if notification.visitor_id == notification.visited_id
+      notification.checked = true
+    end
+    notification.save if notification.valid?
+  end
+  
+  def create_notification_post!(current_user, post_id)
+    current_user.follower_ids.each do |followers|
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and post_id = ? and action = ? ", current_user.id, followers, id, 'post'])
+    
+    if temp.blank?
+        notification = current_user.active_notifications.new(
+          post_id: id,
+          visited_id: followers,
+          action: 'post'
+        )
+  
+        if notification.visitor_id == notification.visited_id
+          notification.checked = true
+        end
+        notification.save if notification.valid?
+    end
+    end
+  end
+  
+  def create_notification_entry!(current_user)
+    notification = current_user.active_notifications.new(
+      post_id: id,
+      visited_id: user_id,
+      action: 'entry'
+    )
+      notification.save if notification.valid?
+  end
+  
+  def create_notification_cancel!(current_user, post_id)
+    entry_users = self.entries.includes(:user)
+    entry_users.each do |entry_user|
+    notification = current_user.active_notifications.new(
+      post_id: id,
+      visited_id: entry_user.user_id,
+      action: 'cancel'
+    )
+      notification.save if notification.valid?
+    end
+  end
+  
+  def create_notification_approval!(current_user)
+    app_users = self.approval_users
+    app_users.each do |app_user|
+    temp = Notification.where(visitor_id: user_id, visited_id: app_user.id, post_id: id, action: 'approval')
+    
+      if temp.blank?
+      notification = current_user.active_notifications.new(
+        visitor_id: user_id,
+        post_id: id,
+        visited_id: app_user.id,
+        action: 'approval'
+      )
+        notification.save if notification.valid?
+      end
+    end
+  end
 
   
 end

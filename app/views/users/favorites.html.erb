@@ -115,8 +115,25 @@
                 <i class="far fa-clock"></i>
                 もうすぐ終了！<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
               <% elsif d.to_i < 0 %>
+              <div class="web-flex">
+                <div>
                 <i class="far fa-clock"></i>
                 募集は終了しています<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>
+                </div>
+                
+                <div>
+                <% if current_user.favpost?(post) %>
+                  <%= form_for(current_user.favorites.find_by(post_id: post.id), data: { confirm: "お気に入りを解除してもいいですか？" }, html: { method: :delete }) do |f| %>
+                      <%= hidden_field_tag :post_id, post.id %>
+                      <%= button_tag :type => "submit", :class =>"btn" do %>
+                      <i class="far fa-trash-alt"></i>
+                      <% end %>
+                  <% end %>
+                <% end %>
+                </div>
+                
+              </div>
+                  
               <% else %>
                 <i class="far fa-clock"></i>
                 残り<%= d.to_i %>日<span class="ml-2"><i class="far fa-heart mr-1"></i><%= post.favorites.count %></span>

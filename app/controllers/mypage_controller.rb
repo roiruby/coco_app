@@ -6,6 +6,11 @@ class MypageController < ApplicationController
   def index
     @posts = current_user.feed_posts.order(id: :desc).page(params[:page]).per(20)
     @followings = @user.followings.page(params[:page]).per(20)
+    
+    @notifications = current_user.passive_notifications.page(params[:page]).per(20)
+    @notifications.where(checked: false).each do |notification|
+      notification.update_attributes(checked: true)
+    end
   end
   
   private

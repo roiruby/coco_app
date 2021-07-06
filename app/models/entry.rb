@@ -1,12 +1,15 @@
 class Entry < ApplicationRecord
   belongs_to :user
   belongs_to :post
+
   
   enum entry_status: { unapproval: 0, approval: 1 }
   
   def toggle_status!
     if unapproval?
       approval!
+      EntryMailer.approval_notification(user, post).deliver_now
+      post.create_notification_approval!(post.user)
     else
       unapproval!
     end

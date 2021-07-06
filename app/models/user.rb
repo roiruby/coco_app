@@ -33,6 +33,9 @@ class User < ApplicationRecord
   has_many :user_reports, dependent: :destroy
   has_many :repoings, through: :user_reports, source: :repo, dependent: :destroy
   has_many :reverses_of_user_reports, class_name: 'UserReport', foreign_key: 'repo_id', dependent: :destroy
+  
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   
   mount_uploader :image, ImageUploader
@@ -49,6 +52,17 @@ class User < ApplicationRecord
                   kagoshima: 46, okinawa: 47},_suffix: true
 
 
+  def create_notification_follow!(current_user)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+  
   def follow(other_user)
     unless self == other_user
       self.relationships.find_or_create_by(follow_id: other_user.id)

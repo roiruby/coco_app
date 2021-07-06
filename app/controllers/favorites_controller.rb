@@ -5,6 +5,7 @@ class FavoritesController < ApplicationController
     post = Post.find(params[:post_id])
     current_user.like(post)
     FavoriteMailer.favorite_notification(current_user, post).deliver_now
+    post.create_notification_like!(current_user)
     redirect_back(fallback_location: root_path)
   end
 

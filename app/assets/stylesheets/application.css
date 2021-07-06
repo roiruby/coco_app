@@ -480,7 +480,7 @@ h2 {
 }
 .side-postimage img {
   width: 100%;
-  height: 98px;
+  height: 110px;
   border-radius: 3%;
   object-fit: cover; 
 }
@@ -524,6 +524,16 @@ footer a:hover{
 .social-icon{
 }
 
+.quitbg {
+  background-color: #eeeeee;
+  padding: 5px;
+}
+.faq {
+  font-size: 120%;
+  font-weight: bold;
+  border-bottom: solid 6px aqua;
+  line-height: 2;
+}
 /*--------------------------------------------------------------breadcrumbs-----*/
 .breadcrumbs, .breadcrumbs a {
   color: gray;

@@ -5,6 +5,8 @@ class EntriesController < ApplicationController
   def create
     post = Post.find(params[:post_id])
     current_user.offer(post)
+    EntryMailer.entry_notification(current_user, post).deliver_now
+    post.create_notification_entry!(current_user)
     redirect_back(fallback_location: root_path)
   end
 
