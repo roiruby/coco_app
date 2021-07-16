@@ -118,6 +118,15 @@ h2 {
   border: solid 1px #CCFFFF;
 }
 
+input[type="radio"],input[type="checkbox"]{
+  position: relative;
+  top: 2px;
+  margin-right: 1px;
+  margin-left: 2px;
+}
+
+#result [class*="hidden-"] {display: none;}
+
 /*------------------------------------------------------------------navbar-----*/
 .nav-icon img {
   width: 46px;
@@ -320,6 +329,15 @@ h2 {
   width: 2.8%;
   margin-right: 3px;
   padding-bottom: 4px;
+}
+.excellent {
+  color: deeppink;
+}
+.good {
+  color: orange;
+}
+.poor {
+  color: blue;
 }
 
 /*--------------------------------------------------------マイページ-----*/

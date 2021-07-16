@@ -34,6 +34,7 @@ class PostsController < ApplicationController
   
   def create
     @post = current_user.posts.build(post_params)
+    @post.entries.build(user_id: current_user.id, entry_status: 'approval')
     if @post.save
       if @post.status == "published"
         @post.create_notification_post!(current_user, @post.id)
@@ -96,7 +97,7 @@ class PostsController < ApplicationController
   
   def entry
     @post = Post.find(params[:id])
-    @users = @post.entries.includes(:user).page(params[:page]).per(20)
+    @users = @post.entries.includes(:user).where.not(user_id: @post.user_id).page(params[:page]).per(20)
   end
   def member
     @post = Post.find(params[:id])
@@ -105,6 +106,7 @@ class PostsController < ApplicationController
     comment_counts(@post)
     @users = @post.entries.approval.includes(:user)
     @destinations = @post.destinations
+    @evaluation = Evaluation.new
     
     if @post.approval_users.count == 0
       unless @post.user_id == current_user.id || current_user.admin?
@@ -150,7 +152,7 @@ class PostsController < ApplicationController
   
   def report
     @post = Post.find(params[:id])
-    @report = @post.posts.build
+    @report = @post.post_reports.build
   end
   def post_reports
     @report = PostReport.order("created_at DESC").page(params[:page]).per(50)

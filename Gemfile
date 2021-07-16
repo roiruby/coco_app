@@ -73,3 +73,5 @@ gem 'pry-byebug', group: :development
 
 gem 'letter_opener_web', group: :development
 
+gem 'rack-attack'
+

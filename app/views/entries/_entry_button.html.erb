@@ -1,6 +1,6 @@
 <% if logged_in? %>
   <% if @post.user_id == current_user.id %>
-    <%= link_to "エントリー #{@post.entries.count}件", entry_page_path, class: "btn btn3" %>
+    <%= link_to "エントリー #{@post.entries.where.not(user_id: @post.user_id).count}件", entry_page_path, class: "btn btn3" %>
   <% else %>
     <% if current_user.entrypost?(@post) %>
       <%= form_for(current_user.entries.find_by(post_id: post.id), html: { method: :delete }) do |f| %>

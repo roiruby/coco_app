@@ -1,9 +1,6 @@
 <div class="container-fluid">
   <% breadcrumb :post, @post %>
     <%= render "layouts/breadcrumbs" %>
-  <% @post.approval_users.each do |users| %>
-  <%= users.name %>
-  <% end %>
   <div class="row mb-5">
     <div class="web_container mt-4 offset-sm-1 col-sm-7">
       <div class="gray">
@@ -202,9 +199,12 @@
 
         <% @users.each do |user| %>
           <% if user.user == current_user %>
-          <div class="text-center text-success">
-            メンバーに確定しました☺
-          </div>
+            <% if user.user == @post.user %>
+            <% else %>
+              <div class="text-center text-success">
+                メンバーに確定しました☺
+              </div>
+            <% end %>
           <div class="text-center bold mb-3">
             <%= link_to "メンバートークルーム", member_path(@post), class: "btn btn-success" %>
           </div>
@@ -213,7 +213,7 @@
         
         <% if d.to_i < 0 and @post.user_id == current_user.id %>
           <div class="text-center mb-3 mr-3">
-            <%= link_to "エントリー #{@post.entries.count}件", entry_page_path, class: "btn btn3" %>
+            <%= link_to "エントリー #{@post.entries.where.not(user_id: @post.user_id).count}件", entry_page_path, class: "btn btn3" %>
           </div>
         <% end %>
         

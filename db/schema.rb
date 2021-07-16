@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_092204) do
+ActiveRecord::Schema.define(version: 2021_07_06_060503) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -47,6 +47,17 @@ ActiveRecord::Schema.define(version: 2021_06_07_092204) do
     t.index ["post_id"], name: "index_entries_on_post_id"
     t.index ["user_id", "post_id"], name: "index_entries_on_user_id_and_post_id", unique: true
     t.index ["user_id"], name: "index_entries_on_user_id"
+  end
+
+  create_table "evaluations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "entry_id"
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["entry_id"], name: "index_evaluations_on_entry_id"
+    t.index ["user_id", "entry_id"], name: "index_evaluations_on_user_id_and_entry_id", unique: true
+    t.index ["user_id"], name: "index_evaluations_on_user_id"
   end
 
   create_table "favorites", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -203,6 +214,8 @@ ActiveRecord::Schema.define(version: 2021_06_07_092204) do
   add_foreign_key "comments", "users"
   add_foreign_key "entries", "posts"
   add_foreign_key "entries", "users"
+  add_foreign_key "evaluations", "entries"
+  add_foreign_key "evaluations", "users"
   add_foreign_key "favorites", "posts"
   add_foreign_key "favorites", "users"
   add_foreign_key "information", "users"

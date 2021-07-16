@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     end       
   end
   
+  resources :evaluations, only: [:create]
   resources :destinations, only: [:create]
   resources :relationships, only: [:create, :destroy]
   resources :account_activations, only: [:edit]

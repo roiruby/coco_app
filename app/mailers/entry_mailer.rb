@@ -9,8 +9,8 @@ class EntryMailer < ApplicationMailer
   def approval_notification(user, post)
     @user = user
     @post = post
-    @users = post.entries.approval.includes(:user)
+    approval = Entry.where(entry_status: 'approval').order(:updated_at).last
     
-    mail to: @users.pluck(:email), subject: "【Cocomelo】イベントメンバーに確定されました！"
+    mail to: approval.user.email, subject: "【Cocomelo】イベントメンバーに確定されました！"
   end
 end

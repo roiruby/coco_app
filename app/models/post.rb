@@ -48,6 +48,7 @@ class Post < ApplicationRecord
   # .where("posts.title like ? OR posts.content like ? OR destinations.name LIKE ? OR destinations.address LIKE ? OR tags.name LIKE ?",
   # "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%", "%#{post}%").references([:destinations, :tags])}
   
+
   def create_notification_like!(current_user)
     temp = Notification.where(["visitor_id = ? and visited_id = ? and post_id = ? and action = ? ", current_user.id, user_id, id, 'like'])
 

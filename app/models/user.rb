@@ -36,6 +36,9 @@ class User < ApplicationRecord
   
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+  
+  has_many :evaluations, dependent: :destroy
+  has_many :evaluation_entries, through: :evaluations, source: :entry, dependent: :destroy
 
   
   mount_uploader :image, ImageUploader

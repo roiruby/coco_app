@@ -48,6 +48,9 @@
         
       <% when 'cancel' then %>
         がイベント【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】をキャンセルしました。
+        
+      <% when 'evaluation' then %>
+        がイベント【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】であなたを評価しました！
     <% end %>
   </div>
   

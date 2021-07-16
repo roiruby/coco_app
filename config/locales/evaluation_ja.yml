@@ -1,0 +1,8 @@
+ja:
+  enums:
+    evaluation:
+      rating:
+        excellent: '良い'
+        good: '普通'
+        poor: '残念'
+        

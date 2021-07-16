@@ -152,6 +152,8 @@ GEM
     puma (3.12.6)
     racc (1.5.2)
     rack (2.2.3)
+    rack-attack (6.2.1)
+      rack (>= 1.0, < 3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.5)
@@ -256,6 +258,7 @@ DEPENDENCIES
   mysql2 (>= 0.4.4, < 0.6.0)
   pry-byebug
   puma (~> 3.11)
+  rack-attack
   rails (~> 5.2.5)
   rmagick
   sass-rails (~> 5.0)

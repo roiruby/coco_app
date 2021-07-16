@@ -1,7 +1,7 @@
 <div class="container">
   <% breadcrumb :entry, @post %>
     <%= render "layouts/breadcrumbs" %>
-  <p class="h4 bold mt-4">【<%= link_to @post.title.truncate(39), post_path(@post), data: {"turbolinks" => false} %>】のエントリー　<span class="small"><%= @post.entries.count %>人【参加確定メンバー <%= @users.approval.count %>人】</span></p>
+  <p class="h4 bold mt-4">【<%= link_to @post.title.truncate(39), post_path(@post), data: {"turbolinks" => false} %>】のエントリー　<span class="small"><%= @post.entries.where.not(user_id: @post.user_id).count %>人【参加確定メンバー <%= @users.approval.count %>人】</span></p>
   
   <div class="text-center mt-2">
     <div class="mt-2">
@@ -9,7 +9,7 @@
     </div>
   </div>
   
-  <% if @post.entries.count == 0 %>
+  <% if @post.entries.where.not(user_id: @post.user_id).count == 0 %>
     <div class="mt-5 text-center mb-5">
     </div>
   

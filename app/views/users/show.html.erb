@@ -1,6 +1,7 @@
 <div class="container-middle mx-auto">
   <% breadcrumb :user, @user %>
     <%= render "layouts/breadcrumbs" %>
+    
   <div class="row mt-4 mb-5">
     <div class="col-lg-3 text-center">
       <div class="circle-image150">
@@ -15,7 +16,37 @@
           <%= link_to "フォローする", login_path, class: "follow-btn mt-4" %>
       <% end %>
       
-      <!--<p class="small mt-2">フォロー：<%= @count_followings %>人　フォロワー：<%= @count_followers %>人</p>-->
+      
+      <% user_evaluations = Evaluation.where(entry_id: @user.entries.ids) %>
+      <% unless user_evaluations.count == 0 %>
+      
+        <% excellent_count = user_evaluations.count { |evaluation| evaluation.rating == 'excellent' } %>
+        <% good_count = user_evaluations.count { |evaluation| evaluation.rating == 'good' } %>
+        <% poor_count = user_evaluations.count { |evaluation| evaluation.rating == 'poor' } %>
+        
+        <div class="mt-2">
+          <i class="far fa-laugh excellent"></i>
+          <% if excellent_count == 0 %>
+            -
+          <% else %>
+            <span class="medium"><%= ((excellent_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+          
+          <i class="far fa-smile good"></i>
+          <% if good_count == 0 %>
+            -
+          <% else %>
+            <span class="medium"><%= ((good_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+          
+          <i class="far fa-frown poor"></i>
+          <% if poor_count == 0 %>
+            -
+          <% else %>
+            <span class="medium"><%= ((poor_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+        </div>
+      <% end %>
       
     </div>
     
