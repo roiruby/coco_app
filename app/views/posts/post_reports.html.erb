@@ -1,4 +1,4 @@
-<div class="container-middle mx-auto">
+<div class="container-middle mx-auto mb-5">
 
   <div class="mt-4 bold h4">
     通報された投稿
@@ -7,10 +7,20 @@
   <% @report.each do |report| %>
   <div class="mt-1">
   <i class="far fa-clock"></i><%= report.created_at.strftime('%Y/%m/%d %H:%M') %>
-    【<%= link_to report.post.title, post_path(report.post.id) %>】┃
-    通報理由：<%= report.report_i18n %>┃
-    通報したユーザー：<%= link_to report.user.name, user_path(report.user.id) %>
+    【<%= link_to report.post.title, post_path(report.post.id) %>】
+    （<%= report.post.post_reports.count %>）┃
+    通報理由：【<%= report.report_i18n %>】┃
+    通報したユーザー：【<%= link_to report.user.name, user_path(report.user.id) %>】
   </div>
+  <% end %>
+  
+  <div class="mt-4 bold h4">
+    ランキング
+  </div>
+  
+  <% @report_rank.each do |report| %>
+    【<%= link_to report.title, post_path(report.id) %>】
+    (<%= report.post_reports.count %>)┃
   <% end %>
   
 

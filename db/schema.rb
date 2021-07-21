@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_060503) do
+ActiveRecord::Schema.define(version: 2021_07_21_141137) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -87,6 +87,15 @@ ActiveRecord::Schema.define(version: 2021_07_06_060503) do
     t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_members_on_post_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "newsletters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_newsletters_on_user_id"
   end
 
   create_table "notifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -221,6 +230,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_060503) do
   add_foreign_key "information", "users"
   add_foreign_key "members", "posts"
   add_foreign_key "members", "users"
+  add_foreign_key "newsletters", "users"
   add_foreign_key "post_reports", "posts"
   add_foreign_key "post_reports", "users"
   add_foreign_key "posts", "categories"

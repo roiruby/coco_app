@@ -11,6 +11,20 @@ class Post < ApplicationRecord
   validates :event_schedule, presence: true
   validates :category, presence: true
   validates :dead_line, presence: true
+  
+  validate :event_cannot_be_in_the_past
+  def event_cannot_be_in_the_past
+    if event_schedule < Date.today
+      errors.add(:event_schedule, ": 過去の日付は使用できません")
+    end
+  end
+  
+  validate :dead_line_cannot_be_in_the_past
+  def dead_line_cannot_be_in_the_past
+    if dead_line < Date.today or event_schedule < dead_line
+      errors.add(:dead_line, ": イベント日時より過去の日付は使用できません")
+    end
+  end
 
   
   mount_uploader :image, ImageUploader

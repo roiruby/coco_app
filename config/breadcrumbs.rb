@@ -1,5 +1,5 @@
 crumb :root do
-  link "Sharingoodトップ", root_path
+  link "Cocomeloトップ", root_path
 end
 
 crumb :login do
@@ -25,6 +25,15 @@ end
 crumb :news do |news|
   link "#{news.title}", information_path(news)
   parent :information
+end
+
+crumb :newsletter do
+  link "メールマガジン", newsletters_path
+end
+
+crumb :mail_magazine do |news|
+  link "#{news.title}", newsletter_path(news)
+  parent :newsletter
 end
 
 crumb :contact do

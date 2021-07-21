@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
   resources :informations, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :newsletters, only: [:index, :show, :new, :create, :edit, :update, :destroy]
   resources :favorites, only: [:create, :destroy]
   resources :entries, only: [:create, :destroy] do
     patch :toggle_status

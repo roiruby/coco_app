@@ -1,0 +1,38 @@
+<div class="container">
+  <% breadcrumb :mail_magazine, @newsletter %>
+    <%= render "layouts/breadcrumbs" %>
+
+  <div class="row mt-4 mb-5">
+    
+    <div class="col-md-9">
+
+    <h2>
+      <div class="bb">
+      <%= @newsletter.title %>
+      </div></h2>
+    
+    <div class="mt-3">
+      <%= simple_format(@newsletter.content) %>
+    </div>
+
+
+    </div>
+    
+    <div class="col-md-3">
+        <div class="news-title text-center bold">
+          過去のメールマガジン
+        </div>
+        <div class="">
+          <% @newsletters.each do |news| %>
+            <div class="news-body table-bordered small">
+              <%= link_to news.title, newsletter_path(news) %>
+              <div class="text-right xsmall">
+                <%= news.updated_at.strftime('%Y/%m/%d') %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+    </div>
+    
+  </div>
+</div>

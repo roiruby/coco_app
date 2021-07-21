@@ -99,6 +99,7 @@ h2 {
 
 .row-0{ margin-left:0px;  margin-right:0px}
 .row-0 >div{ padding-right:0px;  padding-left:0px}
+.row-0 >section{ padding-right:0px;  padding-left:0px}
 
 .follow-btn {
   font-size: 11px;
@@ -167,6 +168,22 @@ input[type="radio"],input[type="checkbox"]{
 }
 .logo img{
   width: 170px;
+}
+/*---------------------------------------------------------------topic-----*/
+.topic {
+  display: block;
+  height: 40px;
+  background-color: blanchedalmond;
+  font-size: 110%;
+  text-align: center;
+  padding-top: 4px;
+}
+a .topic{
+  font-weight: bold;
+  color: black;
+}
+a:hover .topic {
+  color: rgba(0,0,0,0.5);
 }
 /*---------------------------------------------------------------toppage-----*/
 .top-postimage {

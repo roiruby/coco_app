@@ -24,7 +24,10 @@
       <li><%= link_to "アカウント情報変更", account_edit_path(current_user) %></li>
       
       <% if current_user.admin? && !(current_user == User) %>
+        ----------------
         <li><%= link_to "お知らせ投稿", new_information_path %></li>
+        <li><%= link_to "メールマガジン投稿", new_newsletter_path %></li>
+        <li><%= link_to 'メールマガジン', newsletters_path %></li>
         <li><%= link_to "通報されたユーザー", user_reports_path %></li>
         <li><%= link_to "通報された投稿", post_reports_path %></li>
         <li><%= link_to "退会申請", quits_path %></li>

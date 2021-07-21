@@ -156,6 +156,7 @@ class PostsController < ApplicationController
   end
   def post_reports
     @report = PostReport.order("created_at DESC").page(params[:page]).per(50)
+    @report_rank = Post.find(PostReport.group(:post_id).order('count(post_id) desc').page(params[:page]).per(20).pluck(:post_id))
   end
   
   def new_arrival

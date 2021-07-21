@@ -8,7 +8,12 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
+                    
   has_secure_password
+  VALID_PASSWORD_REGEX =/\A(?=.*?[a-z])(?=.*?[\d])\w{6,12}\z/
+  validates :password, presence: true,
+            format: { with: VALID_PASSWORD_REGEX,
+             message: "は半角6~12文字、英数字それぞれ１文字以上含む必要があります"}
   
   has_many :posts, dependent: :destroy
   
@@ -28,6 +33,8 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   
   has_many :informations, dependent: :destroy
+  
+  has_many :newsletters, dependent: :destroy
   
   has_many :post_reports, dependent: :destroy
   has_many :user_reports, dependent: :destroy

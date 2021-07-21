@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="mt-4">
+
+    <h1>メールマガジン作成</h1>
+
+    <%= form_with(model: @newsletter, url: newsletters_path, local: true) do |f| %>
+      <div class="form-group">
+        <%= f.text_field :title, placeholder: 'タイトルを入力', class: 'form-control' %>
+        <%= f.text_area :content, :size => "80x20", placeholder: 'お知らせを入力', class: 'form-control mt-3'  %>
+      </div>
+      <div class="text-center mb-5">
+        <%= f.submit '投稿する', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

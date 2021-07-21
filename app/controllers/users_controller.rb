@@ -103,6 +103,7 @@ class UsersController < ApplicationController
   end
   def user_reports
     @report = UserReport.order("created_at DESC").page(params[:page]).per(50)
+    @report_rank = User.find(UserReport.group(:repo_id).order('count(repo_id) desc').page(params[:page]).per(20).pluck(:repo_id))
   end
 
   private

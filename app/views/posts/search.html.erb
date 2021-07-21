@@ -20,6 +20,7 @@
       </div>
     </div>
   <% end %>
+  
 
 
   <div id="result">
@@ -36,8 +37,7 @@
     
         
           <% if d.to_i < 0 %>
-          <div class="top-postimage col-sm-3 mt-1">
-            <section class="">
+            <section class="top-postimage col-sm-3 mt-1">
                 <div class="poston category">
                   <% if post.image? %>
                     <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
@@ -130,12 +130,9 @@
                   <% end %>
         
                 </div>
-                
             </section>
-            </div>
           <% else %>
-          <div class="top-postimage col-sm-3 mt-1">
-            <section class="wanted">
+            <section class="wanted top-postimage col-sm-3 mt-1">
               <div class="poston category">
                   <% if post.image? %>
                     <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
@@ -229,7 +226,6 @@
         
                 </div>
             </section>
-            </div>
           <% end %>
         
     
