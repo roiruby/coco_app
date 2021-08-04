@@ -1,0 +1,99 @@
+<% visitor = notification.visitor %>
+<% visited = notification.visited %>
+<div class="overflow-hidden">
+  <div class="row ml-2">
+    
+    <% case notification.action %>
+      <% when 'approval' then %>
+  
+      <% when 'follow' then %>
+        <div class="nav-image">
+          <%= link_to image_tag(visitor.image.thmb300.to_s), user_path(visitor.id), data: {"turbolinks" => false} %>
+        </div>
+        
+        <div class="mt-1 ml-2">
+          <div class="bold small">
+            <%= link_to visitor.name, user_path(visitor.id), data: {"turbolinks" => false} %>
+          </div>
+          <div class="xxsmall gray">
+            <%= visitor.catchphrase %>
+          </div>
+        </div>
+        <div class="ml-1 xsmall d-flex align-items-end">
+          さんに
+        </div>
+    <% else %>
+    
+    <div class="nav-image">
+      <%= link_to image_tag(visitor.image.thmb300.to_s), user_path(visitor.id), data: {"turbolinks" => false} %>
+    </div>
+    
+    <div class="mt-1 ml-2">
+      <div class="bold small">
+        <%= link_to visitor.name, user_path(visitor.id), data: {"turbolinks" => false} %>
+      </div>
+      <div class="xxsmall gray">
+        <%= visitor.catchphrase %>
+      </div>
+    </div>
+    <div class="ml-1 xsmall d-flex align-items-end">
+      さんが
+    </div>
+    <% end %>
+  </div>
+  
+  <div class="small ml-3 mt-1 d-flex align-items-end">
+    <% case notification.action %>
+      <% when 'follow' then %>
+        フォローされました！
+        
+      <% when 'like' then %>
+        <div class="pr-2">
+        【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】をお気に入りしました！
+        </div>
+        
+      <% when 'comment' then %>
+        <div class="pr-2">
+          【<%= link_to notification.post.title.truncate(26), comment_path(notification.post), data: {"turbolinks" => false} %>】にコメントしました！
+        </div>
+      
+      <% when 'talkroom' then %>
+        <div class="pr-2">
+          【<%= link_to notification.post.title.truncate(26), member_path(notification.post), data: {"turbolinks" => false} %>】にコメントしました！
+        </div>
+        
+      <% when 'entry' then %>
+        <div class="pr-2">
+        【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】にエントリーしました！
+        </div>
+      
+      <% when 'approval' then %>
+      <div class="pr-2">
+        【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】のメンバーに確定しました！
+      </div>
+        
+      <% when 'post' then %>
+      <div class="pr-2">
+        イベント【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】を作成しました！
+      </div>
+        
+      <% when 'cancel' then %>
+      <div class="pr-2">
+        イベント【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】をキャンセルしました。
+      </div>
+        
+      <% when 'evaluation' then %>
+      <div class="pr-2">
+        イベント【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】であなたを評価しました！
+      </div>
+    <% end %>
+  </div>
+
+  
+  <div class="gray mt-1 mr-2 xxsmall text-right">
+    <i class="far fa-clock"></i><%= notification.created_at.strftime('%Y/%m/%d %H:%M') %>
+  </div>
+  
+  <hr>
+  
+</div>

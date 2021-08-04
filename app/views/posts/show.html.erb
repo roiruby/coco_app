@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <% breadcrumb :post, @post %>
     <%= render "layouts/breadcrumbs" %>
+    
   <div class="row mb-5">
     <div class="web_container mt-4 offset-sm-1 col-sm-7">
       <div class="gray">
@@ -211,18 +212,20 @@
           <% end %>
         <% end %>
         
-        <% if d.to_i < 0 and @post.user_id == current_user.id %>
-          <div class="text-center mb-3 mr-3">
-            <%= link_to "エントリー #{@post.entries.where.not(user_id: @post.user_id).count}件", entry_page_path, class: "btn btn3" %>
-          </div>
+        <% if logged_in? %>
+          <% if d.to_i < 0 and @post.user_id == current_user.id %>
+            <div class="text-center mb-3 mr-3">
+              <%= link_to "エントリー #{@post.entries.where.not(user_id: @post.user_id).count}件", entry_page_path, class: "btn btn3" %>
+            </div>
+          <% end %>
         <% end %>
         
         <% if logged_in? %>
-        <% if current_user == @post.user || current_user.admin? %>
-          <div class="text-right small mb-1 link1">
-            <%= link_to "イベントをキャンセル", cancel_path, class: "" %>
-          </div>
-        <% end %>
+          <% if current_user == @post.user || current_user.admin? %>
+            <div class="text-right small mb-1 link1">
+              <%= link_to "イベントをキャンセル", cancel_path, class: "" %>
+            </div>
+          <% end %>
         <% end %>
         
       </div>

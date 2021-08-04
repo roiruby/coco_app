@@ -1,0 +1,216 @@
+<header>
+  <nav class="navbar navbar-light bg-white">
+    <div class="container">
+      <a class="navbar-brand" href="/"><%= image_tag "logo.svg" %></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        
+        <% if logged_in? %>
+          <div class="nav-image">
+            <%= image_tag(current_user.image.thmb300.url) %>
+          </div>
+        <% else %>
+          <span class="navbar-toggler-icon"></span>
+        <% end %>
+      </button>
+    
+      
+    
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        
+        <% if logged_in? %>
+        
+          <div class="navbar-nav form-group form-inline mt-3">
+            <%= form_with(url: search_path, method: :get, local: true) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :search, value: params[:search], placeholder: "キーワードで検索", class: 'form-control' %>
+                <span class="input-group-btn">
+                  <%= button_tag '<i class="fas fa-search"></i>'.html_safe, :type => "submit", :class =>"btn btn-search", :style => "color:white;" %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+        
+          <li class="nav-item btn btn-sm btn-plan small d-none d-lg-block"><%= link_to new_post_path, data: {"turbolinks" => false}, class: 'nav-link',:style=>"color:white;" do %><%= image_tag "icon-event.png" %>イベント作成<% end %></li>
+          
+          <div class="menu mt-2 p-2">
+      <%= link_to mypage_path do %>
+        <div class="medium ml-2">
+          <i class="far fa-id-card mr-2"></i>マイページ<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fas fa-user-circle mr-2"></i>マイプロフィール<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to edit_user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fas fa-user-edit mr-2"></i>プロフィール編集<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to user_posts_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fab fa-elementor mr-2"></i>投稿したイベント<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to confirm_posts_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-edit mr-2"></i>下書き編集<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to entries_user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fab fa-elementor mr-2"></i>エントリーしたイベント<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to participateds_user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fab fa-elementor mr-2"></i>参加したイベント<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to favorites_user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fab fa-gratipay mr-2"></i>お気に入り<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to informations_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-info-circle mr-2"></i>お知らせ<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to followings_user_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fas fa-check mr-2"></i>フォロー/フォロワー<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <div class="menu p-2">
+      <%= link_to account_edit_path(current_user) do %>
+        <div class="medium ml-2">
+          <i class="fas fa-user-lock mr-2"></i>アカウント情報変更<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    
+    <% if current_user.admin? && !(current_user == User) %>
+    <div class="menu p-2">
+      <%= link_to new_information_path do %>
+        <div class="medium ml-2">
+          <i class="far fa-newspaper mr-2"></i>お知らせ投稿<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="menu p-2">
+      <%= link_to new_newsletter_path do %>
+        <div class="medium ml-2">
+          <i class="far fa-newspaper mr-2"></i>メルマガ投稿<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="menu p-2">
+      <%= link_to newsletters_path do %>
+        <div class="medium ml-2">
+          <i class="far fa-newspaper mr-2"></i>メールマガジン<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="menu p-2">
+      <%= link_to user_reports_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-exclamation-circle mr-2"></i>通報されたユーザー<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="menu p-2">
+      <%= link_to post_reports_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-exclamation-circle mr-2"></i>通報された投稿<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <div class="menu p-2">
+      <%= link_to quits_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-sad-tear mr-2"></i>退会申請<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+    <% end %>
+    
+    <div class="menu p-2">
+      <%= link_to logout_path, method: :delete do %>
+        <div class="medium ml-2">
+          <i class="fas fa-sign-out-alt mr-2"></i></i>ログアウト<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
+          
+        <% else %>
+        
+          <div class="navbar-nav form-group form-inline mt-3">
+            <%= form_with(url: search_path, method: :get, local: true) do |f| %>
+              <div class="input-group">
+                <%= f.text_field :search, value: params[:search], placeholder: "キーワードで検索", class: 'form-control' %>
+                <span class="input-group-btn">
+                  <%= button_tag '<i class="fas fa-search"></i>'.html_safe, :type => "submit", :class =>"btn btn-search", :style => "color:white;" %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="menu p-2 mt-2">
+            <%= link_to login_path do %>
+              <div class="medium ml-2">
+                <i class="fas fa-user mr-2"></i>ログイン<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+              </div>
+            <% end %>
+          </div>
+          
+          <div class="menu p-2 mt-2">
+            <%= link_to signup_path do %>
+              <div class="medium ml-2">
+                <i class="far fa-smile-wink mr-2"></i>会員登録(無料)<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+              </div>
+            <% end %>
+          </div>
+
+          <li class="nav-item btn btn-sm btn-plan mt-2"><%= link_to login_path, class: 'nav-link',:style=>"color:white;" do %>
+          <%= image_tag "icon-event.png" %>イベント作成<% end %></li>
+        <% end %>
+      </ul>
+      
+      
+      
+    </div>
+    </div>
+  </nav>
+</header>

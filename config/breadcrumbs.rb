@@ -48,6 +48,10 @@ crumb :entries do
   link "エントリーしたイベント", entries_user_path
 end
 
+crumb :participateds do
+  link "参加したイベント", participateds_user_path
+end
+
 crumb :favorites do
   link "お気に入り", favorites_user_path
 end

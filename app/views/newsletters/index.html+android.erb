@@ -1,0 +1,31 @@
+<div class="container-fluid mb-5">
+  <% breadcrumb :newsletter %>
+    <%= render "layouts/breadcrumbs" %>
+      
+  <div class="bb mt-3"><h5><i class="far fa-newspaper mr-1"></i><span class="bold">メールマガジン</h5></div>
+      
+  <div class="bold mt-4">
+      <% @newsletter.each do |news| %>
+        <%= link_to news.title, newsletter_path(news) %>
+        
+        <% if current_user.admin? && !(current_user == User) %>
+          <div class="mt-2">
+            <%= link_to "編集", edit_newsletter_path(news), class: 'btn btn-info btn-sm mr-1' %>
+            <%= link_to "削除", newsletter_path(news), method: :delete, data: { confirm: "本当に削除しますか?" }, class: 'btn btn-danger btn-sm' %>
+          </div>
+        <% end %>
+
+        
+        <div class="text-right small bold">
+        <i class="far fa-clock"></i><%= news.updated_at.strftime('%Y/%m/%d') %>
+        </div>
+        <hr>
+      <% end %>
+      
+      <div class="pagination justify-content-end pagination-sm">
+        <%= paginate @newsletter %>
+      </div>
+  </div>
+          
+</div>
+

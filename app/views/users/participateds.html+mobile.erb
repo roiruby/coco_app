@@ -1,0 +1,101 @@
+<div class="container-fluid mb-5">
+  <% breadcrumb :participateds %>
+    <%= render "layouts/breadcrumbs" %>
+
+  <div class="bb mt-3"><h5><span class="bold">参加したイベント 　</span><span class="small bold"><%= @participateds.count %> 件</span></h5></div>
+  
+  <div class="row row-0">
+    <% @participateds.each do |post| %>
+      <div class="col-6 mypage-center top-postimage mt-3">
+        
+        <div class="poston">
+          <% if post.image? %>
+            <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
+            <p><span class="tag1 bold xsmall">
+              <%= link_to post.category.name, category_path(post.category.id) %>
+              </span>
+
+              <% post.destinations.each do |destination| %>
+                <% if destination.area.present? %>
+                <span class="tag1 bold xsmall pl-1">
+                    <%= destination.area %>
+                </span>
+                <% end %>
+              <% end %>
+            </p>
+          <% else %>
+            <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
+            <p><span class="tag1 bold xsmall">
+              <%= link_to post.category.name, category_path(post.category.id) %>
+              </span>
+
+              <% post.destinations.each do |destination| %>
+                <% if destination.area.present? %>
+                <span class="tag1 bold xsmall pl-1">
+                    <%= destination.area %>
+                </span>
+                <% end %>
+              <% end %>
+            </p>
+          <% end %>
+        </div>
+        
+        <div class="bold ml-1">
+          <%= link_to post.title.truncate(46), post_path(post), data: {"turbolinks" => false} %>
+        </div>
+            
+        <div class="small pr-1 pl-1 mt-1">
+            <% date = post.event_schedule.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+              <div class="bold">
+                <i class="far fa-calendar-alt"></i> <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+              </div>
+        </div>
+        
+        <% post.destinations.each do |destination| %>
+          <div class="bold small pr-1 pl-1 mt-1">
+            <i class="fas fa-map-marker-alt"></i> <%= destination.name %>
+          </div>
+        <% end %>
+        
+        <!--<div class="row ml-1 mr-1 mt-1">-->
+        <!--  <div class="btn1 xsmall mt-1 bold mr-1">-->
+        <!--    <%= post.sex_i18n %>-->
+        <!--  </div>-->
+          
+        <!--  <% if post.member != "default" %>-->
+        <!--  <div class="btn1 xsmall mt-1 bold mr-1">-->
+        <!--    <%= post.member_i18n %>募集-->
+        <!--  </div>-->
+        <!--  <% end %>-->
+          
+        <!--  <% if post.payment != "default" %>-->
+        <!--  <div class="btn1 xsmall mt-1 bold mr-1">-->
+        <!--    <%= post.payment_i18n %>-->
+        <!--  </div>-->
+        <!--  <% end %>-->
+          
+        <!--  <% if post.budget != "default" %>-->
+        <!--  <div class="btn1 xsmall mt-1 bold mr-1">-->
+        <!--    <%= post.budget_i18n %>-->
+        <!--  </div>-->
+        <!--  <% end %>-->
+        <!--</div>-->
+        
+        <div class="text-center">
+          <div class="tag1 mt-2 xsmall ml-1">
+            <%= link_to "評価する", member_path(post) %>
+          </div>
+        </div>
+        
+        
+      </div>
+    <% end %>
+  </div>
+          
+
+  <div class="pagination justify-content-end pagination-sm">
+    <%= paginate @participateds %>
+  </div>
+
+</div>

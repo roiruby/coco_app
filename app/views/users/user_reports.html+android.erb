@@ -1,0 +1,35 @@
+<div class="container-fluid mb-5">
+
+  <div class="mt-4 bold h4">
+    通報されたユーザー
+  </div>
+  
+  <% @report_sp.each do |report| %>
+    <div class="mt-2">
+      <i class="far fa-clock"></i><%= report.created_at.strftime('%Y/%m/%d %H:%M') %>
+        【<%= link_to report.repo.name, user_path(report.repo.id) %>】
+            <% if report.repo.reverses_of_user_reports.count >= 3 %>
+              <span class="text-danger">
+              （<%= report.repo.reverses_of_user_reports.count %>）
+              </span>
+            <% else %>
+              （<%= report.repo.reverses_of_user_reports.count %>）
+            <% end %>┃
+      通報理由：【<%= report.report_i18n %>】┃
+      通報したユーザー：【<%= link_to report.user.name, user_path(report.user.id) %>】
+    </div>
+  <% end %>
+  
+  
+  <div class="mt-4 bold h4">
+    ランキング
+  </div>
+  
+  <% @report_rank.each do |report| %>
+    <div class="mt-2">
+      【<%= link_to report.name, user_path(report.id) %>】
+      (<%= report.reverses_of_user_reports.count %>)
+    </div>
+  <% end %>
+  
+</div>

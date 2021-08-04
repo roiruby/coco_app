@@ -1,0 +1,5 @@
+<% tags.each do |tag| %>
+  <div class="mt-2 tag1 xsmall bold">
+    #<%= link_to "#{tag.name}", keyword_path(tag: tag.name) %>
+  </div>
+<% end %>

@@ -11,9 +11,14 @@ class User < ApplicationRecord
                     
   has_secure_password
   VALID_PASSWORD_REGEX =/\A(?=.*?[a-z])(?=.*?[\d])\w{6,12}\z/
-  validates :password, presence: true,
+  validates :password, presence: true, allow_nil: true,
             format: { with: VALID_PASSWORD_REGEX,
              message: "は半角6~12文字、英数字それぞれ１文字以上含む必要があります"}
+             
+  validates_acceptance_of :agreement, allow_nil: false, on: :create
+  
+  STATUS_VALUES = ["female", "male", "unanswered"]
+  validates :sex, inclusion: { in: STATUS_VALUES }
   
   has_many :posts, dependent: :destroy
   

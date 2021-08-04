@@ -28,6 +28,11 @@
           <%= f.password_field :password, class: 'form-control' %>
         </div>
         
+        <div class="form-group small">
+          <%= f.check_box :agreement, :as => :boolean, checked:false %>
+              18歳未満ではありません。<%= link_to "利用規約", tos_path %>に同意する。
+        </div>
+        
         
         <div class="text-center mt-3">
           <%= f.submit '登録する', class: 'btn btn-info bold' %>

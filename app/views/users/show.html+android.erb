@@ -1,0 +1,98 @@
+<div class="container-fluid mb-5">
+  <% breadcrumb :user, @user %>
+    <%= render "layouts/breadcrumbs" %>
+    
+  <div class="row mt-3">
+    
+    <div class="col-4">
+      <div class="circle-image text-center">
+        <%= image_tag @user.image.thmb300.url %>
+      </div>
+      
+      <% user_evaluations = Evaluation.where(entry_id: @user.entries.ids) %>
+      <% unless user_evaluations.count == 0 %>
+      
+        <% excellent_count = user_evaluations.count { |evaluation| evaluation.rating == 'excellent' } %>
+        <% good_count = user_evaluations.count { |evaluation| evaluation.rating == 'good' } %>
+        <% poor_count = user_evaluations.count { |evaluation| evaluation.rating == 'poor' } %>
+        
+        <div class="mt-1 xsmall text-center">
+          <i class="far fa-laugh excellent"></i>
+          <% if excellent_count == 0 %>
+            -
+          <% else %>
+            <span class=""><%= ((excellent_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+          
+          <i class="far fa-smile good"></i>
+          <% if good_count == 0 %>
+            -
+          <% else %>
+            <span class=""><%= ((good_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+          
+          <i class="far fa-frown poor"></i>
+          <% if poor_count == 0 %>
+            -
+          <% else %>
+            <span class=""><%= ((poor_count.to_f/user_evaluations.count) * 100).round(0) %>%</span>
+          <% end %>
+        </div>
+      <% end %>
+      
+      
+      <div class="mt-1 text-center">
+        <% if logged_in? %>
+          <%= render 'relationships/follow_button', user: @user %>
+        <% else %>
+          <%= link_to "フォローする", login_path, class: "follow-btn" %>
+        <% end %>
+      </div>
+      
+    </div>
+    
+    <div class="col-8">
+      <div class="bold ">
+        <%= @user.name %>
+      </div>
+      
+      <div class="small text-muted">
+        <%= @user.catchphrase %>
+      </div>
+        
+      <div class="xsmall">
+        <!--<% unless @user.age == "default" and @user.address == "default" and  @user.sex == "default" %>【 <% end %>-->
+        <% if @user.age != "default" %><%= @user.age_i18n %><% end %>
+        <% if @user.age != "default" %>・<% end %>
+        <% if @user.sex != "default" %><%= @user.sex_i18n %><% end %>
+        <% if @user.age != "default" and @user.address != "default" and  @user.sex != "default" %>・<% end %>
+        <% if @user.address != "default" %><%= @user.address_i18n %><% end %>
+        <!--<% unless @user.age == "default" and  @user.address == "default" and  @user.sex == "default" %> 】<% end %>-->
+      </div>
+      
+      <% if @user.hobby.present? %>
+        <div class="mt-2 icon small"><%= image_tag "icon_kirakira.png" %>趣味・好きなこと<%= image_tag "icon_kirakira.png" %></div>
+        <div class="text-muted small">
+          <%= @user.hobby %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+  
+  <% if @user.introduce.present? %>
+    <div class="mt-2 pl-3 pr-3 box1">
+      <%= simple_format(@user.introduce, class:"xsmall") %>
+    </div>
+  <% end %>
+      
+  <% unless @user == current_user %>
+  <div class="gray mt-3 xxsmall text-right">
+    <%= link_to user_report_path do %>
+      <span class="gray"><i class="fas fa-exclamation-circle"></i></span>
+       不適切なユーザーの報告
+    <% end %>
+  </div>
+  <% end %>
+      
+</div>

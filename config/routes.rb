@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       get :followers
       get :favorites
       get :entries
+      get :participateds
     end
   end
   

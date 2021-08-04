@@ -18,6 +18,7 @@
       <li><%= link_to '投稿したイベント', user_posts_path(@user) %></li>
       <li><%= link_to '下書き編集', confirm_posts_path %></li>
       <li><%= link_to 'エントリー済み', entries_user_path(@user) %></li>
+      <li><%= link_to '参加したイベント', participateds_user_path(@user) %></li>
       <li><%= link_to 'お気に入り', favorites_user_path(@user) %></li>
       <li><%= link_to 'お知らせ', informations_path %></li>
       <li><%= link_to "フォロー/フォロワー", followings_user_path(@user) %></li>

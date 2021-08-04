@@ -4,6 +4,7 @@ class PostsController < ApplicationController
   before_action :admin_user, only: [:post_reports]
   before_action :set_post_tags_to_gon, only: [:edit]
   before_action :set_available_tags_to_gon, only: [:new, :edit, :create, :update]
+  before_action :devise_variant
   
   def index
     @posts = Post.published.all.reverse_order.page(params[:page]).per(20).includes(:tags)
@@ -18,6 +19,8 @@ class PostsController < ApplicationController
     @comment = @post.comments.build
     @users = @post.entries.approval.includes(:user)
     @entry_users = @post.entries.includes(:user)
+    @posts_sp = Post.published.order("updated_at DESC").where(cancel: nil).limit(20).includes(:destinations)
+    @dead_lineposts_sp = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where(cancel: nil).limit(20).includes(:destinations)
     comment_counts(@post)
     
     if @post.draft?
@@ -156,6 +159,7 @@ class PostsController < ApplicationController
   end
   def post_reports
     @report = PostReport.order("created_at DESC").page(params[:page]).per(50)
+    @report_sp = PostReport.order("created_at DESC").page(params[:page]).per(20)
     @report_rank = Post.find(PostReport.group(:post_id).order('count(post_id) desc').page(params[:page]).per(20).pluck(:post_id))
   end
   
@@ -198,6 +202,15 @@ class PostsController < ApplicationController
   
   def set_available_tags_to_gon
     gon.available_tags = Post.tags_on(:tags).pluck(:name)
+  end
+  
+  def devise_variant
+      case request.user_agent
+      when /iPhone/
+        request.variant = :mobile
+      when /android/
+        request.variant = :android
+      end
   end
 
 end

@@ -1,0 +1,29 @@
+<div class="container-fluid mb-5">
+  <% breadcrumb :followers %>
+    <%= render "layouts/breadcrumbs" %>
+    
+    
+    <div class="mt-3">
+
+      <ul class="nav nav-tabs nav-justified mb-3">
+        <li class="nav-item bold"><a href="<%= followings_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followings_user_path(@user)) %>">フォロー  <span class="badge badge-secondary"><%= @count_followings %></span></a></li>
+        <li class="nav-item bold"><a href="<%= followers_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followers_user_path(@user)) %>">フォロワー  <span class="badge badge-secondary"><%= @count_followers %></span></a></li>
+      </ul>
+      
+      <div class="row row-0 mt-3">
+      <% @followers.each do |user| %>
+        <div class="circle-image col-3 mt-1 text-center pl-1 pr-1">
+          <%= link_to image_tag(user.image.thmb300.to_s), user_path(user) %>
+          <p class="bold small"><%= link_to user.name, user_path(user) %></p>
+          <p class="xxsmall web-mt-15"><%= user.catchphrase %></p>
+        </div>
+      <% end %>
+      </div>
+      
+      <div class="pagination justify-content-end pagination-sm">
+        <%= paginate @followers %>
+      </div>
+      
+    </div>
+
+</div>

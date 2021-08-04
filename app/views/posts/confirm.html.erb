@@ -1,6 +1,7 @@
 <div class="container-fluid">
   <% breadcrumb :confirm %>
     <%= render "layouts/breadcrumbs" %>
+    
   <div class="row mt-4 mb-5">
     
     <div class="col-lg-3 col-sm-4 text-center">
@@ -8,7 +9,7 @@
     </div>
     
     <div class="col-lg-6 col-sm-8">
-      <h2>下書き中のイベント 　<span class="small bold"><%= @count_draft %> プラン</span></h2>
+      <div class="bb"><h4><span class="bold">下書き中のイベント 　</span><span class="small bold"><%= @count_draft %> 件</span></h4></div>
       
       <div class="mypage-center top-postimage mt-3">
         <% @posts.each do |post| %>
@@ -92,35 +93,35 @@
               <% end %>
             </div>
             
-            <% if post.cancel.present? %>
-              <div class="mt-2 gray xsmall xsmall-tb">
-                キャンセルされました
-              </div>
-            <% else %>
-            <div class="mt-2 gray xsmall xsmall-tb">
-              <% dt1 = Time.zone.now %>
-              <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
-              <% diff = dt2 - dt1 %>
-              <% s = diff % 60 %>
-              <% m = ((diff - s) / 60) % 60 %>
-              <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
-              <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+            <!--<% if post.cancel.present? %>-->
+            <!--  <div class="mt-2 gray xsmall xsmall-tb">-->
+            <!--    キャンセルされました-->
+            <!--  </div>-->
+            <!--<% else %>-->
+            <!--<div class="mt-2 gray xsmall xsmall-tb">-->
+            <!--  <% dt1 = Time.zone.now %>-->
+            <!--  <% dt2 = Time.zone.parse(post.dead_line.to_s) %>-->
+            <!--  <% diff = dt2 - dt1 %>-->
+            <!--  <% s = diff % 60 %>-->
+            <!--  <% m = ((diff - s) / 60) % 60 %>-->
+            <!--  <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>-->
+            <!--  <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>-->
               
-              <% if d.to_i == 0 and h.to_i > 0 %>
-                <i class="far fa-clock"></i>
-                残り<%= h.to_i %>時間
-              <% elsif d.to_i == 0 and h.to_i == 0 %>
-                <i class="far fa-clock"></i>
-                もうすぐ終了！
-              <% elsif d.to_i < 0 %>
-                <i class="far fa-clock"></i>
-                募集は終了しています
-              <% else %>
-                <i class="far fa-clock"></i>
-                残り<%= d.to_i %>日
-              <% end %>
-            </div>
-            <% end %>
+            <!--  <% if d.to_i == 0 and h.to_i > 0 %>-->
+            <!--    <i class="far fa-clock"></i>-->
+            <!--    残り<%= h.to_i %>時間-->
+            <!--  <% elsif d.to_i == 0 and h.to_i == 0 %>-->
+            <!--    <i class="far fa-clock"></i>-->
+            <!--    もうすぐ終了！-->
+            <!--  <% elsif d.to_i < 0 %>-->
+            <!--    <i class="far fa-clock"></i>-->
+            <!--    募集は終了しています-->
+            <!--  <% else %>-->
+            <!--    <i class="far fa-clock"></i>-->
+            <!--    残り<%= d.to_i %>日-->
+            <!--  <% end %>-->
+            <!--</div>-->
+            <!--<% end %>-->
             
           </div>
           

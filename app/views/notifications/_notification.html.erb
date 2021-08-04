@@ -37,6 +37,10 @@
         <% end %>
         にコメントしました！
         
+      <% when 'talkroom' then %>
+          が【<%= link_to notification.post.title.truncate(26), member_path(notification.post), data: {"turbolinks" => false} %>】
+        にコメントしました！
+        
       <% when 'entry' then %>
         が【<%= link_to notification.post.title.truncate(26), post_path(notification.post), data: {"turbolinks" => false} %>】にエントリーしました！
       

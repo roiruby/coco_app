@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to @user
     else
-      flash.now[:danger] = '更新されませんでした'
+      flash.now[:danger] = '更新されませんでした。必須項目の入力漏れや文字数制限、アップロード画像が5MB以下になっているかご確認ください。'
       render :edit
     end
   end
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   
   def posts
     @user = current_user
-    @posts = @user.posts.published.order("updated_at DESC").page(params[:page]).per(20)
+    @posts = @user.posts.published.includes(:entries).order("updated_at DESC").page(params[:page]).per(20)
     counts(@user)
   end
   
@@ -92,8 +92,7 @@ class UsersController < ApplicationController
   
   def entries
     @user = User.find(params[:id])
-    @entryposts = @user.entryposts.order('(entries.id) DESC').page(params[:page]).per(20)
-    @users = @user.entries.includes(:post).order(created_at: "DESC")
+    @entries = Entry.includes(:post).where(user_id: current_user.id).where.not(posts: {user_id: current_user.id} ).order('(entries.id) DESC').page(params[:page]).per(20)
     counts(@user)
   end
   
@@ -103,13 +102,23 @@ class UsersController < ApplicationController
   end
   def user_reports
     @report = UserReport.order("created_at DESC").page(params[:page]).per(50)
+    @report_sp = UserReport.order("created_at DESC").page(params[:page]).per(20)
     @report_rank = User.find(UserReport.group(:repo_id).order('count(repo_id) desc').page(params[:page]).per(20).pluck(:repo_id))
+  end
+  
+  def participateds
+    @user = User.find(params[:id])
+    @joins = @user.entryposts.includes(:entries).where("event_schedule < ?", Time.zone.now ).where(entries: {entry_status: "approval"} ).where(cancel: nil).order('(entries.id) DESC')
+    @participateds = @joins.select do |x|
+      x.entries.where(entry_status: "approval").count > 1
+    end
+    @participateds = Kaminari.paginate_array(@participateds).page(params[:page]).per(20)
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :catchphrase, :introduce, :hobby, :sex, :age, :address, :image, :remove_image, :user_id)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :catchphrase, :introduce, :hobby, :sex, :age, :address, :image, :remove_image, :user_id, :agreement)
   end
   
   def correct_user

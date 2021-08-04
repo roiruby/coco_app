@@ -1,0 +1,42 @@
+<div class="row mt-3">
+  
+  <div class="col-4">
+    <div class="circle-image text-center">
+      <%= link_to image_tag(@user.image.thmb300.url), edit_user_path(current_user) %>
+    </div>
+  </div>
+  
+  <div class="col-8">
+    <div class="bold ">
+      <%= @user.name %>
+    </div>
+    
+    <div class="small text-muted">
+      <%= @user.catchphrase %>
+    </div>
+      
+    <div class="xsmall">
+      <!--<% unless @user.age == "default" and @user.address == "default" and  @user.sex == "default" %>【 <% end %>-->
+      <% if @user.age != "default" %><%= @user.age_i18n %><% end %>
+      <% if @user.age != "default" %>・<% end %>
+      <% if @user.sex != "default" %><%= @user.sex_i18n %><% end %>
+      <% if @user.age != "default" and @user.address != "default" and  @user.sex != "default" %>・<% end %>
+      <% if @user.address != "default" %><%= @user.address_i18n %><% end %>
+      <!--<% unless @user.age == "default" and  @user.address == "default" and  @user.sex == "default" %> 】<% end %>-->
+    </div>
+    
+    <% if @user.hobby.present? %>
+      <div class="mt-2 icon small"><%= image_tag "icon_kirakira.png" %>趣味・好きなこと<%= image_tag "icon_kirakira.png" %></div>
+      <div class="text-muted small">
+        <%= @user.hobby %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+<% if @user.introduce.present? %>
+  <div class="mt-1 pl-3 pr-3 box1">
+    <%= simple_format(@user.introduce, class:"xsmall") %>
+  </div>
+<% end %>

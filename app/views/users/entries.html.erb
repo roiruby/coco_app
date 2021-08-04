@@ -1,6 +1,20 @@
 <div class="container-fluid">
   <% breadcrumb :entries %>
     <%= render "layouts/breadcrumbs" %>
+  
+  <!--<% Entry.includes(:post).where(user_id: current_user.id).where.not(posts: {user_id: current_user.id} ).order('(entries.id) DESC').each do |entry| %>-->
+  <!--  <% if entry.entry_status == "approval" %>-->
+
+
+  <!--      <%= entry.post.title %>メンバーです-->
+
+  <!--  <% else %>-->
+  <!--      <%= entry.post.title %>承認待ち-->
+
+  <!--  <% end %>-->
+  <!--<% end %>-->
+    
+    
   <div class="row mt-4 mb-5">
     
     <div class="col-lg-3 col-sm-4 text-center">
@@ -10,23 +24,23 @@
     <div class="col-lg-6 col-sm-8">
       
       <div class="bb">
-        <h4><span class="bold">エントリーしたイベント 　</span><span class="small bold"><%= @count_entryposts %> 件</span></h4>
+        <h4><span class="bold">エントリーしたイベント 　</span><span class="small bold"><%= @entries.count %> 件</span></h4>
       </div>
         
 
       <div class="mypage-center top-postimage mt-3">
-        <% @entryposts.zip(@users) do |post, user| %>
+        <% @entries.each do |entry| %>
         <div class="row row-0">
           
           <div class="top-postimage col-sm-4">
             <div class="poston">
-              <% if post.image? %>
-                <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
+              <% if entry.post.image? %>
+                <%= link_to image_tag(entry.post.image.thmb300.to_s), post_path(entry.post) %>
                 <p><span class="tag1 bold xsmall">
-                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  <%= link_to entry.post.category.name, category_path(entry.post.category.id) %>
                   </span>
   
-                  <% post.destinations.each do |destination| %>
+                  <% entry.post.destinations.each do |destination| %>
                     <% if destination.area.present? %>
                     <span class="tag1 bold xsmall pl-1">
                         <%= destination.area %>
@@ -35,12 +49,12 @@
                   <% end %>
                 </p>
               <% else %>
-                <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
+                <%= link_to image_tag("default_post.jpg"), post_path(entry.post), data: {"turbolinks" => false} %>
                 <p><span class="tag1 bold xsmall">
-                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  <%= link_to entry.post.category.name, category_path(entry.post.category.id) %>
                   </span>
   
-                  <% post.destinations.each do |destination| %>
+                  <% entry.post.destinations.each do |destination| %>
                     <% if destination.area.present? %>
                     <span class="tag1 bold xsmall pl-1">
                         <%= destination.area %>
@@ -55,18 +69,18 @@
           
           <div class="col-sm-8 pl-2 bold">
             
-            <%= link_to post.title.truncate(46), post_path(post), data: {"turbolinks" => false} %>
+            <%= link_to entry.post.title.truncate(46), post_path(entry.post), data: {"turbolinks" => false} %>
             
             <div class="small pr-1 pl-1 mt-1">
-                <% date = post.event_schedule.to_s(:date) %>
+                <% date = entry.post.event_schedule.to_s(:date) %>
                 <% weekday = %w[日 月 火 水 木 金 土] %>
                   <div class="bold">
-                    <i class="far fa-calendar-alt"></i> <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+                    <i class="far fa-calendar-alt"></i> <%= entry.post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= entry.post.event_schedule.to_s(:time) %>
                   </div>
 
             </div>
             
-            <% post.destinations.each do |destination| %>
+            <% entry.post.destinations.each do |destination| %>
               <div class="bold small pr-1 pl-1 mt-1">
                 <i class="fas fa-map-marker-alt"></i> <%= destination.name %>
               </div>
@@ -74,36 +88,36 @@
             
             <div class="row ml-1 mr-1 mt-1">
               <div class="btn1 xsmall mt-1 bold mr-1">
-                <%= post.sex_i18n %>
+                <%= entry.post.sex_i18n %>
               </div>
               
-              <% if post.member != "default" %>
+              <% if entry.post.member != "default" %>
               <div class="btn1 xsmall mt-1 bold mr-1">
-                <%= post.member_i18n %>募集
-              </div>
-              <% end %>
-              
-              <% if post.payment != "default" %>
-              <div class="btn1 xsmall mt-1 bold mr-1">
-                <%= post.payment_i18n %>
+                <%= entry.post.member_i18n %>募集
               </div>
               <% end %>
               
-              <% if post.budget != "default" %>
+              <% if entry.post.payment != "default" %>
               <div class="btn1 xsmall mt-1 bold mr-1">
-                <%= post.budget_i18n %>
+                <%= entry.post.payment_i18n %>
+              </div>
+              <% end %>
+              
+              <% if entry.post.budget != "default" %>
+              <div class="btn1 xsmall mt-1 bold mr-1">
+                <%= entry.post.budget_i18n %>
               </div>
               <% end %>
             </div>
             
-            <% if post.cancel.present? %>
+            <% if entry.post.cancel.present? %>
               <div class="mt-2 gray xsmall xsmall-tb">
                 キャンセルされました
               </div>
             <% else %>
             <div class="mt-2 gray xsmall xsmall-tb">
               <% dt1 = Time.zone.now %>
-              <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
+              <% dt2 = Time.zone.parse(entry.post.dead_line.to_s) %>
               <% diff = dt2 - dt1 %>
               <% s = diff % 60 %>
               <% m = ((diff - s) / 60) % 60 %>
@@ -127,47 +141,50 @@
             <% end %>
             
             
-            <div class="web-flex">
+            <div class="d-flex align-items-end">
             
-            <% if user.entry_status == "approval" %>
-              <div class="tag2 xsmall bold mt-2 ml-1">
-                <%= link_to "メンバー確定", member_path(post) %>
-              </div>
-            <% else %>
-              <% if d.to_i < 0 %>
-                <div class="tag3 xsmall bold mt-2 ml-1">
-                  イベント終了
-                </div>
-              <% else %>
-                <% if post.cancel.present? %>
-                <% else %>
-                <div class="tag3 xsmall bold mt-2 ml-1">
-                  メンバー承認待ち
-                </div>
+              <% if entry.entry_status == "approval" %>
+                <% unless entry.post.cancel.present? %>
+                  <div class="tag2 xsmall bold mt-2 ml-1">
+                    <%= link_to "メンバー確定", member_path(entry.post) %>
+                  </div>
                 <% end %>
-              <% end %>
-            <% end %>
-            
-            <% dt1 = Time.zone.now %>
-            <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
-            <% diff = dt2 - dt1 %>
-            <% s = diff % 60 %>
-            <% m = ((diff - s) / 60) % 60 %>
-            <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
-            <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
-            
-            <% if d.to_i < 0 and user.entry_status == "unapproval" %>
-              <div>
-                <% if current_user.entrypost?(post) %>
-                  <%= form_for(current_user.entries.find_by(post_id: post.id), data: { confirm: "削除してもいいですか？" }, html: { method: :delete }) do |f| %>
-                      <%= hidden_field_tag :post_id, post.id %>
-                      <%= button_tag :type => "submit", :class =>"btn" do %>
-                      <i class="far fa-trash-alt d-flex align-items-end"></i>
-                      <% end %>
+              <% else %>
+                <% if entry.post.cancel.present? %>
+                <% else %>
+                  <% if d.to_i < 0 %>
+                    <div class="tag3 xsmall bold mt-2 ml-1">
+                      イベント終了
+                    </div>
+                  <% else %>
+                    <div class="tag3 xsmall bold mt-2 ml-1">
+                      メンバー承認待ち
+                    </div>
                   <% end %>
                 <% end %>
-              </div>
-            <% end %>
+              <% end %>
+            
+              <% dt1 = Time.zone.now %>
+              <% dt2 = Time.zone.parse(entry.post.dead_line.to_s) %>
+              <% diff = dt2 - dt1 %>
+              <% s = diff % 60 %>
+              <% m = ((diff - s) / 60) % 60 %>
+              <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+              <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+              
+              <% if d.to_i < 0 and entry.entry_status == "unapproval" %>
+                <div class="">
+                  <% if current_user.entrypost?(entry.post) %>
+                    <%= form_for(current_user.entries.find_by(post_id: entry.post.id), data: { confirm: "削除してもいいですか？" }, html: { method: :delete }) do |f| %>
+                        <%= hidden_field_tag :post_id, entry.post.id %>
+                        <%= button_tag :type => "submit", :class =>"btn d-flex align-items-end" do %>
+                        <i class="far fa-trash-alt"></i>
+                        <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            
             </div>
             
           </div>
@@ -178,14 +195,13 @@
       </div>
       
       <div class="pagination justify-content-end pagination-sm">
-        <%= paginate @entryposts %>
+        <%= paginate @entries %>
       </div>
       
     </div>
     
     <div class="col-lg-3 d-none d-lg-block">
       <div class="mypage_right">
-
       </div>
     </div>
     
