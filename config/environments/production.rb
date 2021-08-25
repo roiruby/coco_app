@@ -59,6 +59,16 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "sharingood_#{Rails.env}"
+  
+  config.action_mailer.smtp_settings = {
+      :enable_starttls_auto => false,
+      :address => 'smtp.cocomelo.conoha.io',
+      :port => 587,
+      :domain => 'cocomelo.jp',
+      :authentication => :plain,
+      :user_name => Rails.application.credentials.mail[:address],
+      :password => Rails.application.credentials.mail[:password]
+  }
 
   config.action_mailer.perform_caching = false
 
