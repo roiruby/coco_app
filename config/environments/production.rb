@@ -60,6 +60,11 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "sharingood_#{Rails.env}"
   
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  host = 'cocomelo.jp'
+  config.action_mailer.default_url_options = { host: host }
+  
   config.action_mailer.smtp_settings = {
       :enable_starttls_auto => false,
       :address => 'smtp.cocomelo.conoha.io',
