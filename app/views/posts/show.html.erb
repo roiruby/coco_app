@@ -325,7 +325,7 @@
                     <% if @post.user.sex != "default" %><%= @post.user.sex_i18n %><% end %>
                     <% if @post.user.age != "default" and @post.user.address != "default" and  @post.user.sex != "default" %>・<% end %>
                     <% if @post.user.address != "default" %><%= @post.user.address_i18n %><% end %>
-                    <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.userr.sex == "default" %> 】<% end %>
+                    <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.user.sex == "default" %> 】<% end %>
                   </div>
                   <div class="small gray bold mt-1"><%= @post.user.catchphrase %></div>
               <% else %>
@@ -339,7 +339,7 @@
                   <% if @post.user.sex != "default" %><%= @post.user.sex_i18n %><% end %>
                   <% if @post.user.age != "default" and @post.user.address != "default" and  @post.user.sex != "default" %>・<% end %>
                   <% if @post.user.address != "default" %><%= @post.user.address_i18n %><% end %>
-                  <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.userr.sex == "default" %> 】<% end %>
+                  <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.user.sex == "default" %> 】<% end %>
                 </div>
                 <div class="small gray bold mt-1"><%= @post.user.catchphrase %></div>
               <% end %>  
