@@ -17,8 +17,8 @@ class User < ApplicationRecord
              
   validates_acceptance_of :agreement, allow_nil: false, on: :create
   
-  STATUS_VALUES = ["female", "male", "unanswered"]
-  validates :sex, inclusion: { in: STATUS_VALUES }
+  # STATUS_VALUES = ["female", "male", "unanswered"]
+  # validates :sex, inclusion: { in: STATUS_VALUES }
   
   has_many :posts, dependent: :destroy
   
