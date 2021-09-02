@@ -85,6 +85,8 @@ gem 'letter_opener_web', group: :development
 
 gem 'rack-attack'
 
+gem 'meta-tags'
+
 group :production, :staging do
   gem 'unicorn'
 end
