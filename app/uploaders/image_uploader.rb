@@ -12,13 +12,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   process :convert => 'jpg'
  
   # サムネイルを生成する設定
-  version :thumb do
-    process :resize_to_limit => [1024, 576]
-  end
-  
-  # version :thumb150 do
-  #   process :resize_to_limit => [150, 150]
-  # end
+  process :resize_to_limit => [1024, 576]
   
   version :thmb300 do
     process :resize_to_fill => [300, 300]
