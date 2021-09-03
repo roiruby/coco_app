@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get 'tos', to: 'toppages#tos', as: :tos
   get 'privacy', to: 'toppages#privacy', as: :privacy
   get 'faq', to: 'toppages#faq', as: :faq
+  get 'topic', to: 'toppages#topic', as: :topic
   
   get  'quit' =>'quits#new'
   post  'quit' =>'quits#create'
