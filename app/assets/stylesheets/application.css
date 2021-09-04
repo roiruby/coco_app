@@ -192,6 +192,17 @@ a .topic{
 a:hover .topic {
   color: rgba(0,0,0,0.5);
 }
+.topic_img img {
+  width: 70%;
+}
+.topic_txt {
+	text-align: center;
+	display: block;
+}
+.topic_txt .topic_text {
+	text-align: left;
+	display: inline-block;
+}
 /*---------------------------------------------------------------toppage-----*/
 .top-postimage {
 
@@ -661,6 +672,9 @@ footer a:hover{
 }
 .toptag {
   font-size: 50%;
+}
+.topic_img img {
+  width: 80%;
 }
 
 
