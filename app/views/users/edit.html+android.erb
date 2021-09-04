@@ -1,0 +1,100 @@
+<div class="container mb-5">
+  
+  <div class="text-center mt-3">
+    <h1>プロフィール編集</h1>
+  </div>
+
+
+  
+  <%= form_with(model: @user, local: true) do |f| %>
+  
+  <div class="text-center mt-3">
+    <div class="circle-image150">
+      <% if @user.image? %>
+        <%= image_tag @user.image.thmb300.url, id: :img_prev %>
+        <p class="mt-2"><%= f.check_box :remove_image %>画像を削除する</p>
+      <% else %>
+        <%= image_tag "default.jpg", id: :img_prev %>
+      <% end %>
+    </div>
+      
+    <div class="xsmall mt-3 ml-5">
+      <%= f.file_field :image, id: :user_img %>
+    </div>
+  </div>
+
+
+  <!--画像即時にプレビューjavascript-->
+  <script type="text/javascript">
+  $(function() {
+   function readURL(input) {
+     if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+         $('#img_prev').attr('src', e.target.result);
+       }
+       reader.readAsDataURL(input.files[0]);
+     }
+   }
+   $("#user_img").change(function(){
+     readURL(this);
+   });
+  });
+  </script>
+
+  
+
+
+
+    <div class="form-group">
+      <span class="required">*</span>
+      <%= f.label :name, 'ユーザー名' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :catchphrase, 'キャッチフレーズ' %>
+      <%= f.text_field :catchphrase, placeholder: 'あなたの特徴・肩書き・得意なことなど', class: 'form-control' %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :introduce, '自己紹介' %>
+      <%= f.text_area :introduce, :maxlength => "3000", :size => "80x5",  class: 'form-control'  %>
+    </div>
+    
+    <div class="form-group">
+      <%= f.label :hobby, '趣味・好きなこと' %>
+      <%= f.text_field :hobby, placeholder: 'あなたの趣味や好きなことなど', class: 'form-control' %>
+    </div>
+    
+    
+    
+    <div class="row f_with mb-3">
+      <div class="col-4">
+        <div class="form-group">
+          <div><span class="required">*</span><%= f.label :sex, '性別' %></div>
+          <%= f.select :sex, User.sexes.keys.map { |k| [t("enums.user.sex.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+        </div>
+      </div>
+      
+      <div class="col-4">
+        <div class="form-group">
+          <div><%= f.label :age, '年代' %></div>
+          <%= f.select :age, User.ages.keys.map { |k| [t("enums.user.age.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+        </div>
+      </div>
+      
+      <div class="col-4">
+        <div class="form-group">
+          <div><%= f.label :address, '拠点' %></div>
+          <%= f.select :address, User.addresses.keys.map { |k| [t("enums.user.address.#{k}"),k]}, {}, {class: 'form-control-sm'} %>
+        </div>
+      </div>
+      
+    </div>
+
+    <%= f.submit '更新する', class: 'btn btn-primary btn-block' %>
+  <% end %>
+  
+
+</div>

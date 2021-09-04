@@ -1,6 +1,5 @@
 <div class="d-none d-lg-block">
   <div class="container w-50 mb-5">
-
   
 
     <div class="text-center mt-3">
@@ -11,7 +10,7 @@
     
     <%= form_with(model: @user, local: true) do |f| %>
     
-        <div class="text-center mt-3">
+    <div class="text-center mt-3">
       <div class="circle-image150">
         <% if @user.image? %>
           <%= image_tag @user.image.thmb300.url, id: :img_prev %>
@@ -44,9 +43,6 @@
      });
     });
     </script>
-
-    
-
 
 
       <div class="form-group">
@@ -116,7 +112,7 @@
     
     <%= form_with(model: @user, local: true) do |f| %>
     
-        <div class="text-center mt-3">
+    <div class="text-center mt-3">
       <div class="circle-image150">
         <% if @user.image? %>
           <%= image_tag @user.image.thmb300.url, id: :img_prev %>
