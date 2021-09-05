@@ -1,19 +1,17 @@
 <div class="container mb-5">
   <% breadcrumb :deadline_approaching, @posts %>
     <%= render "layouts/breadcrumbs" %>
+    
+  <p class="h4 bold mt-4"><i class="fas fa-ice-cream mr-2"></i></i>締め切りが近いイベント一覧</p>
   
-    <p class="h4 bold mt-4"><i class="fas fa-ice-cream mr-2"></i></i>締め切りが近いイベント一覧</p>
-  
-  <div class="row row-0 mt-3">
+  <div class="row row-0 mt-2 mb-5">
     <% @posts.each do |post| %>
-      <div class="top-postimage col-sm-3 mt-1">
+      <div class="top-postimage col-6 mt-1">
         <div class="poston category">
           <% if post.image? %>
             <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
-            <p><span class="tag1 bold xsmall">
-              <%= link_to post.category.name, category_path(post.category.id) %>
-              </span>
-
+            
+            <p>
               <% post.destinations.each do |destination| %>
                 <% if destination.area.present? %>
                 <span class="tag1 bold xsmall pl-1">
@@ -24,10 +22,7 @@
             </p>
           <% else %>
             <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
-            <p><span class="tag1 bold xsmall">
-              <%= link_to post.category.name, category_path(post.category.id) %>
-              </span>
-
+            <p>
               <% post.destinations.each do |destination| %>
                 <% if destination.area.present? %>
                 <span class="tag1 bold xsmall pl-1">
@@ -112,8 +107,9 @@
     <% end %>
   </div>
 
-  <div class="pagination justify-content-end pagination-sm mt-3">
+  <div class="pagination justify-content-end pagination-sm">
     <%= paginate @posts %>
   </div>
+  
   
 </div>

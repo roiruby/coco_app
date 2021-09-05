@@ -114,6 +114,14 @@ crumb :contact do
   link "お問い合わせ", contact_path
 end
 
+crumb :new_arrival do |post|
+  link "新着のイベント一覧", new_arrival_path(post)
+end
+
+crumb :deadline_approaching do |post|
+  link "締め切りが近いイベント一覧", deadline_approaching_path(post)
+end
+
 # crumb :projects do
 #   link "Projects", projects_path
 # end
