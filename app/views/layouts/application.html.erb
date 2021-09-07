@@ -8,6 +8,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     
+    <% if Rails.env.production? %>
+      <%= render 'layouts/google_analytics' %>
+    <% end %>
+    
     <%= include_gon %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
