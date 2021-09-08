@@ -185,12 +185,12 @@
           </div>
           
           <% dt1 = Time.zone.now %>
-          <% dt2 = Time.zone.parse(@post.dead_line.to_s) %>
-          <% diff = dt2 - dt1 %>
-          <% s = diff % 60 %>
-          <% m = ((diff - s) / 60) % 60 %>
-          <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
-          <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+          <% dt3 = Time.zone.parse(@post.event_schedule.to_s) %>
+          <% difff = dt3 - dt1 %>
+          <% s = difff % 60 %>
+          <% m = ((difff - s) / 60) % 60 %>
+          <% h = ((difff - s - m * 60) / (60 ** 2)) % 24 %>
+          <% d = ((difff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
           
           <div class ="text-center">
           <% if d.to_i < 0 %>
