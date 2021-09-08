@@ -4,7 +4,7 @@
       <%= render "layouts/breadcrumbs" %>
       
     <div class="bold h6 mt-3">
-      【<%= link_to @post.title.truncate(39), post_path(@post) %>】の<br>トークルーム
+      トークルーム
     </div>
       
     <div class="mt-2">
@@ -12,6 +12,10 @@
         
         <div class="text-center">
           イベント詳細
+        </div>
+        
+        <div>
+        【<%= link_to @post.title.truncate(39), post_path(@post) %>】
         </div>
         
         <% if @post.event_schedule.present? %>
