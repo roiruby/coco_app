@@ -12,15 +12,16 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @posts = Post.published.order("updated_at DESC").limit(5).where.not(id: @post.id).where(cancel: nil)
+    @posts = Post.published.order("updated_at DESC").limit(5).where.not(id: @post.id).where(cancel: nil).includes(:destinations)
+    @dead_lineposts = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where.not(id: @post.id).where(cancel: nil).includes(:destinations).limit(5)
     @destinations = @post.destinations
     @user = @post.user
     @comments = @post.comments.includes(:user).all.limit(4).order(created_at: :desc)
     @comment = @post.comments.build
     @users = @post.entries.approval.includes(:user)
     @entry_users = @post.entries.includes(:user)
-    @posts_sp = Post.published.order("updated_at DESC").where(cancel: nil).limit(20).includes(:destinations)
-    @dead_lineposts_sp = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where(cancel: nil).limit(20).includes(:destinations)
+    @posts_sp = Post.published.order("updated_at DESC").where.not(id: @post.id).where(cancel: nil).limit(20).includes(:destinations)
+    @dead_lineposts_sp = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where.not(id: @post.id).where(cancel: nil).limit(20).includes(:destinations)
     comment_counts(@post)
     
     if @post.draft?

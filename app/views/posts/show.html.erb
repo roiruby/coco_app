@@ -484,6 +484,123 @@
           <%= link_to "新着のイベントをもっと見る　＞", new_arrival_path %>
         </div>
         
+        
+        <p class="top_index h5 bold mt-3 mb-0"><%= image_tag "icon_deadline.png" %>締め切りが近いイベント</p>
+        
+        <% @dead_lineposts.each do |post| %>
+          <div class="side-postimage mt-2">
+            <div class="poston">
+              <% if post.image? %>
+                <%= link_to image_tag(post.image.thmb300.to_s), post_path(post) %>
+                <p><span class="tag1 bold xsmall">
+                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  </span>
+  
+                  <% post.destinations.each do |destination| %>
+                    <% if destination.area.present? %>
+                    <span class="tag1 bold xsmall pl-1">
+                        <%= destination.area %>
+                    </span>
+                    <% end %>
+                  <% end %>
+                </p>
+              <% else %>
+                <%= link_to image_tag("default_post.jpg"), post_path(post), data: {"turbolinks" => false} %>
+                <p><span class="tag1 bold xsmall">
+                  <%= link_to post.category.name, category_path(post.category.id) %>
+                  </span>
+  
+                  <% post.destinations.each do |destination| %>
+                    <% if destination.area.present? %>
+                    <span class="tag1 bold xsmall pl-1">
+                        <%= destination.area %>
+                    </span>
+                    <% end %>
+                  <% end %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+          
+          <div class="xsmall bold mt-2">
+            <%= link_to post.title.truncate(26), post_path(post), data: {"turbolinks" => false} %>
+          </div>
+          
+          <div class="small pr-1 pl-1 mt-1">
+            <% date = post.event_schedule.to_s(:date) %>
+            <% weekday = %w[日 月 火 水 木 金 土] %>
+            <div class="bold">
+              <i class="far fa-calendar-alt"></i> <%= post.event_schedule.to_s(:date) %>（<%= weekday[Date.parse(date).wday] %>）<%= post.event_schedule.to_s(:time) %>
+            </div>
+          </div>
+          
+          <% post.destinations.each do |destination| %>
+            <div class="bold small pr-1 pl-1 mt-1">
+              <i class="fas fa-map-marker-alt"></i> <%= destination.name %>
+            </div>
+          <% end %>
+          
+          <div class="row ml-1 mr-1 mt-1">
+            <div class="btn1 xsmall mt-1 bold mr-1">
+              <%= post.sex_i18n %>
+            </div>
+            
+            <% if post.member != "default" %>
+            <div class="btn1 xsmall mt-1 bold mr-1">
+              <%= post.member_i18n %>募集
+            </div>
+            <% end %>
+            
+            <% if post.payment != "default" %>
+            <div class="btn1 xsmall mt-1 bold mr-1">
+              <%= post.payment_i18n %>
+            </div>
+            <% end %>
+            
+            <% if post.budget != "default" %>
+            <div class="btn1 xsmall mt-1 bold mr-1">
+              <%= post.budget_i18n %>
+            </div>
+            <% end %>
+          </div>
+          
+          <% if post.cancel.present? %>
+            <div class="mt-2 gray xsmall xsmall-tb">
+              キャンセルされました
+            </div>
+          <% else %>
+          <div class="mt-2 gray xsmall xsmall-tb">
+            <% dt1 = Time.zone.now %>
+            <% dt2 = Time.zone.parse(post.dead_line.to_s) %>
+            <% diff = dt2 - dt1 %>
+            <% s = diff % 60 %>
+            <% m = ((diff - s) / 60) % 60 %>
+            <% h = ((diff - s - m * 60) / (60 ** 2)) % 24 %>
+            <% d = ((diff - s - m * 60 - h * 60 ** 2) / (60**2 * 24)) %>
+            
+            <% if d.to_i == 0 and h.to_i > 0 %>
+              <i class="far fa-clock"></i>
+              残り<%= h.to_i %>時間
+            <% elsif d.to_i == 0 and h.to_i == 0 %>
+              <i class="far fa-clock"></i>
+              もうすぐ終了！
+            <% elsif d.to_i < 0 %>
+              <i class="far fa-clock"></i>
+              募集は終了しています
+            <% else %>
+              <i class="far fa-clock"></i>
+              残り<%= d.to_i %>日
+            <% end %>
+          </div>
+          <% end %>
+          
+        <% end %>
+        
+        <div class="text-right mt-3 xsmall bold">
+          <%= link_to "締め切りが近いイベントをもっと見る　＞", deadline_approaching_path %>
+        </div>
+        
+        
     </div>
     
     
