@@ -1,0 +1,64 @@
+<div class="container-fluid mt-3 mb-5">
+  
+  <div class="h5 bold">
+    会員登録数：<%= User.count %>
+    
+    <% @sum = 0 %>
+    <% @users.each do |user|%>
+      <% @joins = user.entryposts.includes(:entries).where("event_schedule < ?", Time.zone.now ).where(entries: {entry_status: "approval"} ).where(cancel: nil) %>
+      <% @participateds = @joins.select do |x| %>
+        <% x.entries.where(entry_status: "approval").count > 1 %>
+      <% end %>
+      <% @sum += @participateds.count %>
+    <% end %>
+    
+    <span class="ml-3">マッチング数：<%= @sum %></span>
+  </div>
+    
+  <div class="table-responsive">
+　　<table class="table table-condensed table-striped table table-bordered">
+　　  
+　　  <thead>
+        <tr>
+            <th>id</th>
+            <th>ユーザー名</th>
+            <th>性別</th>
+            <th>年代</th>
+            <th>投稿数</th>
+            <th>エントリー数</th>
+            <th>マッチ数</th>
+            <th>拠点</th>
+            <th>メール</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <% @users.each do |user|%>
+          <% @joins = user.entryposts.includes(:entries).where("event_schedule < ?", Time.zone.now ).where(entries: {entry_status: "approval"} ).where(cancel: nil) %>
+          <% @participateds = @joins.select do |x| %>
+            <% x.entries.where(entry_status: "approval").count > 1 %>
+          <% end %>
+        <tr>
+            <td><%= link_to "#{user.id}", user_path(user.id) %></td>
+            <td><%= link_to "#{user.name}", user_path(user.id) %></td>
+            <td><%= user.sex_i18n %></td>
+            <td><%= user.age_i18n %></td>
+            <td><%= user.posts.published.count %></td>
+            <td><%= user.entryposts.includes(:post).where.not(user_id: user.id).count %></td>
+            <td><%= @participateds.count %></td>
+            <td><%= user.address_i18n %></td>
+            <td><%= user.email %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    　　
+　　</table>
+  </div>
+  
+  <div class="pagination justify-content-end pagination-sm">
+    <%= paginate @users %>
+  </div>
+
+
+  
+</div>

@@ -26,6 +26,7 @@
       
       <% if current_user.admin? && !(current_user == User) %>
         ----------------
+        <li><%= link_to "管理ページ", admin_users_path %></li>
         <li><%= link_to "お知らせ投稿", new_information_path %></li>
         <li><%= link_to "メールマガジン投稿", new_newsletter_path %></li>
         <li><%= link_to 'メールマガジン', newsletters_path %></li>

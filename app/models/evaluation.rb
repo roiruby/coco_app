@@ -2,7 +2,7 @@ class Evaluation < ApplicationRecord
   belongs_to :user
   belongs_to :entry
   
-  has_many :notifications, dependent: :destroy
+  # has_many :notifications, dependent: :destroy
   
   validates :rating, presence: true
   

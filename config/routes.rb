@@ -66,6 +66,10 @@ Rails.application.routes.draw do
     end
   end
   
+  namespace :admin do
+    resources :users
+  end
+  
   resources :posts, only: [:create, :edit, :update, :destroy, :index, :show, :new] do
     resources :comments, only: [:create, :destroy]
     resources :post_reports, only: [:create]

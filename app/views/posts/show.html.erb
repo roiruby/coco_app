@@ -298,10 +298,12 @@
           <% if @post.cancel.present? %>
             <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
           <% else %>  
-          <div class="plan_edit text-center">
-          <%= link_to "イベントを編集", edit_post_path, data: {"turbolinks" => false}, class: 'btn btn-primary btn-sm' %>
-          <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
-          </div>
+            <%unless @post.event_schedule < Time.zone.now && @post.entries.count > 1 && !current_user.admin? %>
+              <div class="plan_edit text-center">
+                <%= link_to "イベントを編集", edit_post_path, data: {"turbolinks" => false}, class: 'btn btn-primary btn-sm' %>
+                <%= link_to "削除", post_path(@post.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: 'btn btn-danger btn-sm' %>
+              </div>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
