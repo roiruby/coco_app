@@ -31,7 +31,7 @@
             <% end %>
           </div>
         
-          <li class="nav-item btn btn-sm btn-plan small d-none d-lg-block"><%= link_to new_post_path, data: {"turbolinks" => false}, class: 'nav-link',:style=>"color:white;" do %><%= image_tag "icon-event.png" %>イベント作成<% end %></li>
+          <li class="nav-item btn btn-sm btn-plan small"><%= link_to new_post_path, data: {"turbolinks" => false}, class: 'nav-link',:style=>"color:white;" do %><%= image_tag "icon-event.png" %>イベント作成<% end %></li>
           
           <div class="menu mt-2 p-2">
       <%= link_to mypage_path do %>
@@ -122,6 +122,13 @@
     </div>
     
     <% if current_user.admin? && !(current_user == User) %>
+    <div class="menu p-2">
+      <%= link_to admin_users_path do %>
+        <div class="medium ml-2">
+          <i class="fas fa-tasks mr-2"></i>管理ページ<span style="position: absolute; right: 0", class="mr-4"><i class="fas fa-angle-right web-gray"></i></span>
+        </div>
+      <% end %>
+    </div>
     <div class="menu p-2">
       <%= link_to new_information_path do %>
         <div class="medium ml-2">
