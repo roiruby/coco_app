@@ -34,7 +34,7 @@
             <li class="nav-icon nav-item dropdown">
                 <a href="#" data-toggle="dropdown"><%= image_tag current_user.image.thmb300.url %></a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-item small"><i class="fas fa-pen-square mr-1"></i><%= link_to 'プラン作成', new_post_path %></li>
+                    <li class="dropdown-item small"><i class="fas fa-pen-square mr-1"></i><%= link_to 'イベント作成', new_post_path %></li>
                     <li class="dropdown-item small"><i class="far fa-id-card mr-1"></i><%= link_to 'マイページ', mypage_path %></li>
                     <li class="dropdown-item small"><i class="fas fa-user-circle mr-1"></i><%= link_to 'マイプロフィール', user_path(current_user) %></li>
                     <li class="dropdown-item small"><i class="fas fa-sign-out-alt mr-1"></i><%= link_to 'ログアウト', logout_path, method: :delete %></li>
