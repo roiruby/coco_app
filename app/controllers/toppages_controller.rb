@@ -6,6 +6,8 @@ class ToppagesController < ApplicationController
       @dead_lineposts = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where(cancel: nil).limit(6).includes(:destinations)
       @posts_sp = Post.published.order("updated_at DESC").where(cancel: nil).limit(20).includes(:destinations)
       @dead_lineposts_sp = Post.published.order(:dead_line).where("dead_line > ?", Time.zone.now).where(cancel: nil).limit(20).includes(:destinations)
+      @users = User.order("RAND()").limit(6)
+      @users_sp = User.order("RAND()").limit(20)
   end
   
   private
