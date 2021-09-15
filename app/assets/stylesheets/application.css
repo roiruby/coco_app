@@ -359,6 +359,12 @@ a:hover .topic {
   border-radius: 50%;
   object-fit: cover;
 }
+.circle-image2 img {
+  width: 86%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 .icon img {
   width: 2.8%;
@@ -627,6 +633,13 @@ footer a:hover{
 }
 .container-middle {
   max-width: 650px;
+}
+
+.circle-image2 img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /*---------------------------------------------------------------navbar-----*/
