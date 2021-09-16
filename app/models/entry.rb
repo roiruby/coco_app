@@ -2,8 +2,10 @@ class Entry < ApplicationRecord
   belongs_to :user
   belongs_to :post
   
-  has_many :evaluations, dependent: :destroy
-  has_many :evaluation_users, through: :evaluations, source: :user, dependent: :destroy
+  # has_many :evaluations, dependent: :destroy
+  # has_many :evaluation_users, through: :evaluations, source: :user, dependent: :destroy
+  has_many :evaluations, dependent: :nullify
+  has_many :evaluation_users, through: :evaluations, source: :user, dependent: :nullify
 
   
   enum entry_status: { unapproval: 0, approval: 1 }

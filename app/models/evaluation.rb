@@ -1,6 +1,6 @@
 class Evaluation < ApplicationRecord
-  belongs_to :user
-  belongs_to :entry
+  belongs_to :user, optional: true
+  belongs_to :entry, optional: true
   
   # has_many :notifications, dependent: :destroy
   

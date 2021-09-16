@@ -17,38 +17,72 @@
     
     <% @comments.each do |comment| %>
       <div class="comment web-flex">
-        <div class="mt-2">
-          <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
-        </div>
-        
-        <div class="ml-2">
-          <div class="bold small">
-            <%= link_to comment.user.name, user_path(comment.user) %>
+        <% if comment.user.present? %>
+          <div class="mt-2">
+            <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
           </div>
           
-          <div class="web-flex">
-            
-            <div class="comme bold medium">
-              <%= simple_format(comment.content) %>
+          <div class="ml-2">
+            <div class="bold small">
+              <%= link_to comment.user.name, user_path(comment.user) %>
             </div>
             
-            <% if logged_in? %>
-            <% if comment.user_id == current_user.id or current_user == @post.user || current_user.admin? %>
-            <div class="ml-2 d-flex align-items-end">
-              <%= link_to post_comment_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
-              <i class="far fa-trash-alt"></i>
+            <div class="web-flex">
+              
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+              
+              <% if logged_in? %>
+              <% if comment.user_id == current_user.id or current_user == @post.user || current_user.admin? %>
+              <div class="ml-2 d-flex align-items-end">
+                <%= link_to post_comment_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
+                <i class="far fa-trash-alt"></i>
+                <% end %>
+              </div>
+              <% end %>
               <% end %>
             </div>
-            <% end %>
-            <% end %>
+  
+            <div class="xsmall ml-1">
+              <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+            </div>
+            
+            
           </div>
-
-          <div class="xsmall ml-1">
-            <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+        <% else %>
+          <div class="mt-2">
+            <%= image_tag "default.jpg" %>
           </div>
           
-          
-        </div>
+          <div class="ml-2">
+            <div class="bold small gray">
+              退会済みユーザー
+            </div>
+            
+            <div class="web-flex">
+              
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+              
+              <% if logged_in? %>
+              <% if current_user.admin? %>
+              <div class="ml-2 d-flex align-items-end">
+                <%= link_to post_comment_path(@post, comment), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
+                <i class="far fa-trash-alt"></i>
+                <% end %>
+              </div>
+              <% end %>
+              <% end %>
+            </div>
+  
+            <div class="xsmall ml-1">
+              <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+            </div>
+            
+          </div>
+        <% end %>
         
       </div>
       <hr>

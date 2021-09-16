@@ -250,23 +250,47 @@
       
       <% @comments.each do |comment| %>
         <div class="comment web-flex mt-2">
-          <div class="mt-2">
-            <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
-          </div>
+          <% if comment.user.present? %>
           
-          <div class="ml-2">
-            <div class="bold small">
-              <%= link_to comment.user.name, user_path(comment.user) %>
+            <div class="mt-2">
+              <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
             </div>
-
-            <div class="comme bold medium">
-              <%= simple_format(comment.content) %>
+            
+            <div class="ml-2">
+              <div class="bold small">
+                <%= link_to comment.user.name, user_path(comment.user) %>
+              </div>
+  
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+  
+              <div class="xsmall ml-1">
+                <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+              </div>
             </div>
-
-            <div class="xsmall ml-1">
-              <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+            
+          <% else %>
+          
+            <div class="mt-2">
+              <%= image_tag 'default.jpg' %>
             </div>
-          </div>
+            
+            <div class="ml-2">
+              <div class="bold small gray">
+                退会済みユーザー
+              </div>
+  
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+  
+              <div class="xsmall ml-1">
+                <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+              </div>
+            </div>
+          
+          <% end %>
           
         </div>
         <hr>
@@ -309,7 +333,7 @@
       <% end %>
       
       <div class="introduce mt-3">
-          
+        <% if @post.user.present? %>
           <div class="row row-0 text-center mb-3">
             
             <div class="col-lg-6 mt-1">
@@ -330,9 +354,9 @@
                     <% if @post.user.address != "default" %><%= @post.user.address_i18n %><% end %>
                     <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.user.sex == "default" %> 】<% end %>
                   </div>
-                  <div class="small gray bold mt-1"><%= @post.user.catchphrase %></div>
+                  <div class="xsmall gray bold mt-1"><%= @post.user.catchphrase %></div>
               <% else %>
-                <div class="">
+                <div class="mt-3 medium bold">
                   <%= link_to @post.user.name, user_path(@post.user),:style=>"color:black;" %>
                 </div>
                 <div class="xxsmall gray mt-1">
@@ -344,7 +368,7 @@
                   <% if @post.user.address != "default" %><%= @post.user.address_i18n %><% end %>
                   <% unless @post.user.age == "default" and  @post.user.address == "default" and  @post.user.sex == "default" %> 】<% end %>
                 </div>
-                <div class="small gray bold mt-1"><%= @post.user.catchphrase %></div>
+                <div class="xsmall gray bold mt-1"><%= @post.user.catchphrase %></div>
               <% end %>  
               
               <% if logged_in? %>
@@ -361,7 +385,27 @@
           <% else %>
             <p class="xsmall"><%= @post.user.introduce %></p>
           <% end %>
-        </div>
+          
+        <% else %>
+          
+          <div class="row row-0 text-center mb-3">
+            
+            <div class="col-lg-6 mt-1">
+              <%= image_tag "default.jpg" %>
+            </div>
+            
+            <div class="col-lg-6 mt-1">
+              <div class="mt-3 small gray bold">
+                退会済みユーザー
+              </div>
+            </div>
+            
+          </div>
+
+        <% end %>
+          
+
+      </div>
         
         <div class="flex text-center">
           <div class="mt-2">

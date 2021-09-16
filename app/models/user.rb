@@ -20,7 +20,8 @@ class User < ApplicationRecord
   # STATUS_VALUES = ["female", "male", "unanswered"]
   # validates :sex, inclusion: { in: STATUS_VALUES }
   
-  has_many :posts, dependent: :destroy
+  # has_many :posts, dependent: :destroy
+  has_many :posts, dependent: :nullify
   
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow, dependent: :destroy
@@ -33,9 +34,11 @@ class User < ApplicationRecord
   has_many :entries, dependent: :destroy
   has_many :entryposts, through: :entries, source: :post, dependent: :destroy
   
-  has_many :comments, dependent: :destroy
+  # has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :nullify
   
-  has_many :members, dependent: :destroy
+  # has_many :members, dependent: :destroy
+  has_many :members, dependent: :nullify
   
   has_many :informations, dependent: :destroy
   
@@ -49,8 +52,10 @@ class User < ApplicationRecord
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
   has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
   
-  has_many :evaluations, dependent: :destroy
-  has_many :evaluation_entries, through: :evaluations, source: :entry, dependent: :destroy
+  # has_many :evaluations, dependent: :destroy
+  # has_many :evaluation_entries, through: :evaluations, source: :entry, dependent: :destroy
+  has_many :evaluations, dependent: :nullify
+  has_many :evaluation_entries, through: :evaluations, source: :entry, dependent: :nullify
 
   
   mount_uploader :image, ImageUploader

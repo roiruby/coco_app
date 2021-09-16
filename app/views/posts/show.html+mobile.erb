@@ -71,24 +71,24 @@
         <% end %>
         
         <div class="row">
-          <div class="btn1 small bold ml-3">
+          <div class="btn1 small bold ml-3 mb-1">
             <%= @post.sex_i18n %>
           </div>
           
           <% if @post.member != "default" %>
-          <div class="btn1 small bold ml-1">
+          <div class="btn1 small bold ml-1 mb-1">
             <%= @post.member_i18n %>募集
           </div>
           <% end %>
           
           <% if @post.payment != "default" %>
-          <div class="btn1 small bold ml-1">
+          <div class="btn1 small bold ml-1 mb-1">
             <%= @post.payment_i18n %>
           </div>
           <% end %>
           
           <% if @post.budget != "default" %>
-          <div class="btn1 small bold ml-1">
+          <div class="btn1 small bold ml-1 mb-1">
             <%= @post.budget_i18n %>
           </div>
           <% end %>
@@ -284,23 +284,43 @@
       
       <% @comments.each do |comment| %>
         <div class="comment web-flex mt-2">
-          <div class="mt-2">
-            <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
-          </div>
-          
-          <div class="ml-2">
-            <div class="bold small">
-              <%= link_to comment.user.name, user_path(comment.user) %>
+          <% if comment.user.present? %>
+            <div class="mt-2">
+              <%= link_to image_tag(comment.user.image.thmb300.url), user_path(comment.user) %>
             </div>
-
-            <div class="comme bold medium">
-              <%= simple_format(comment.content) %>
+            
+            <div class="ml-2">
+              <div class="bold small">
+                <%= link_to comment.user.name, user_path(comment.user) %>
+              </div>
+  
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+  
+              <div class="xsmall ml-1">
+                <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+              </div>
             </div>
-
-            <div class="xsmall ml-1">
-              <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+          <% else %>
+            <div class="mt-2">
+              <%= image_tag 'default.jpg' %>
             </div>
-          </div>
+            
+            <div class="ml-2">
+              <div class="bold small gray">
+                退会済みユーザー
+              </div>
+  
+              <div class="comme bold medium">
+                <%= simple_format(comment.content) %>
+              </div>
+  
+              <div class="xsmall ml-1">
+                <%= comment.created_at.strftime('%Y/%m/%d %H:%M') %>
+              </div>
+            </div>
+          <% end %>
           
         </div>
         <hr>
@@ -322,7 +342,7 @@
       </div>
       
       <div class="introduce mt-1">
-          
+        <% if @post.user.present? %>
           <div class="row">
             
             <div class="col-4 text-center mt-1">
@@ -375,11 +395,28 @@
           <% else %>
             <p class="xsmall mt-2"><%= @post.user.introduce %></p>
           <% end %>
-        </div>
+          
+        <% else %>
+          <div class="row">
+            <div class="col-4 text-center mt-1">
+              <%= image_tag "default.jpg" %>
+            </div>
+            
+            <div class="col-8 mt-2">
+              <div class="mt-2 medium bold gray">
+                退会済みユーザー
+              </div>
+            </div>
+          </div>
+          
+        <% end %>
+          
+          
+      </div>
         
-        <div class="bb2 mt-3"></div>
-        
-        <p class="top_index mt-3 h4 bold"><%= image_tag "icon_new.png" %>新着のイベント！</p>
+      <div class="bb2 mt-3"></div>
+      
+      <p class="top_index mt-3 h4 bold"><%= image_tag "icon_new.png" %>新着のイベント！</p>
 
       <div class="img-_scroll">
         <% @posts_sp.each do |post| %>
