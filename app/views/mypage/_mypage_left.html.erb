@@ -23,6 +23,7 @@
       <li><%= link_to 'お知らせ', informations_path %></li>
       <li><%= link_to "フォロー/フォロワー", followings_user_path(@user) %></li>
       <li><%= link_to "アカウント情報変更", account_edit_path(current_user) %></li>
+      <li><%= link_to "支払い管理", payment_path(@user) %></li>
       
       <% if current_user.admin? && !(current_user == User) %>
         ----------------

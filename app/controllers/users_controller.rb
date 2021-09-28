@@ -96,6 +96,10 @@ class UsersController < ApplicationController
     counts(@user)
   end
   
+  def payment
+    @user = current_user
+  end
+  
   def report
     @user = User.find(params[:id])
     @report = @user.user_reports.build

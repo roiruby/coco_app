@@ -51,6 +51,8 @@ Rails.application.routes.draw do
   get  'quit' =>'quits#new'
   post  'quit' =>'quits#create'
   get  'quits' =>'quits#index'
+  
+  get 'users/:id/payment', to: 'users#payment',  as: :payment
 
   
   get 'signup', to: 'users#new'

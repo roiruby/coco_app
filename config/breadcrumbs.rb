@@ -64,6 +64,10 @@ crumb :followers do
   link "フォロワー", followers_user_path
 end
 
+crumb :payment do
+  link "支払い管理", payment_path
+end
+
 crumb :users do
   link "ユーザー一覧", users_path
 end
