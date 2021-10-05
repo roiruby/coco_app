@@ -102,27 +102,44 @@ class Post < ApplicationRecord
     notification.save if notification.valid?
   end
   
+  
+  
   def create_notification_talkroom!(current_user, member_id)
-    temp_ids = Member.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
-    temp_ids.each do |temp_id|
-      save_notification_talkroom!(current_user, member_id, temp_id['user_id'])
-    end
-    save_notification_talkroom!(current_user, member_id, user_id) if temp_ids.blank?
-  end
-
-  def save_notification_talkroom!(current_user, member_id, visited_id)
+    app_users = self.approval_users
+    app_users.each do |app_user|
+    
     notification = current_user.active_notifications.new(
-      post_id: id,
-      comment_id: member_id,
-      visited_id: visited_id,
-      action: 'talkroom'
-    )
-
-    if notification.visitor_id == notification.visited_id
-      notification.checked = true
+        post_id: id,
+        comment_id: member_id,
+        visited_id: app_user.id,
+        action: 'talkroom'
+      )
+        notification.save if notification.valid?
     end
-    notification.save if notification.valid?
   end
+      
+  
+  # def create_notification_talkroom!(current_user, member_id)
+  #   temp_ids = Member.select(:user_id).where(post_id: id).where.not(user_id: current_user.id).distinct
+  #   temp_ids.each do |temp_id|
+  #     save_notification_talkroom!(current_user, member_id, temp_id['user_id'])
+  #   end
+  #   save_notification_talkroom!(current_user, member_id, user_id) if temp_ids.blank?
+  # end
+
+  # def save_notification_talkroom!(current_user, member_id, visited_id)
+  #   notification = current_user.active_notifications.new(
+  #     post_id: id,
+  #     comment_id: member_id,
+  #     visited_id: visited_id,
+  #     action: 'talkroom'
+  #   )
+
+  #   if notification.visitor_id == notification.visited_id
+  #     notification.checked = true
+  #   end
+  #   notification.save if notification.valid?
+  # end
   
   def create_notification_post!(current_user, post_id)
     current_user.follower_ids.each do |followers|
