@@ -12,7 +12,9 @@
         <p class="top-username mt-2 bold"><%= link_to user.name, user_path(user) %></p>
         <p class="xxsmall web-mt-15 gray"><%= user.catchphrase %></p>
         <% if current_user.admin? %>
-          <%= user.email %>
+          <span class="wrap">
+            <%= user.email %>
+          </span>
             <%= link_to user_path(user.id), method: :delete, data: { confirm: "本当に削除してもいいですか？" }, class: '' do %>
             <i class="far fa-trash-alt"></i>
             <% end %>
