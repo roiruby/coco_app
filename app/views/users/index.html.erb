@@ -1,7 +1,7 @@
 <div class="container-fluid mb-5">
   <% breadcrumb :users %>
     <%= render "layouts/breadcrumbs" %>
-  <p class="mt-4 top_index h4 bold">ユーザー一覧　会員数：<%= @users.count %>人</p>
+  <p class="mt-4 top_index h4 bold">ユーザー一覧　会員数：<%= User.count %>人</p>
   
     <div class="row row-0">
     <% @users.each do |user| %>
