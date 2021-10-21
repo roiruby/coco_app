@@ -34,10 +34,18 @@
             <li class="nav-icon nav-item dropdown">
                 <a href="#" data-toggle="dropdown"><%= image_tag current_user.image.thmb300.url %></a>
                   <ul class="dropdown-menu dropdown-menu-right">
-                    <li class="dropdown-item small"><i class="fas fa-pen-square mr-1"></i><%= link_to 'イベント作成', new_post_path %></li>
-                    <li class="dropdown-item small"><i class="far fa-id-card mr-1"></i><%= link_to 'マイページ', mypage_path %></li>
-                    <li class="dropdown-item small"><i class="fas fa-user-circle mr-1"></i><%= link_to 'マイプロフィール', user_path(current_user) %></li>
-                    <li class="dropdown-item small"><i class="fas fa-sign-out-alt mr-1"></i><%= link_to 'ログアウト', logout_path, method: :delete %></li>
+                    <%= link_to new_post_path ,class: "dropdown-item small" do %>
+                      <i class="fas fa-pen-square mr-1"></i>イベント作成
+                    <% end %>
+                    <%= link_to mypage_path ,class: "dropdown-item small" do %>
+                      <i class="far fa-id-card mr-1"></i>マイページ
+                    <% end %>
+                    <%= link_to user_path(current_user) ,class: "dropdown-item small" do %>
+                      <i class="fas fa-user-circle mr-1"></i>マイプロフィール
+                    <% end %>
+                    <%= link_to logout_path ,class: "dropdown-item small", method: :delete do %>
+                      <i class="fas fa-sign-out-alt mr-1"></i>ログアウト
+                    <% end %>
                   </ul>
             </li>
           <% end %>
@@ -53,10 +61,20 @@
             <li class="nav-image nav-item dropdown mr-3 d-none d-lg-block mt-1">
                 <a href="#" data-toggle="dropdown"><%= image_tag current_user.image.thmb300.url %></a>
               <ul class="dropdown-menu dropdown-menu-right">
-                <li class="dropdown-item small"><i class="far fa-id-card mr-1"></i><%= link_to 'マイページ', mypage_path %></li>
-                <li class="dropdown-item small"><i class="fas fa-user-circle mr-1"></i><%= link_to 'マイプロフィール', user_path(current_user) %></li>
-                <!--<li class="dropdown-divider"></li>-->
-                <li class="dropdown-item small"><i class="fas fa-sign-out-alt mr-1"></i><%= link_to 'ログアウト', logout_path, method: :delete %></li>
+                
+                <%= link_to mypage_path ,class: "dropdown-item small" do %>
+                  <i class="far fa-id-card mr-1"></i>マイページ
+                <% end %>
+                <%= link_to user_path(current_user) ,class: "dropdown-item small" do %>
+                  <i class="fas fa-user-circle mr-1"></i>マイプロフィール
+                <% end %>
+                <%= link_to logout_path ,class: "dropdown-item small", method: :delete do %>
+                  <i class="fas fa-sign-out-alt mr-1"></i>ログアウト
+                <% end %>
+                
+                <!--<li class="dropdown-item small"><i class="far fa-id-card mr-1"></i><%= link_to 'マイページ', mypage_path %></li>-->
+                <!--<li class="dropdown-item small"><i class="fas fa-user-circle mr-1"></i><%= link_to 'マイプロフィール', user_path(current_user) %></li>-->
+                <!--<li class="dropdown-item small"><i class="fas fa-sign-out-alt mr-1"></i><%= link_to 'ログアウト', logout_path, method: :delete %></li>-->
               </ul>
             </li>
             
@@ -82,29 +100,6 @@
         </ul>
       </div>
       
-
-      <!--<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">-->
-      <!--  <ul class="navbar-nav">-->
-      <!--    <% if logged_in? %>-->
-      <!--      <li class="nav-item"><%= link_to 'イベントを投稿', new_post_path, class: 'nav-link' %></li>-->
-            <!--<li class="nav-item"><%= link_to 'Users', users_path, class: 'nav-link' %></li>-->
-      <!--      <li class="nav-item dropdown">-->
-      <!--        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user.name %></a>-->
-      <!--        <ul class="dropdown-menu dropdown-menu-right">-->
-      <!--          <li class="dropdown-item"><%= link_to 'マイページ', mypage_path %></li>-->
-      <!--          <li class="dropdown-divider"></li>-->
-      <!--          <li class="dropdown-item"><%= link_to 'マイプロフィール', user_path(current_user) %></li>-->
-      <!--          <li class="dropdown-divider"></li>-->
-      <!--          <li class="dropdown-item small"><i class="fas fa-sign-out-alt mr-1"></i><%= link_to 'ログアウト', logout_path, method: :delete %></li>-->
-      <!--        </ul>-->
-      <!--      </li>-->
-      <!--    <% else %>-->
-      <!--      <li class="nav-item"><%= link_to 'イベントを投稿', login_path, class: 'nav-link' %></li>-->
-      <!--      <li class="nav-item"><%= link_to '会員登録', signup_path, class: 'nav-link' %></li>-->
-      <!--      <li class="nav-item"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>-->
-      <!--    <% end %>-->
-      <!--  </ul>-->
-      <!--</div>-->
       
     </div>
   </nav>
