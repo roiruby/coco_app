@@ -40,14 +40,16 @@
           <%= user.user.catchphrase %>
         </div>
         
-        <% if user.entry_status == "unapproval" %>
-          <div class="mt-2 small btn1">
-          <%= link_to user.entry_status_i18n, entry_toggle_status_path(user), method: :patch %>
-          </div>
-          <% else %>
-          <div class="mt-2 small btn2">
-          <%= link_to user.entry_status_i18n, entry_toggle_status_path(user), method: :patch %>
-          </div>
+        <% unless @post.event_schedule < Time.zone.now %>
+          <% if user.entry_status == "unapproval" %>
+            <div class="mt-2 small btn1">
+            <%= link_to user.entry_status_i18n, entry_toggle_status_path(user), method: :patch %>
+            </div>
+            <% else %>
+            <div class="mt-2 small btn2">
+            <%= link_to user.entry_status_i18n, entry_toggle_status_path(user), method: :patch %>
+            </div>
+          <% end %>
         <% end %>
         
       </div>
