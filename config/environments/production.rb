@@ -67,7 +67,7 @@ Rails.application.configure do
   
   config.action_mailer.smtp_settings = {
       :enable_starttls_auto => false,
-      :address => 'smtp.cocomelo.conoha.io',
+      :address => 'mail73.conoha.ne.jp',
       :port => 587,
       :domain => 'cocomelo.jp',
       :authentication => :plain,
